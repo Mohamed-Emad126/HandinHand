@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <item
+        android:id="@+id/itemsFragment"
+        android:title="@string/items"
+        android:icon="@drawable/ic_home"
+        android:checked="true"
+
+        />
+    <item
+        android:id="@+id/notificationsFragment"
+        android:title="@string/notifications"
+        android:icon="@drawable/ic_notifications"
+        />
+    <item
+        android:id="@+id/servicesFragment"
+        android:title="@string/services"
+        android:icon="@drawable/ic_services"
+        />
+    <item
+        android:id="@+id/eventsFragment"
+        android:title="@string/events"
+        android:icon="@drawable/ic_events"
+        />
+    <item
+        android:id="@+id/handmadesFragment"
+        android:title="@string/handmades"
+        android:icon="@drawable/ic_handmades"
+        />
+
+</menu>

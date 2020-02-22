@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:scrollbars="none"
+    android:paddingTop="4dp"
+    tools:context=".RegisterFragment">
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/user_image"
+                android:layout_width="112dp"
+                android:layout_height="112dp"
+                android:saveEnabled="true"
+                android:src="@drawable/male_avatar"
+                android:layout_gravity="center"
+                app:civ_border_width="2dp"
+                app:civ_border_color="@color/textColorPrimary"
+                />
+            <TextView
+                android:id="@+id/user_text_under_image"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-light"
+                android:gravity="center"
+                android:text="@string/upload_photo"
+                android:textColor="?android:textColorSecondary"
+                android:textSize="12sp"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="4dp"
+                >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:baselineAligned="false">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/register_first_name_layout"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="4dp"
+                        android:layout_weight="1"
+                        android:focusableInTouchMode="true"
+                        android:hint="@string/first_name"
+                        android:theme="@style/cursorColor"
+                        app:boxStrokeColor="@android:color/black"
+                        app:boxStrokeWidth="1dp"
+                        app:errorTextColor="@android:color/holo_orange_dark"
+                        app:boxStrokeErrorColor="@android:color/holo_orange_dark"
+                        app:hintTextColor="@android:color/black"
+                        >
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/register_first_name_text"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:focusableInTouchMode="true"
+                            android:maxLines="1"
+                            android:inputType="text|textCapSentences|textPersonName"
+                            android:textColor="@android:color/black"
+                            />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/register_second_name_layout"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="4dp"
+                        android:layout_weight="1"
+                        android:focusableInTouchMode="true"
+                        android:hint="@string/second_name"
+                        android:theme="@style/cursorColor"
+                        app:boxStrokeColor="@android:color/black"
+                        app:boxStrokeWidth="1dp"
+                        app:hintTextColor="@android:color/black"
+                        app:errorTextColor="@android:color/holo_orange_dark"
+                        app:boxStrokeErrorColor="@android:color/holo_orange_dark"
+                        >
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/register_second_name_text"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:focusableInTouchMode="true"
+                            android:maxLines="1"
+                            android:inputType="text|textCapSentences|textPersonName"
+                            android:textColor="@android:color/black"
+                            />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </LinearLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/register_grade_layout"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:focusableInTouchMode="true"
+                    android:hint="@string/education_grade"
+                    android:theme="@style/cursorColor"
+                    app:boxStrokeColor="@android:color/black"
+                    app:boxStrokeWidth="1dp"
+                    app:hintTextColor="@android:color/black"
+                    app:errorTextColor="@android:color/holo_orange_dark"
+                    app:boxStrokeErrorColor="@android:color/holo_orange_dark"
+                    >
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/register_grade_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:focusableInTouchMode="true"
+                        android:maxLines="1"
+                        android:inputType="text"
+                        android:textColor="@android:color/black"
+                        />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/register_email_layout"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:focusableInTouchMode="true"
+                    android:hint="@string/hint_email"
+                    android:theme="@style/cursorColor"
+                    app:boxStrokeColor="@android:color/black"
+                    app:boxStrokeWidth="1dp"
+                    app:hintTextColor="@android:color/black"
+                    android:saveEnabled="true"
+
+                    app:errorEnabled="true"
+                    app:errorTextColor="@android:color/holo_orange_dark"
+                    app:boxStrokeErrorColor="@android:color/holo_orange_dark"
+                    >
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/register_email_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:focusableInTouchMode="true"
+                        android:maxLines="1"
+                        android:inputType="textEmailAddress"
+                        android:textColor="@android:color/black"
+                        />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/register_password_layout"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:focusableInTouchMode="true"
+                    android:hint="@string/hint_password"
+                    android:theme="@style/cursorColor"
+                    app:boxStrokeColor="@android:color/black"
+                    app:boxStrokeWidth="1dp"
+                    app:endIconMode="password_toggle"
+                    app:endIconTint="@color/colorAccent"
+                    app:hintTextColor="@android:color/black"
+                    android:saveEnabled="true"
+
+                    app:errorEnabled="true"
+                    app:errorTextColor="@android:color/holo_orange_dark"
+                    app:boxStrokeErrorColor="@android:color/holo_orange_dark"
+
+
+                    app:helperTextTextColor="?android:textColorSecondary"
+                    app:helperText="minimum 8 character"
+
+                    >
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/register_password_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:focusableInTouchMode="true"
+                        android:inputType="textPassword"
+                        android:maxLines="1"
+                        android:textColor="@android:color/black"
+                        />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/register_reenter_password_layout"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:focusableInTouchMode="true"
+                    android:hint="@string/re_enter_password"
+                    android:theme="@style/cursorColor"
+                    app:boxStrokeColor="@android:color/black"
+                    app:boxStrokeWidth="1dp"
+                    app:endIconMode="password_toggle"
+                    app:endIconTint="@color/colorAccent"
+                    app:hintTextColor="@android:color/black"
+                    android:saveEnabled="true"
+
+
+                    app:errorEnabled="true"
+                    app:errorTextColor="@android:color/holo_orange_dark"
+                    app:boxStrokeErrorColor="@android:color/holo_orange_dark"
+                    >
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/register_reenter_password_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:focusableInTouchMode="true"
+                        android:inputType="textPassword"
+                        android:maxLines="1"
+                        android:textColor="@android:color/black" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="4dp"
+                    android:paddingEnd="4dp"
+                    android:text="@string/gender"
+                    android:textColor="?android:textColorSecondary"
+                    android:textStyle="bold"
+                    />
+                <RadioGroup
+                    android:id="@+id/gender"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:saveEnabled="true"
+                    >
+                    <com.google.android.material.radiobutton.MaterialRadioButton
+                        android:id="@+id/gender_male"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        android:text="@string/male"
+                        android:textColor="?android:textColorSecondary"
+                        />
+                    <com.google.android.material.radiobutton.MaterialRadioButton
+                        android:id="@+id/gender_female"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/female"
+                        android:textColor="?android:textColorSecondary"
+                        />
+                </RadioGroup>
+
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/button_register"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="4dp"
+                    android:text="@string/register"
+                    app:backgroundTint="@color/textColorPrimary"
+                    app:rippleColor="@color/colorPrimary"
+                    />
+
+                <TextView
+                    android:id="@+id/text_already_have_an_accuont"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="12dp"
+                    android:paddingBottom="16dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:text="@string/already_have_an_accuont"
+                    android:textColor="@color/colorAccent"
+                    android:textStyle="normal" />
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+
+</ScrollView>

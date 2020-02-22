@@ -1,0 +1,66 @@
+package com.example.handinhand.API;
+
+import com.example.handinhand.Helpers.RetrofitHelper;
+
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
+public class RetrofitApi {
+    //TODO: set of the Api
+    private static final String BASE_URL = "http://75f00637.ngrok.io";
+
+
+    private static RetrofitApi ourInstance = new RetrofitApi();
+    private static Retrofit retrofit = null;
+    private static MainActivityClient client;
+    private static ProfileClient profileClient;
+
+
+
+    public static RetrofitApi getInstance() {
+        if(ourInstance == null){
+            ourInstance = new RetrofitApi();
+        }
+        return ourInstance;
+    }
+
+    private RetrofitApi() {
+
+
+        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient clientLog = new OkHttpClient.Builder()
+          .addInterceptor(logging)
+          .build();
+
+
+        retrofit = new Retrofit.Builder()
+                            .baseUrl(BASE_URL)
+                            .addConverterFactory(GsonConverterFactory.create())
+                            .client(clientLog)
+                            .build();
+
+
+        client = retrofit.create(MainActivityClient.class);
+        profileClient = retrofit.create(ProfileClient.class);
+    }
+
+    public MainActivityClient getMainActivityClient() {
+        return client;
+    }
+
+    public ProfileClient getProfileClient() {
+        return profileClient;
+    }
+
+    public Retrofit getRetrofit() {
+        retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        return retrofit;
+    }
+
+}

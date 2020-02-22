@@ -1,0 +1,78 @@
+<resources>
+    <string name="app_name">HandinHand</string>
+
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Password</string>
+    <string name="login">Log in</string>
+    <string name="register"><u>Register</u></string>
+    <string name="forget_password"><u>Forget Password?</u></string>
+    <string name="forget_password_title">Forget Password</string>
+    <string name="reset_password">Reset Password</string>
+    <string name="validate_email">Email is not Valid</string>
+    <string name="validate_password">Wrong Password</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="upload_photo">Tap to upload photo</string>
+    <string name="first_name">First Name</string>
+    <string name="second_name">Second Name</string>
+    <string name="re_enter_password">Re Enter password</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="gender">Gender</string>
+    <string name="education_grade">Education grade</string>
+    <string name="already_have_an_accuont"><u>Already have an account</u></string>
+    <string name="reset_password_text">Don\'t worry. Resetting your password is easy, just tell us the email address you registered with <b>HandInHand</b></string>
+    <string name="send_link">Send Link</string>
+    <string name="re_enter_new_password">Re enter new Password</string>
+    <string name="new_password">new Password</string>
+    <string name="confirm">Confirm</string>
+    <string name="empty">Empty cell</string>
+    <string name="required">Required Cell</string>
+    <string name="items">Items</string>
+    <string name="handmades">Handmades</string>
+    <string name="services">Services</string>
+    <string name="events">Events</string>
+    <string name="notifications">Notifications</string>
+    <string name="filter">Filter</string>
+    <string name="search">Search</string>
+    <string name="image_of_item">Image of item</string>
+    <string name="item_name">Item Name</string>
+    <string name="login_toast_error">"Email or Password isn't correct"</string>
+    <string name="different">Different password!</string>
+    <string name="undefined_error">Something went Wrong!</string>
+    <string name="taken_email">The email has already been taken.</string>
+
+
+    <string name="token_shared_preference">com.example.HandInHand.PREFERENCE_TOKEN_KEY</string>
+    <string name="token">TOKEN_KEY</string>
+
+
+    <string name="spam">Update 8th December 2019: Ive update this post to show how to implement the transition in lists using RecyclerView and the Navigation component.
+The Navigation Component helps you implement common, but complex navigation requirements in your app, enabling you to more easily provide consistent and predictable experiences for your users.
+This component also provides support for displaying transitions and share elements in the transitions between fragments.
+
+Transitions occur when users move between fragments, such as from a list screen to a detail screen. The use of motion is a good choice to guide users between two screens in your app. They help users orient themselves by expressing your apps hierarchy, using movement to indicate how elements are related to one another.
+For example, when an element expands to fill the entire screen, the expansion expresses that the new window is a child element or specifies the details. The screen from which it expanded is its parent element.
+
+Navigation Component allows users to implement transitions between fragments and supports adding shared element transitions between destinations.
+Shared element transitions are supplied programmatically rather than through your navigation XML file, as they require referencing the View instances that you wish to include in the shared element transition.
+Implementation
+For this example Ive implemented a simple transition between a fragment that contains an element and the detail fragment for this element.
+Ive included the following dependency:
+implementation androidx.navigation:navigation-fragment-ktx:2.2.0-rc02
+This library needs that your project migrate to AndroidX. Ive used the Android KTX version of this library. If you dont want to use AndroidX, you can implement android.arch.navigation:navigation-fragment-ktx:1.0.0 instead.
+The first step is create the fragments and define the relationship between them. Ive created two fragments: ParentFragment and DetailFragment. The two fragments are linked and the navigation graph presents the following aspect.
+</string>
+    <string name="logout">Logout</string>
+    <string name="contact_us">Contact Us</string>
+    <string name="about_us">About Us</string>
+    <string name="error_message_layout">It seems that your connection time out or our server is down \n check your internet connection and reload the page</string>
+    <string name="reload">RELOAD</string>
+    <string name="details">Details</string>
+    <string name="edit"><u>Edit</u></string>
+    <string name="more">more</string>
+
+
+</resources>
