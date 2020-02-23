@@ -3,12 +3,9 @@ package com.example.handinhand.ViewModels;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-
 import com.example.handinhand.API.ProfileClient;
 import com.example.handinhand.API.RetrofitApi;
 import com.example.handinhand.Models.Profile;
-
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

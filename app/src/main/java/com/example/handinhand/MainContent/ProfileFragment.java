@@ -35,6 +35,7 @@ public class ProfileFragment extends Fragment{
     private RelativeLayout errorPage;
     MaterialButton reloadButton;
     private Toolbar toolbar;
+    private TextView editText;
 
     public ProfileFragment() {
     }
@@ -51,6 +52,13 @@ public class ProfileFragment extends Fragment{
         errorPage = rootView.findViewById(R.id.error_page);
         reloadButton = rootView.findViewById(R.id.reload);
         toolbar = rootView.findViewById(R.id.profile_toolbar);
+        editText = rootView.findViewById(R.id.edit_profile_info);
+
+
+        editText.setOnClickListener(view -> {
+            Navigation.findNavController(rootView)
+                    .navigate(R.id.action_profileFragment_to_editProfileFragment);
+        });
 
         FragmentActivity activity = getActivity();
 

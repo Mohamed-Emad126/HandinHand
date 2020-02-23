@@ -43,10 +43,20 @@
         android:name="com.example.handinhand.MainContent.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile"
+        >
+        <action
+            android:id="@+id/action_profileFragment_to_editProfileFragment"
+            app:destination="@id/editProfileFragment"
 
-        app:enterAnim="@anim/anim_slide_in_right"
-        app:exitAnim="@anim/anim_slide_out_left"
-        app:popEnterAnim="@anim/anim_slide_in_left"
-        app:popExitAnim="@anim/anim_slide_out_right"
-        />
+            app:enterAnim="@anim/anim_slide_in_right"
+            app:exitAnim="@anim/anim_slide_out_left"
+            app:popEnterAnim="@anim/anim_slide_in_left"
+            app:popExitAnim="@anim/anim_slide_out_right"
+            />
+    </fragment>
+    <fragment
+        android:id="@+id/editProfileFragment"
+        android:name="com.example.handinhand.MainContent.EditProfileFragment"
+        android:label="fragment_edit_profile"
+        tools:layout="@layout/fragment_edit_profile" />
 </navigation>

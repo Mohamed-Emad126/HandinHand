@@ -73,6 +73,7 @@ The first step is create the fragments and define the relationship between them.
     <string name="details">Details</string>
     <string name="edit"><u>Edit</u></string>
     <string name="more">more</string>
+    <string name="save">Save</string>
 
 
 </resources>
