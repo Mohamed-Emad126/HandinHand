@@ -2,19 +2,14 @@ package com.example.handinhand.MainContent;
 
 
 import android.os.Bundle;
-
-import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.Navigation;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import com.example.handinhand.R;
-import com.example.handinhand.ViewModels.ProfileViewModel;
 
 public class EditProfileFragment extends Fragment {
 
@@ -31,12 +26,20 @@ public class EditProfileFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_edit_profile, container, false);
 
-        toolbar = rootView.findViewById(R.id.profile_toolbar);
+        toolbar = rootView.findViewById(R.id.edit_profile_toolbar);
         //FragmentActivity activity = getActivity();
+
 
         toolbar.setNavigationOnClickListener(view -> {
             Navigation.findNavController(rootView).popBackStack();
             //TODO: Leave the model in the ViewModel of the Fragment
+        });
+
+        toolbar.setOnMenuItemClickListener(item -> {
+            if(item.getItemId() == R.id.action_save){
+                //TODO: Save the changes and leave the fragment
+            }
+            return true;
         });
 
         return rootView;
