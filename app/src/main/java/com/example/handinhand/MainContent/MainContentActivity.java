@@ -2,20 +2,32 @@ package com.example.handinhand.MainContent;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
+
+import com.example.handinhand.Helpers.SharedPreferenceHelper;
+import com.example.handinhand.Models.Profile;
 import com.example.handinhand.R;
+import com.example.handinhand.ViewModels.ProfileViewModel;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
+import com.squareup.picasso.Picasso;
+
 import java.util.Arrays;
 import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -32,6 +44,10 @@ public class MainContentActivity extends AppCompatActivity
     private CircleImageView userImageInToolbar;
     private Toolbar toolbar;
     private AppBarLayout appBarLayout;
+    private ProfileViewModel model;
+    private TextView userName;
+    private ImageView userImageHeader;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +63,53 @@ public class MainContentActivity extends AppCompatActivity
         userImageInToolbar = findViewById(R.id.toolbar_user_image);
         toolbar= findViewById(R.id.main_Content_toolbar);
         appBarLayout = findViewById(R.id.main_Content_appbar);
+        userName = findViewById(R.id.user_name_header);
+        userImageHeader = findViewById(R.id.user_image_header);
+        model = new ViewModelProvider(this).get(ProfileViewModel.class);
+
+        model.getProfile(SharedPreferenceHelper.getToken(this)).observe(this,
+                profile -> {
+                    if(profile != null &&
+                            profile.getStatus()){
+
+                        Profile.User user = profile.getDetails().getUser();
+
+                        String name = user.getInfo().getFirst_name() + user.getInfo().getLast_name();
+                        userName.setText(name);
+
+                        if(user.getInfo()
+                                .getAvatar().contains("default")){
+
+                            if(user.getInfo()
+                                    .getGender().contains("male")){
+
+                                Picasso.get().load(R.drawable.male_avatar)
+                                        .into(userImageInToolbar);
+
+                                Picasso.get().load(R.drawable.male_avatar)
+                                        .into(userImageHeader);
+                            }
+                            else{
+                                Picasso.get().load(R.drawable.female_avatar)
+                                        .into(userImageInToolbar);
+                                Picasso.get().load(R.drawable.female_avatar)
+                                        .into(userImageHeader);
+                            }
+                        }
+                        else{
+                            Picasso.get().load("http://75f00637.ngrok.io/storage/avatars/" +
+                                    user.getInfo().getAvatar())
+                                    .into(userImageInToolbar);
+
+                            Picasso.get().load("http://75f00637.ngrok.io/storage/avatars/" +
+                                    user.getInfo().getAvatar())
+                                    .into(userImageHeader);
+                        }
+                    }
+                    else{
+                        Toast.makeText(this, getString(R.string.something_wrong), Toast.LENGTH_SHORT).show();
+                    }
+                });
 
         navController = Navigation.findNavController(this,
                 R.id.main_content_nav_host_fragment);

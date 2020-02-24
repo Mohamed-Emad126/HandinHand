@@ -74,6 +74,8 @@ The first step is create the fragments and define the relationship between them.
     <string name="edit"><u>Edit</u></string>
     <string name="more">more</string>
     <string name="save">Save</string>
+    <string name="change_or_remove_photo">Tap to change or remove photo</string>
+    <string name="something_wrong">Something went wrong</string>
 
 
 </resources>

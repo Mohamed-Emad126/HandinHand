@@ -66,7 +66,7 @@ public class ProfileFragment extends Fragment{
 
         toolbar.setNavigationOnClickListener(view -> {
             Navigation.findNavController(rootView).popBackStack();
-            model.leave();
+            //model.leave();
         });
 
 
@@ -77,8 +77,20 @@ public class ProfileFragment extends Fragment{
             gender.setText(user.getInfo().getGender());
             String name = user.getInfo().getFirst_name() +" "+ user.getInfo().getLast_name();
             profileName.setText(name);
-            Picasso.get().load("http://75f00637.ngrok.io/storage/avatars/" + user.getInfo().getAvatar())
-                    .into(profileImage);
+            if(user.getInfo().getAvatar().contains("default")){
+                if(user.getInfo().getGender().contains("male")){
+                    Picasso.get().load(R.drawable.male_avatar)
+                            .into(profileImage);
+                }
+                else{
+                    Picasso.get().load(R.drawable.female_avatar)
+                            .into(profileImage);
+                }
+            }
+            else{
+                Picasso.get().load("http://75f00637.ngrok.io/storage/avatars/" + user.getInfo().getAvatar())
+                        .into(profileImage);
+            }
 
         });
 
