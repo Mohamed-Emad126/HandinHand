@@ -30,6 +30,7 @@ implements NavController.OnDestinationChangedListener {
         super.onCreate(savedInstanceState);
         setTheme(R.style.AppTheme);
 
+        //SharedPreferenceHelper.removeToken(this);
 
         if(SharedPreferenceHelper.getToken(this).length() >0){
             startActivity(new Intent(this, MainContentActivity.class));

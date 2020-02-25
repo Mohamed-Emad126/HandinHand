@@ -1,8 +1,10 @@
 package com.example.handinhand.MainContent;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
@@ -69,6 +71,19 @@ public class ProfileFragment extends Fragment{
             //model.leave();
         });
 
+        toolbar.setOnMenuItemClickListener(item -> {
+            if(item.getItemId() == R.id.share){
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_TEXT, "This is my text to send.");
+                sendIntent.setType("text/plain");
+
+                Intent shareIntent = Intent.createChooser(sendIntent, null);
+                startActivity(shareIntent);
+            }
+            return true;
+        });
+
 
         model.getProfile(SharedPreferenceHelper.getToken(activity)).observe(activity, profile -> {
             refreshLayout.setRefreshing(false);
@@ -80,15 +95,17 @@ public class ProfileFragment extends Fragment{
             if(user.getInfo().getAvatar().contains("default")){
                 if(user.getInfo().getGender().contains("male")){
                     Picasso.get().load(R.drawable.male_avatar)
+                            .placeholder(R.drawable.male_avatar)
                             .into(profileImage);
                 }
                 else{
                     Picasso.get().load(R.drawable.female_avatar)
+                            .placeholder(R.drawable.female_avatar)
                             .into(profileImage);
                 }
             }
             else{
-                Picasso.get().load("http://75f00637.ngrok.io/storage/avatars/" + user.getInfo().getAvatar())
+                Picasso.get().load("http://400b3c69.ngrok.io/storage/avatars/" + user.getInfo().getAvatar())
                         .into(profileImage);
             }
 

@@ -74,8 +74,8 @@
                             android:layout_height="120dp"
                             android:layout_gravity="bottom|center"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/anthony"
-                            app:civ_border_color="@color/colorAccent"
+                            android:src="@drawable/male_avatar"
+                            app:civ_border_color="@color/textColorPrimary"
                             app:civ_border_width="1dp"
                             />
                     </FrameLayout>

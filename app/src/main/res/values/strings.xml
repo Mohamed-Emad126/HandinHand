@@ -77,6 +77,8 @@ The first step is create the fragments and define the relationship between them.
     <string name="change_or_remove_photo">Tap to change or remove photo</string>
     <string name="something_wrong">Something went wrong</string>
     <string name="loading">Loading</string>
+    <string name="report">Report</string>
+    <string name="share">Share</string>
 
 
 </resources>

@@ -1,6 +1,7 @@
 package com.example.handinhand.MainContent;
 
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -63,14 +64,15 @@ public class MainContentActivity extends AppCompatActivity
         userImageInToolbar = findViewById(R.id.toolbar_user_image);
         toolbar= findViewById(R.id.main_Content_toolbar);
         appBarLayout = findViewById(R.id.main_Content_appbar);
-        userName = findViewById(R.id.user_name_header);
-        userImageHeader = findViewById(R.id.user_image_header);
+        userName = navigationView.getHeaderView(0).findViewById(R.id.user_name_header);
+        userImageHeader = navigationView.getHeaderView(0).findViewById(R.id.user_image_header);
         model = new ViewModelProvider(this).get(ProfileViewModel.class);
 
         model.getProfile(SharedPreferenceHelper.getToken(this)).observe(this,
                 profile -> {
                     if(profile != null &&
-                            profile.getStatus()){
+                            profile.getStatus() &&
+                            profile.getDetails().getUser() != null){
 
                         Profile.User user = profile.getDetails().getUser();
 
@@ -84,30 +86,39 @@ public class MainContentActivity extends AppCompatActivity
                                     .getGender().contains("male")){
 
                                 Picasso.get().load(R.drawable.male_avatar)
+                                        .placeholder(R.drawable.male_avatar)
                                         .into(userImageInToolbar);
 
                                 Picasso.get().load(R.drawable.male_avatar)
+                                        .placeholder(R.drawable.male_avatar)
                                         .into(userImageHeader);
                             }
                             else{
                                 Picasso.get().load(R.drawable.female_avatar)
+                                        .placeholder(R.drawable.female_avatar)
                                         .into(userImageInToolbar);
                                 Picasso.get().load(R.drawable.female_avatar)
+                                        .placeholder(R.drawable.female_avatar)
                                         .into(userImageHeader);
                             }
                         }
                         else{
-                            Picasso.get().load("http://75f00637.ngrok.io/storage/avatars/" +
+                            Picasso.get().load("http://400b3c69.ngrok.io/storage/avatars/" +
                                     user.getInfo().getAvatar())
+                                    .placeholder(R.drawable.male_avatar)
                                     .into(userImageInToolbar);
 
-                            Picasso.get().load("http://75f00637.ngrok.io/storage/avatars/" +
+                            Picasso.get().load("http://400b3c69.ngrok.io/storage/avatars/" +
                                     user.getInfo().getAvatar())
+                                    .placeholder(R.drawable.male_avatar)
                                     .into(userImageHeader);
                         }
                     }
                     else{
-                        Toast.makeText(this, getString(R.string.something_wrong), Toast.LENGTH_SHORT).show();
+                        Toast toast = Toast.makeText(this, getString(R.string.something_wrong)
+                                , Toast.LENGTH_LONG);
+                        toast.setGravity(Gravity.BOTTOM, 0, 0);
+                        toast.show();
                     }
                 });
 
@@ -174,7 +185,8 @@ public class MainContentActivity extends AppCompatActivity
 
         Integer []withoutToolbarAndBottomNavIds = {
                 R.id.itemDescriptionFragment,
-                R.id.profileFragment
+                R.id.profileFragment,
+                R.id.editProfileFragment
         };
         List<Integer> lst = Arrays.asList(withoutToolbarAndBottomNavIds);
 

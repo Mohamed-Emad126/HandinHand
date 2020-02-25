@@ -29,6 +29,7 @@ public class ProfileViewModel extends ViewModel {
             loadProfile(token);
             return mProfile;
         }
+        isLoading.postValue(false);
         return mProfile;
     }
 
