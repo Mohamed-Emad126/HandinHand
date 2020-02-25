@@ -31,136 +31,144 @@
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
 
-        <LinearLayout
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingTop="24dp">
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/edit_profile_image"
-                android:layout_width="112dp"
-                android:layout_height="112dp"
-                android:layout_gravity="center"
-                android:saveEnabled="true"
-                android:src="@drawable/male_avatar"
-                app:civ_border_color="@color/textColorPrimary"
-                app:civ_border_width="2dp"
-                />
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-light"
-                android:gravity="center"
-                android:text="@string/change_or_remove_photo"
-                android:textColor="?android:textColorSecondary"
-                android:textSize="12sp"
-                />
-
-
+            android:layout_height="match_parent"
+            >
             <LinearLayout
+
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="4dp"
-                >
+                android:paddingTop="24dp">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/edit_profile_image"
+                    android:layout_width="112dp"
+                    android:layout_height="112dp"
+                    android:layout_gravity="center"
+                    android:saveEnabled="true"
+                    android:src="@drawable/male_avatar"
+                    app:civ_border_color="@color/textColorPrimary"
+                    app:civ_border_width="2dp"
+                    />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-light"
+                    android:gravity="center"
+                    android:text="@string/change_or_remove_photo"
+                    android:textColor="?android:textColorSecondary"
+                    android:textSize="12sp"
+                    />
+
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:baselineAligned="false"
-                    android:orientation="horizontal"
-                    android:paddingTop="16dp"
+                    android:orientation="vertical"
+                    android:padding="4dp"
                     >
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/edit_profile_first_name_layout"
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="4dp"
-                        android:layout_weight="1"
-                        android:focusableInTouchMode="true"
-                        android:hint="@string/first_name"
-                        android:theme="@style/cursorColor"
-                        app:boxStrokeColor="@android:color/black"
-                        app:boxStrokeErrorColor="@android:color/holo_orange_dark"
-                        app:boxStrokeWidth="1dp"
-                        app:errorTextColor="@android:color/holo_orange_dark"
-                        app:hintTextColor="@android:color/black"
-                        >
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/edit_profile_first_name_text"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:focusableInTouchMode="true"
-                            android:inputType="text|textCapSentences|textPersonName"
-                            android:maxLines="1"
-                            android:textColor="@android:color/black"
-                            />
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/edit_profile_second_name_layout"
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="4dp"
-                        android:layout_weight="1"
-                        android:focusableInTouchMode="true"
-                        android:hint="@string/second_name"
-                        android:theme="@style/cursorColor"
-                        app:boxStrokeColor="@android:color/black"
-                        app:boxStrokeErrorColor="@android:color/holo_orange_dark"
-                        app:boxStrokeWidth="1dp"
-                        app:errorTextColor="@android:color/holo_orange_dark"
-                        app:hintTextColor="@android:color/black"
-                        >
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/edit_profile_second_name_text"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:focusableInTouchMode="true"
-                            android:inputType="text|textCapSentences|textPersonName"
-                            android:maxLines="1"
-                            android:textColor="@android:color/black"
-                            />
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                </LinearLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/edit_profile_grade_layout"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="4dp"
-                    android:focusableInTouchMode="true"
-                    android:hint="@string/education_grade"
-                    android:theme="@style/cursorColor"
-                    app:boxStrokeColor="@android:color/black"
-                    app:boxStrokeErrorColor="@android:color/holo_orange_dark"
-                    app:boxStrokeWidth="1dp"
-                    app:errorTextColor="@android:color/holo_orange_dark"
-                    app:hintTextColor="@android:color/black"
-                    >
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/register_grade_text"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:baselineAligned="false"
+                        android:orientation="horizontal"
+                        android:paddingTop="16dp"
+                        >
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/edit_profile_first_name_layout"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="4dp"
+                            android:layout_weight="1"
+                            android:focusableInTouchMode="true"
+                            android:hint="@string/first_name"
+                            android:theme="@style/cursorColor"
+                            app:boxStrokeColor="@android:color/black"
+                            app:boxStrokeErrorColor="@android:color/holo_orange_dark"
+                            app:boxStrokeWidth="1dp"
+                            app:errorTextColor="@android:color/holo_orange_dark"
+                            app:hintTextColor="@android:color/black"
+                            >
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/edit_profile_first_name_text"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:focusableInTouchMode="true"
+                                android:inputType="text|textCapSentences|textPersonName"
+                                android:maxLines="1"
+                                android:textColor="@android:color/black"
+                                />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/edit_profile_second_name_layout"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="4dp"
+                            android:layout_weight="1"
+                            android:focusableInTouchMode="true"
+                            android:hint="@string/second_name"
+                            android:theme="@style/cursorColor"
+                            app:boxStrokeColor="@android:color/black"
+                            app:boxStrokeErrorColor="@android:color/holo_orange_dark"
+                            app:boxStrokeWidth="1dp"
+                            app:errorTextColor="@android:color/holo_orange_dark"
+                            app:hintTextColor="@android:color/black"
+                            >
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/edit_profile_second_name_text"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:focusableInTouchMode="true"
+                                android:inputType="text|textCapSentences|textPersonName"
+                                android:maxLines="1"
+                                android:textColor="@android:color/black"
+                                />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                    </LinearLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/edit_profile_grade_layout"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="4dp"
                         android:focusableInTouchMode="true"
-                        android:inputType="text"
-                        android:maxLines="1"
-                        android:textColor="@android:color/black"
-                        />
-                </com.google.android.material.textfield.TextInputLayout>
+                        android:hint="@string/education_grade"
+                        android:theme="@style/cursorColor"
+                        app:boxStrokeColor="@android:color/black"
+                        app:boxStrokeErrorColor="@android:color/holo_orange_dark"
+                        app:boxStrokeWidth="1dp"
+                        app:errorTextColor="@android:color/holo_orange_dark"
+                        app:hintTextColor="@android:color/black"
+                        >
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edit_profile_grade_text"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:focusableInTouchMode="true"
+                            android:inputType="text"
+                            android:maxLines="1"
+                            android:textColor="@android:color/black"
+                            />
+                    </com.google.android.material.textfield.TextInputLayout>
 
 
+                </LinearLayout>
             </LinearLayout>
-        </LinearLayout>
+
+            <include layout="@layout/loading_layout" />
+        </FrameLayout>
 
 
     </androidx.core.widget.NestedScrollView>

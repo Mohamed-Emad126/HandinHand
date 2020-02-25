@@ -11,4 +11,6 @@ public interface ProfileClient {
 
     @GET("api/profile")
     Call<Profile> getProfile(@Header("Authorization") String token);
+
+
 }
