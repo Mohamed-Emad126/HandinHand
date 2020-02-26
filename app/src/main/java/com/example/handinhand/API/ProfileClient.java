@@ -1,8 +1,8 @@
 package com.example.handinhand.API;
 
-import com.example.handinhand.Models.LoginInfo;
-import com.example.handinhand.Models.LoginResponse;
 import com.example.handinhand.Models.Profile;
+import com.example.handinhand.Models.ProfileUpdateResponse;
+
 import java.util.Map;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -21,16 +21,17 @@ public interface ProfileClient {
     @GET("api/profile")
     Call<Profile> getProfile(@Header("Authorization") String token);
 
+
     @PATCH("api/profile/update")
-    Call<LoginResponse> updateProfileInfo(
+    Call<ProfileUpdateResponse> updateProfileInfo(
             @Header("Authorization") String token,
-            @Body LoginInfo updatedUser
+            @Body Map<String, RequestBody> user
     );
 
 
     @Multipart
     @PATCH("api/profile/update")
-    Call<LoginResponse> updateProfileInfoWithImage(
+    Call<ProfileUpdateResponse> updateProfileInfoWithImage(
             @Header("Authorization") String token,
             @PartMap Map<String, RequestBody> user,
             @Part MultipartBody.Part image

@@ -57,6 +57,7 @@ public class ProfileFragment extends Fragment{
         editText = rootView.findViewById(R.id.edit_profile_info);
 
 
+        //TODO: check if the fragment is loading disable the click listener
         editText.setOnClickListener(view -> {
             Navigation.findNavController(rootView)
                     .navigate(R.id.action_profileFragment_to_editProfileFragment);
@@ -105,7 +106,7 @@ public class ProfileFragment extends Fragment{
                 }
             }
             else{
-                Picasso.get().load("http://400b3c69.ngrok.io/storage/avatars/" + user.getInfo().getAvatar())
+                Picasso.get().load(getString(R.string.avatar_url) + user.getInfo().getAvatar())
                         .into(profileImage);
             }
 

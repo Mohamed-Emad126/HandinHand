@@ -20,7 +20,7 @@
             android:theme="@style/Widget.AppCompat.PopupMenu.Overflow"
             app:menu="@menu/share_menu"
             app:navigationIcon="@drawable/ic_close"
-            app:title="Edit Profile"
+            app:title="@string/edit_profile"
             />
 
     </com.google.android.material.appbar.AppBarLayout>

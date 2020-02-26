@@ -79,6 +79,9 @@ The first step is create the fragments and define the relationship between them.
     <string name="loading">Loading</string>
     <string name="report">Report</string>
     <string name="share">Share</string>
+    <string name="avatar_url">http://400b3c69.ngrok.io/storage/avatars/</string>
+    <string name="update_successfully">Updated</string>
+    <string name="edit_profile">Edit Profile</string>
 
 
 </resources>

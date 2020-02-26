@@ -2,29 +2,35 @@ package com.example.handinhand.MainContent;
 
 
 import android.Manifest;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
+
 import com.example.handinhand.Helpers.PermissionsHelper;
+import com.example.handinhand.Helpers.RetrofitHelper;
 import com.example.handinhand.Helpers.SharedPreferenceHelper;
+import com.example.handinhand.Models.LoginResponse;
 import com.example.handinhand.Models.Profile;
+import com.example.handinhand.Models.ProfileUpdateResponse;
 import com.example.handinhand.R;
 import com.example.handinhand.ViewModels.EditProfileViewModel;
 import com.example.handinhand.ViewModels.ProfileViewModel;
@@ -32,8 +38,14 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.squareup.picasso.Picasso;
+
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
+
 import de.hdodenhof.circleimageview.CircleImageView;
+import okhttp3.RequestBody;
+
 import static android.app.Activity.RESULT_OK;
 
 public class EditProfileFragment extends Fragment {
@@ -44,6 +56,7 @@ public class EditProfileFragment extends Fragment {
     private static final String IMAGE_URI = "URI";
     private Toolbar toolbar;
     private CircleImageView userImage;
+    private ConstraintLayout loadingView;
 
     private TextInputEditText firstName;
     private TextInputLayout firstNameLayout;
@@ -58,11 +71,11 @@ public class EditProfileFragment extends Fragment {
     private EditProfileViewModel editModel;
     private Profile.User user;
 
-
     private Intent getImageIntent;
     private Uri uri;
     private AlertDialog dialogBuilder;
 
+    private MenuItem saveMenuItem;
     public EditProfileFragment() {
         // Required empty public constructor
     }
@@ -74,7 +87,6 @@ public class EditProfileFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_edit_profile, container, false);
 
         toolbar = rootView.findViewById(R.id.edit_profile_toolbar);
-        //FragmentActivity activity = getActivity();
         userImage = rootView.findViewById(R.id.edit_profile_image);
         firstName = rootView.findViewById(R.id.edit_profile_first_name_text);
         firstNameLayout = rootView.findViewById(R.id.edit_profile_first_name_layout);
@@ -84,6 +96,9 @@ public class EditProfileFragment extends Fragment {
 
         grade = rootView.findViewById(R.id.edit_profile_grade_text);
         gradeLayout = rootView.findViewById(R.id.edit_profile_grade_layout);
+        saveMenuItem = toolbar.getMenu().getItem(0);
+
+        loadingView = rootView.findViewById(R.id.full_loading_view);
 
         getImageIntent = new Intent(Intent.ACTION_PICK,
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -98,6 +113,22 @@ public class EditProfileFragment extends Fragment {
         model = new ViewModelProvider(activity).get(ProfileViewModel.class);
         editModel = new ViewModelProvider(activity).get(EditProfileViewModel.class);
 
+        editModel.getIsLoading().observe(activity, aBoolean -> {
+            if(aBoolean){
+                loadingView.setVisibility(View.VISIBLE);
+                saveMenuItem.setEnabled(false);
+            }
+            else{
+                loadingView.setVisibility(View.GONE);
+                saveMenuItem.setEnabled(true);
+            }
+        });
+
+        editModel.getIsError().observe(activity, aBoolean -> {
+            if(aBoolean){
+                Toast.makeText(activity, getString(R.string.something_wrong), Toast.LENGTH_LONG).show();
+            }
+        });
 
         model.getProfile(SharedPreferenceHelper.getToken(activity)).observe(activity,
                 profile -> {
@@ -172,13 +203,11 @@ public class EditProfileFragment extends Fragment {
                     else{
                         selectImage(activity);
                     }
-                }
-                )
+                })
                 .setOnDismissListener(dialogInterface -> {
                     editModel.setIsDialogShowed(false);
                 })
-        .create()
-        ;
+                .create();
 
         editModel.getIsDialogShowed().observe(activity, aBoolean -> {
             if(aBoolean){
@@ -190,7 +219,6 @@ public class EditProfileFragment extends Fragment {
         });
 
         userImage.setOnClickListener(view -> {
-            //selectImage(activity);
             editModel.setIsDialogShowed(true);
         });
 
@@ -202,14 +230,80 @@ public class EditProfileFragment extends Fragment {
         toolbar.setOnMenuItemClickListener(item -> {
             if(item.getItemId() == R.id.action_save){
                 //TODO: Save the changes and leave the fragment
-
-
+                if(firstName.getText()!= null
+                &&firstName.getText().toString().length()>0){
+                    firstNameLayout.setError(getString(R.string.empty));
+                }
+                else if(secondName.getText()!= null
+                        &&secondName.getText().toString().length()>0){
+                    secondNameLayout.setError(getString(R.string.empty));
+                }
+                else{
+                    HashMap<String, RequestBody> updates = getUpdates(activity);
+                    if(editModel.getIsImageRemoved().getValue()!= null
+                        && editModel.getIsImageRemoved().getValue()){
+                        //TODO: Complete
+                        editModel.getResponse(
+                                SharedPreferenceHelper.getToken(activity),
+                                updates,
+                                null
+                        ).observe(activity, profileUpdateResponse -> {
+                            if(profileUpdateResponse != null
+                                && profileUpdateResponse.getStatus()){
+                                Toast.makeText(activity, getString(R.string.update_successfully),
+                                        Toast.LENGTH_LONG).show();
+                                Navigation.findNavController(rootView).navigateUp();
+                            }
+                        });
+                    }
+                    else{
+                        editModel.getResponse(
+                                SharedPreferenceHelper.getToken(activity),
+                                updates,
+                                RetrofitHelper.prepareFilePart(activity, "avatar", uri)
+                        ).observe(activity, profileUpdateResponse -> {
+                            if(profileUpdateResponse != null
+                                    && profileUpdateResponse.getStatus()){
+                                Toast.makeText(activity, getString(R.string.update_successfully),
+                                        Toast.LENGTH_LONG).show();
+                                Navigation.findNavController(rootView).navigateUp();
+                            }
+                        });
+                    }
+                }
             }
             return true;
         });
 
 
         return rootView;
+    }
+
+    private HashMap<String, RequestBody> getUpdates(FragmentActivity activity) {
+        HashMap<String, RequestBody> updates = new HashMap<>();
+
+        model.getProfile(SharedPreferenceHelper.getToken(activity)).observe(activity,
+                profile -> {
+                    if(profile != null &&
+                            profile.getStatus()){
+
+                        user = profile.getDetails().getUser();
+                        updates.put("email", RetrofitHelper.createPartFromString(user.getEmail()));
+                        updates.put("password", RetrofitHelper.createPartFromString(user.getPassword()));
+
+                        updates.put("first_name", RetrofitHelper.createPartFromString(firstName.getText().toString().trim()));
+                        updates.put("last_name", RetrofitHelper.createPartFromString(secondName.getText().toString().trim()));
+                        updates.put("grade", RetrofitHelper.createPartFromString(grade.getText().toString().trim()));
+
+                        updates.put("gender", RetrofitHelper.createPartFromString(user.getInfo().getGender()));
+                        updates.put("avatar", RetrofitHelper.createPartFromString(user.getInfo().getAvatar()));
+                    }
+                }
+        );
+
+
+
+        return updates;
     }
 
     private void selectImage(FragmentActivity activity) {

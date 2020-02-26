@@ -103,12 +103,12 @@ public class MainContentActivity extends AppCompatActivity
                             }
                         }
                         else{
-                            Picasso.get().load("http://400b3c69.ngrok.io/storage/avatars/" +
+                            Picasso.get().load(getString(R.string.avatar_url) +
                                     user.getInfo().getAvatar())
                                     .placeholder(R.drawable.male_avatar)
                                     .into(userImageInToolbar);
 
-                            Picasso.get().load("http://400b3c69.ngrok.io/storage/avatars/" +
+                            Picasso.get().load(getString(R.string.avatar_url) +
                                     user.getInfo().getAvatar())
                                     .placeholder(R.drawable.male_avatar)
                                     .into(userImageHeader);
