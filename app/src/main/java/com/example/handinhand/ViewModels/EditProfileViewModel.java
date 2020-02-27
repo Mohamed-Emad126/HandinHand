@@ -1,5 +1,7 @@
 package com.example.handinhand.ViewModels;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -24,7 +26,7 @@ public class EditProfileViewModel extends ViewModel {
     private MutableLiveData<Boolean> isError = new MutableLiveData<>();
     private MutableLiveData<Boolean> isDialogShowed = new MutableLiveData<>();
     private MutableLiveData<Boolean> isImageRemoved = new MutableLiveData<>();
-    private MutableLiveData<ProfileUpdateResponse> mResponse = new MutableLiveData<>();
+    private MutableLiveData<ProfileUpdateResponse> mResponse;
 
     public LiveData<Boolean> getIsImageRemoved() {
         return isImageRemoved;
@@ -60,8 +62,9 @@ public class EditProfileViewModel extends ViewModel {
             mResponse = new MutableLiveData<>();
             isLoading.postValue(true);
             updateUser(token, updates, image);
+            return mResponse;
         }
-        isLoading.postValue(false);
+        //isLoading.postValue(false);
         return mResponse;
     }
 
@@ -106,5 +109,7 @@ public class EditProfileViewModel extends ViewModel {
         isError.postValue(false);
         isLoading.postValue(false);
         isImageRemoved.postValue(false);
+        user = new MutableLiveData<>();
+        mResponse = null;
     }
 }

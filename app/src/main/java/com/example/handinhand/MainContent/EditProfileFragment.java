@@ -4,6 +4,7 @@ package com.example.handinhand.MainContent;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -37,6 +38,7 @@ import com.example.handinhand.ViewModels.ProfileViewModel;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.ldoublem.loadingviewlib.view.LVNews;
 import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
@@ -56,7 +58,8 @@ public class EditProfileFragment extends Fragment {
     private static final String IMAGE_URI = "URI";
     private Toolbar toolbar;
     private CircleImageView userImage;
-    private ConstraintLayout loadingView;
+    private ConstraintLayout fullLoadingView;
+    private LVNews loadingView;
 
     private TextInputEditText firstName;
     private TextInputLayout firstNameLayout;
@@ -98,7 +101,10 @@ public class EditProfileFragment extends Fragment {
         gradeLayout = rootView.findViewById(R.id.edit_profile_grade_layout);
         saveMenuItem = toolbar.getMenu().getItem(0);
 
-        loadingView = rootView.findViewById(R.id.full_loading_view);
+        fullLoadingView = rootView.findViewById(R.id.full_loading_view);
+        loadingView = rootView.findViewById(R.id.loading_view);
+        loadingView.setViewColor(Color.rgb(255, 0, 0));
+        loadingView.startAnim(1000);
 
         getImageIntent = new Intent(Intent.ACTION_PICK,
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -115,11 +121,11 @@ public class EditProfileFragment extends Fragment {
 
         editModel.getIsLoading().observe(activity, aBoolean -> {
             if(aBoolean){
-                loadingView.setVisibility(View.VISIBLE);
+                fullLoadingView.setVisibility(View.VISIBLE);
                 saveMenuItem.setEnabled(false);
             }
             else{
-                loadingView.setVisibility(View.GONE);
+                fullLoadingView.setVisibility(View.GONE);
                 saveMenuItem.setEnabled(true);
             }
         });
@@ -130,7 +136,20 @@ public class EditProfileFragment extends Fragment {
             }
         });
 
-        model.getProfile(SharedPreferenceHelper.getToken(activity)).observe(activity,
+        Profile value = model.getProfile(SharedPreferenceHelper.getToken(activity)).getValue();
+
+        if(value != null &&
+                value.getStatus()){
+
+            user = value.getDetails().getUser();
+            editModel.setUser(user);
+        }
+        else{
+            Toast.makeText(activity, getString(R.string.something_wrong), Toast.LENGTH_SHORT).show();
+            Navigation.findNavController(rootView).navigateUp();
+        }
+
+        /*model.getProfile(SharedPreferenceHelper.getToken(activity)).observe(activity,
                 profile -> {
                     if(profile != null &&
                             profile.getStatus()){
@@ -143,7 +162,7 @@ public class EditProfileFragment extends Fragment {
                         Navigation.findNavController(rootView).navigateUp();
                     }
                 }
-                );
+                );*/
         editModel.getIsImageRemoved().observe(activity, aBoolean -> {
             if(aBoolean){
                 userImage = null;
@@ -176,16 +195,19 @@ public class EditProfileFragment extends Fragment {
                         .getGender().contains("male")){
 
                     Picasso.get().load(R.drawable.male_avatar)
+                            .placeholder(R.drawable.male_avatar)
                             .into(userImage);
                 }
                 else{
                     Picasso.get().load(R.drawable.female_avatar)
+                            .placeholder(R.drawable.female_avatar)
                             .into(userImage);
                 }
             }
             else{
-                Picasso.get().load("http://400b3c69.ngrok.io/storage/avatars/" +
+                Picasso.get().load(getString(R.string.avatar_url) +
                         user.getInfo().getAvatar())
+                        .placeholder(R.drawable.female_avatar)
                         .into(userImage);
             }
         });
@@ -231,17 +253,21 @@ public class EditProfileFragment extends Fragment {
             if(item.getItemId() == R.id.action_save){
                 //TODO: Save the changes and leave the fragment
                 if(firstName.getText()!= null
-                &&firstName.getText().toString().length()>0){
+                &&firstName.getText().toString().length()== 0){
                     firstNameLayout.setError(getString(R.string.empty));
                 }
                 else if(secondName.getText()!= null
-                        &&secondName.getText().toString().length()>0){
+                        &&secondName.getText().toString().length() == 0){
                     secondNameLayout.setError(getString(R.string.empty));
                 }
                 else{
+
                     HashMap<String, RequestBody> updates = getUpdates(activity);
                     if(editModel.getIsImageRemoved().getValue()!= null
                         && editModel.getIsImageRemoved().getValue()){
+
+                        updates.remove("avatar");
+                        updates.put("avatar", RetrofitHelper.createPartFromString("default.png"));
                         //TODO: Complete
                         editModel.getResponse(
                                 SharedPreferenceHelper.getToken(activity),
@@ -252,11 +278,14 @@ public class EditProfileFragment extends Fragment {
                                 && profileUpdateResponse.getStatus()){
                                 Toast.makeText(activity, getString(R.string.update_successfully),
                                         Toast.LENGTH_LONG).show();
+                                model.refresh(SharedPreferenceHelper.getToken(activity));
                                 Navigation.findNavController(rootView).navigateUp();
+                                editModel.leave();
                             }
                         });
                     }
-                    else{
+                    else if(uri != null){
+
                         editModel.getResponse(
                                 SharedPreferenceHelper.getToken(activity),
                                 updates,
@@ -266,7 +295,25 @@ public class EditProfileFragment extends Fragment {
                                     && profileUpdateResponse.getStatus()){
                                 Toast.makeText(activity, getString(R.string.update_successfully),
                                         Toast.LENGTH_LONG).show();
+                                model.refresh(SharedPreferenceHelper.getToken(activity));
                                 Navigation.findNavController(rootView).navigateUp();
+                                editModel.leave();
+                            }
+                        });
+                    }
+                    else{
+                        editModel.getResponse(
+                                SharedPreferenceHelper.getToken(activity),
+                                updates,
+                                null
+                        ).observe(activity, profileUpdateResponse -> {
+                            if(profileUpdateResponse != null
+                                    && profileUpdateResponse.getStatus()){
+                                Toast.makeText(activity, getString(R.string.update_successfully),
+                                        Toast.LENGTH_LONG).show();
+                                model.refresh(SharedPreferenceHelper.getToken(activity));
+                                Navigation.findNavController(rootView).navigateUp();
+                                editModel.leave();
                             }
                         });
                     }
@@ -288,6 +335,9 @@ public class EditProfileFragment extends Fragment {
                             profile.getStatus()){
 
                         user = profile.getDetails().getUser();
+
+                        updates.put("_method", RetrofitHelper.createPartFromString("PATCH"));
+
                         updates.put("email", RetrofitHelper.createPartFromString(user.getEmail()));
                         updates.put("password", RetrofitHelper.createPartFromString(user.getPassword()));
 
@@ -348,6 +398,7 @@ public class EditProfileFragment extends Fragment {
                 editModel.setIsImageRemoved(false);
                 editModel.setIsDialogShowed(false);
                 Picasso.get().load(uri)
+                        .placeholder(R.drawable.male_avatar)
                         .into(userImage);
             }
 
