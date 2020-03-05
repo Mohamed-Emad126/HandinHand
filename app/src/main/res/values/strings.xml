@@ -85,6 +85,7 @@ The first step is create the fragments and define the relationship between them.
     <string name="connection_error">No Network Connection</string>
     <string name="profile">Profile</string>
     <string name="settings">Settings</string>
+    <string name="add_item">Add Item</string>
 
 
 </resources>

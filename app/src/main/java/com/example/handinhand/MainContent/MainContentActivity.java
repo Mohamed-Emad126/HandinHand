@@ -70,64 +70,64 @@ public class MainContentActivity extends AppCompatActivity
         model = new ViewModelProvider(this).get(ProfileViewModel.class);
 
         if(NetworkUtils.getConnectivityStatus(this) == 0){
-
-        }
-        else{
             Toast.makeText(this, getString(R.string.connection_error), Toast.LENGTH_SHORT).show();
         }
-        model.getProfile(SharedPreferenceHelper.getToken(this)).observe(this,
-                profile -> {
-                    if(profile != null &&
-                            profile.getStatus() &&
-                            profile.getDetails().getUser() != null){
+        else{
+            model.getProfile(SharedPreferenceHelper.getToken(this)).observe(this,
+                    profile -> {
+                        if(profile != null &&
+                                profile.getStatus() &&
+                                profile.getDetails().getUser() != null){
 
-                        Profile.User user = profile.getDetails().getUser();
+                            Profile.User user = profile.getDetails().getUser();
 
-                        String name = user.getInfo().getFirst_name() + user.getInfo().getLast_name();
-                        userName.setText(name);
-
-                        if(user.getInfo()
-                                .getAvatar().contains("default")){
+                            String name = user.getInfo().getFirst_name() + user.getInfo().getLast_name();
+                            userName.setText(name);
 
                             if(user.getInfo()
-                                    .getGender().contains("male")){
+                                    .getAvatar().contains("default")){
 
-                                Picasso.get().load(R.drawable.male_avatar)
-                                        .placeholder(R.drawable.male_avatar)
-                                        .into(userImageInToolbar);
+                                if(user.getInfo()
+                                        .getGender().contains("male")){
 
-                                Picasso.get().load(R.drawable.male_avatar)
-                                        .placeholder(R.drawable.male_avatar)
-                                        .into(userImageHeader);
+                                    Picasso.get().load(R.drawable.male_avatar)
+                                            .placeholder(R.drawable.male_avatar)
+                                            .into(userImageInToolbar);
+
+                                    Picasso.get().load(R.drawable.male_avatar)
+                                            .placeholder(R.drawable.male_avatar)
+                                            .into(userImageHeader);
+                                }
+                                else{
+                                    Picasso.get().load(R.drawable.female_avatar)
+                                            .placeholder(R.drawable.female_avatar)
+                                            .into(userImageInToolbar);
+                                    Picasso.get().load(R.drawable.female_avatar)
+                                            .placeholder(R.drawable.female_avatar)
+                                            .into(userImageHeader);
+                                }
                             }
                             else{
-                                Picasso.get().load(R.drawable.female_avatar)
-                                        .placeholder(R.drawable.female_avatar)
+                                Picasso.get().load(getString(R.string.avatar_url) +
+                                        user.getInfo().getAvatar())
+                                        .placeholder(R.drawable.male_avatar)
                                         .into(userImageInToolbar);
-                                Picasso.get().load(R.drawable.female_avatar)
-                                        .placeholder(R.drawable.female_avatar)
+
+                                Picasso.get().load(getString(R.string.avatar_url) +
+                                        user.getInfo().getAvatar())
+                                        .placeholder(R.drawable.male_avatar)
                                         .into(userImageHeader);
                             }
                         }
                         else{
-                            Picasso.get().load(getString(R.string.avatar_url) +
-                                    user.getInfo().getAvatar())
-                                    .placeholder(R.drawable.male_avatar)
-                                    .into(userImageInToolbar);
-
-                            Picasso.get().load(getString(R.string.avatar_url) +
-                                    user.getInfo().getAvatar())
-                                    .placeholder(R.drawable.male_avatar)
-                                    .into(userImageHeader);
+                            Toast toast = Toast.makeText(this, getString(R.string.something_wrong)
+                                    , Toast.LENGTH_LONG);
+                            toast.setGravity(Gravity.BOTTOM, 0, 0);
+                            toast.show();
                         }
-                    }
-                    else{
-                        Toast toast = Toast.makeText(this, getString(R.string.something_wrong)
-                                , Toast.LENGTH_LONG);
-                        toast.setGravity(Gravity.BOTTOM, 0, 0);
-                        toast.show();
-                    }
-                });
+                    });
+        }
+
 
         navController = Navigation.findNavController(this,
                 R.id.main_content_nav_host_fragment);
@@ -193,23 +193,20 @@ public class MainContentActivity extends AppCompatActivity
         Integer []withoutToolbarAndBottomNavIds = {
                 R.id.itemDescriptionFragment,
                 R.id.profileFragment,
-                R.id.editProfileFragment
+                R.id.editProfileFragment,
+                R.id.addItemFragment
         };
         List<Integer> lst = Arrays.asList(withoutToolbarAndBottomNavIds);
 
         if(lst.contains(destination.getId())){
 
-            toolbar.hideOverflowMenu();
-            //Objects.requireNonNull(getSupportActionBar()).hide();
             appBarLayout.setVisibility(View.GONE);
-            toolbar.setVisibility(View.GONE);
+            //toolbar.setVisibility(View.GONE);
             bottomNavigation.setVisibility(View.GONE);
         }
         else{
-            toolbar.showOverflowMenu();
-            //Objects.requireNonNull(getSupportActionBar()).show();
             appBarLayout.setVisibility(View.VISIBLE);
-            toolbar.setVisibility(View.VISIBLE);
+            //toolbar.setVisibility(View.VISIBLE);
             bottomNavigation.setVisibility(View.VISIBLE);
         }
 

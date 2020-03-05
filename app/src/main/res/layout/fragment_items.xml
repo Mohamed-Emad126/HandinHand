@@ -18,6 +18,7 @@
         app:backgroundTint="@color/textColorPrimary"
         app:rippleColor="@android:color/white"
         android:src="@drawable/ic_add"
+        app:tint="@android:color/white"
         />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

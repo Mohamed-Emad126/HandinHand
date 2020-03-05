@@ -10,9 +10,10 @@
     <ImageView
         android:id="@+id/user_image_header"
         android:layout_width="match_parent"
-        android:layout_height="170dp"
+        android:layout_height="200dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/male_avatar"
+        android:src="@drawable/ic_welcoming"
+        android:background="@color/ccPrimary"
         />
     <TextView
         android:id="@+id/user_name_header"

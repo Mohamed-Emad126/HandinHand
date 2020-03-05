@@ -37,7 +37,7 @@ public class ItemsFragment extends Fragment {
         final ImageView imageView = rootView.findViewById(R.id.item_image);
 
         addFab.setOnClickListener(view -> {
-
+            Navigation.findNavController(rootView).navigate(R.id.action_itemsFragment_to_addItemFragment);
         });
 
         rootView.findViewById(R.id.item).setOnClickListener(view -> {

@@ -12,6 +12,10 @@
         <action
             android:id="@+id/action_itemsFragment_to_itemDescriptionFragment"
             app:destination="@id/itemDescriptionFragment" />
+        <action
+            android:id="@+id/action_itemsFragment_to_addItemFragment"
+            app:destination="@id/addItemFragment"
+            app:enterAnim="@anim/anim_pop_up" />
     </fragment>
     <fragment
         android:id="@+id/notificationsFragment"
@@ -59,4 +63,9 @@
         android:name="com.example.handinhand.MainContent.EditProfileFragment"
         android:label="fragment_edit_profile"
         tools:layout="@layout/fragment_edit_profile" />
+    <fragment
+        android:id="@+id/addItemFragment"
+        android:name="com.example.handinhand.MainContent.AddItemFragment"
+        android:label="fragment_add_item"
+        tools:layout="@layout/fragment_add_item" />
 </navigation>
