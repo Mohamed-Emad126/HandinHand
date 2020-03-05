@@ -13,12 +13,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.example.handinhand.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class ItemsFragment extends Fragment {
 
+    private FloatingActionButton addFab;
 
     public ItemsFragment() {
         // Required empty public constructor
@@ -31,25 +33,28 @@ public class ItemsFragment extends Fragment {
         // Inflate the layout for this fragment
         final View rootView = inflater.inflate(R.layout.fragment_items, container, false);
 
+        addFab = rootView.findViewById(R.id.items_fab);
         final ImageView imageView = rootView.findViewById(R.id.item_image);
 
-        rootView.findViewById(R.id.item).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        addFab.setOnClickListener(view -> {
 
-                FragmentNavigator.Extras extras = null;
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-                    extras = new FragmentNavigator.Extras.Builder()
-                            .addSharedElement(imageView, imageView.getTransitionName())
-                            .addSharedElement(rootView.findViewById(R.id.item_title), "itemTitle")
-                            .build();
-                }
-                Navigation.findNavController(view).navigate(R.id.action_itemsFragment_to_itemDescriptionFragment,
-                        null, // Bundle of args
-                        null, // NavOptions
-                        extras);
-            }
         });
+
+        rootView.findViewById(R.id.item).setOnClickListener(view -> {
+
+            FragmentNavigator.Extras extras = null;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                extras = new FragmentNavigator.Extras.Builder()
+                        .addSharedElement(imageView, imageView.getTransitionName())
+                        .addSharedElement(rootView.findViewById(R.id.item_title), "itemTitle")
+                        .build();
+            }
+            Navigation.findNavController(view).navigate(R.id.action_itemsFragment_to_itemDescriptionFragment,
+                    null, // Bundle of args
+                    null, // NavOptions
+                    extras);
+        });
+
 
         return rootView;
     }

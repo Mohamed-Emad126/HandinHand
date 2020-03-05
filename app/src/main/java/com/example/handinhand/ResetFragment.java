@@ -22,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.handinhand.Models.ResetPasswordResponse;
+import com.example.handinhand.Utils.NetworkUtils;
 import com.example.handinhand.ViewModels.MainActivityViewModel;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -102,7 +103,10 @@ public class ResetFragment extends Fragment {
                 reEnterNewPasswordTextLayout.setError(getString(R.string.different));
                 isAble = false;
             }
-
+            if(NetworkUtils.getConnectivityStatus(activity) == 0){
+                isAble = false;
+                Snackbar.make(rootView, getString(R.string.connection_error), Snackbar.LENGTH_LONG).show();
+            }
             if(isAble){
                 if(user_email != null && user_token != null){
 

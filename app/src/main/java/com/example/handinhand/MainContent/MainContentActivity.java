@@ -23,6 +23,7 @@ import androidx.navigation.ui.NavigationUI;
 import com.example.handinhand.Helpers.SharedPreferenceHelper;
 import com.example.handinhand.Models.Profile;
 import com.example.handinhand.R;
+import com.example.handinhand.Utils.NetworkUtils;
 import com.example.handinhand.ViewModels.ProfileViewModel;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -68,6 +69,12 @@ public class MainContentActivity extends AppCompatActivity
         userImageHeader = navigationView.getHeaderView(0).findViewById(R.id.user_image_header);
         model = new ViewModelProvider(this).get(ProfileViewModel.class);
 
+        if(NetworkUtils.getConnectivityStatus(this) == 0){
+
+        }
+        else{
+            Toast.makeText(this, getString(R.string.connection_error), Toast.LENGTH_SHORT).show();
+        }
         model.getProfile(SharedPreferenceHelper.getToken(this)).observe(this,
                 profile -> {
                     if(profile != null &&
@@ -190,7 +197,7 @@ public class MainContentActivity extends AppCompatActivity
         };
         List<Integer> lst = Arrays.asList(withoutToolbarAndBottomNavIds);
 
-        if(lst.contains(destination.getId())/*destination.getId() == R.id.itemDescriptionFragment*/){
+        if(lst.contains(destination.getId())){
 
             toolbar.hideOverflowMenu();
             //Objects.requireNonNull(getSupportActionBar()).hide();

@@ -82,6 +82,9 @@ The first step is create the fragments and define the relationship between them.
     <string name="avatar_url">http://b52b72b4.ngrok.io/storage/avatars/</string>
     <string name="update_successfully">Updated</string>
     <string name="edit_profile">Edit Profile</string>
+    <string name="connection_error">No Network Connection</string>
+    <string name="profile">Profile</string>
+    <string name="settings">Settings</string>
 
 
 </resources>

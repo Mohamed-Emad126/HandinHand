@@ -149,7 +149,7 @@ public class LoginFragment extends Fragment {
 
             if(NetworkUtils.getConnectivityStatus(activity) == 0){
                 isAble = false;
-                Snackbar.make(rootView, "No Network Connection", Snackbar.LENGTH_LONG).show();
+                Snackbar.make(rootView, getString(R.string.connection_error), Snackbar.LENGTH_LONG).show();
             }
 
             if(isAble){

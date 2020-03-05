@@ -6,30 +6,25 @@
            android:checkableBehavior="single"
         >
         <item android:id="@id/profileFragment"
-            android:title="Profile"
+            android:title="@string/profile"
+            android:icon="@drawable/ic_account"
             />
         <item android:id="@+id/profileFragment1"
-            android:title="Profile"
-            />
-        <item android:id="@+id/profileFragment2"
-            android:title="Profile"
-            />
-        <item android:id="@+id/profileFragment3"
-            android:title="Profile"
-            />
-        <item android:id="@+id/profileFragment4"
-            android:title="Profile"
+            android:title="@string/settings"
+            android:icon="@drawable/ic_settings"
             />
     </group>
 
     <group android:id="@+id/contacts"
         android:checkableBehavior="single"
         >
-        <item android:id="@+id/contact_us"
-            android:title="@string/about_us"
-            />
         <item android:id="@+id/about_us"
+            android:title="@string/about_us"
+            android:icon="@drawable/ic_info"
+            />
+        <item android:id="@+id/contact_us"
             android:title="@string/contact_us"
+            android:icon="@drawable/ic_contact"
             />
     </group>
 

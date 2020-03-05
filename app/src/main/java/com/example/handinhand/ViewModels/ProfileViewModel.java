@@ -23,6 +23,10 @@ public class ProfileViewModel extends ViewModel {
         return isError;
     }
 
+    public void setIsError(Boolean isError) {
+        this.isError.postValue(isError);
+    }
+
     public LiveData<Profile> getProfile(String token){
         if(mProfile == null){
             mProfile = new MutableLiveData<>();
@@ -45,6 +49,7 @@ public class ProfileViewModel extends ViewModel {
 
                     if(profile.getDetails().getUser() != null){
                         mProfile.postValue(profile);
+                        isError.postValue(false);
                     }
                 }
                 else{

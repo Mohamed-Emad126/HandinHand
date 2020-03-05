@@ -10,7 +10,7 @@
     <ImageView
         android:id="@+id/user_image_header"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="170dp"
         android:scaleType="centerCrop"
         android:src="@drawable/male_avatar"
         />
@@ -23,9 +23,12 @@
         android:gravity="bottom"
         android:textColor="@color/colorPrimary"
         android:textSize="24sp"
-        android:background="@drawable/gradiant"
+        android:shadowColor="@color/textColorPrimary"
+        android:shadowDx="3"
+        android:shadowDy="2"
+        android:shadowRadius="20"
         android:paddingStart="8dp"
-        android:paddingEnd="4dp"
+        android:paddingEnd="8dp"
         />
 
 </com.google.android.material.card.MaterialCardView>

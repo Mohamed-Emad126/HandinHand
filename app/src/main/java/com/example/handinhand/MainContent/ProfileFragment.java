@@ -19,8 +19,10 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.example.handinhand.Helpers.SharedPreferenceHelper;
 import com.example.handinhand.Models.Profile;
 import com.example.handinhand.R;
+import com.example.handinhand.Utils.NetworkUtils;
 import com.example.handinhand.ViewModels.ProfileViewModel;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -86,32 +88,36 @@ public class ProfileFragment extends Fragment{
         });
 
 
-        model.getProfile(SharedPreferenceHelper.getToken(activity)).observe(activity, profile -> {
-            refreshLayout.setRefreshing(false);
-            Profile.User user = profile.getDetails().getUser();
-            email.setText(user.getEmail());
-            gender.setText(user.getInfo().getGender());
-            String name = user.getInfo().getFirst_name() +" "+ user.getInfo().getLast_name();
-            profileName.setText(name);
-            if(user.getInfo().getAvatar().contains("default")){
-                if(user.getInfo().getGender().contains("male")){
-                    Picasso.get().load(R.drawable.male_avatar)
-                            .placeholder(R.drawable.male_avatar)
-                            .into(profileImage);
+        if(NetworkUtils.getConnectivityStatus(activity) != 0){
+            model.getProfile(SharedPreferenceHelper.getToken(activity)).observe(activity, profile -> {
+                refreshLayout.setRefreshing(false);
+                Profile.User user = profile.getDetails().getUser();
+                email.setText(user.getEmail());
+                gender.setText(user.getInfo().getGender());
+                String name = user.getInfo().getFirst_name() +" "+ user.getInfo().getLast_name();
+                profileName.setText(name);
+                if(user.getInfo().getAvatar().contains("default")){
+                    if(user.getInfo().getGender().contains("male")){
+                        Picasso.get().load(R.drawable.male_avatar)
+                                .placeholder(R.drawable.male_avatar)
+                                .into(profileImage);
+                    }
+                    else{
+                        Picasso.get().load(R.drawable.female_avatar)
+                                .placeholder(R.drawable.female_avatar)
+                                .into(profileImage);
+                    }
                 }
                 else{
-                    Picasso.get().load(R.drawable.female_avatar)
-                            .placeholder(R.drawable.female_avatar)
+                    Picasso.get().load(getString(R.string.avatar_url) + user.getInfo().getAvatar())
                             .into(profileImage);
                 }
-            }
-            else{
-                Picasso.get().load(getString(R.string.avatar_url) + user.getInfo().getAvatar())
-                        .into(profileImage);
-            }
 
-        });
-
+            });
+        }
+        else{
+            model.setIsError(true);
+        }
         model.getIsLoading().observe(activity, aBoolean -> {
             if(aBoolean){
                 refreshLayout.setRefreshing(true);
@@ -133,12 +139,17 @@ public class ProfileFragment extends Fragment{
             }
         });
 
-        reloadButton.setOnClickListener(view ->
-                model.refresh(SharedPreferenceHelper.getToken(activity))
+        reloadButton.setOnClickListener(view ->{
+            if(NetworkUtils.getConnectivityStatus(activity) != 0){
+                model.refresh(SharedPreferenceHelper.getToken(activity));
+            }
+        }
         );
 
         refreshLayout.setOnRefreshListener(() -> {
-            model.refresh(SharedPreferenceHelper.getToken(activity));
+            if(NetworkUtils.getConnectivityStatus(activity) != 0){
+                model.refresh(SharedPreferenceHelper.getToken(activity));
+            }
         });
 
         return rootView;
