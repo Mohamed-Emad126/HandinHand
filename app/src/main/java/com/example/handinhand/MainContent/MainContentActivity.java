@@ -200,14 +200,26 @@ public class MainContentActivity extends AppCompatActivity
 
         if(lst.contains(destination.getId())){
 
-            appBarLayout.setVisibility(View.GONE);
+            appBarLayout.animate().y(0).translationY(-100f).withStartAction(() ->
+                    appBarLayout.setVisibility(View.GONE)
+            ).start();
+            //appBarLayout.setVisibility(View.GONE);
             //toolbar.setVisibility(View.GONE);
-            bottomNavigation.setVisibility(View.GONE);
+            bottomNavigation.animate().y(0).translationY(100f).withStartAction(() ->
+                    bottomNavigation.setVisibility(View.GONE)
+            ).start();
+            //bottomNavigation.setVisibility(View.GONE);
         }
         else{
-            appBarLayout.setVisibility(View.VISIBLE);
+            appBarLayout.animate().y(-100).translationY(0f).withStartAction(() ->
+                    appBarLayout.setVisibility(View.VISIBLE)
+            ).start();
+            //appBarLayout.setVisibility(View.VISIBLE);
             //toolbar.setVisibility(View.VISIBLE);
-            bottomNavigation.setVisibility(View.VISIBLE);
+            bottomNavigation.animate().y(100).translationY(0f).withStartAction(() ->
+                    bottomNavigation.setVisibility(View.VISIBLE)
+            ).start();
+            //bottomNavigation.setVisibility(View.VISIBLE);
         }
 
     }

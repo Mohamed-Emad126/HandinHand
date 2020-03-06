@@ -1,6 +1,7 @@
 package com.example.handinhand.MainContent;
 
 
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -34,16 +35,30 @@ public class ItemsFragment extends Fragment {
         final View rootView = inflater.inflate(R.layout.fragment_items, container, false);
 
         addFab = rootView.findViewById(R.id.items_fab);
+        addFab.show();
         final ImageView imageView = rootView.findViewById(R.id.item_image);
 
         addFab.setOnClickListener(view -> {
-            Navigation.findNavController(rootView).navigate(R.id.action_itemsFragment_to_addItemFragment);
+            addFab.hide();
+            FragmentNavigator.Extras extra = null;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                addFab.setTransitionName("FloatingActionButtonTransition");
+                extra = new FragmentNavigator.Extras.Builder()
+                        .addSharedElement(addFab, "FloatingActionButtonTransition")
+                        .build();
+            }
+            Navigation.findNavController(rootView).navigate(
+                    R.id.action_itemsFragment_to_addItemFragment,
+                    null,
+                    null,
+                    extra
+            );
         });
 
         rootView.findViewById(R.id.item).setOnClickListener(view -> {
 
             FragmentNavigator.Extras extras = null;
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 extras = new FragmentNavigator.Extras.Builder()
                         .addSharedElement(imageView, imageView.getTransitionName())
                         .addSharedElement(rootView.findViewById(R.id.item_title), "itemTitle")

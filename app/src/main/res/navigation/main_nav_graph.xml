@@ -15,7 +15,8 @@
         <action
             android:id="@+id/action_itemsFragment_to_addItemFragment"
             app:destination="@id/addItemFragment"
-            app:enterAnim="@anim/anim_pop_up" />
+            app:enterAnim="@anim/anim_pop_up"
+            />
     </fragment>
     <fragment
         android:id="@+id/notificationsFragment"
