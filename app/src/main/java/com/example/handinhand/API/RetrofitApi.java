@@ -16,6 +16,8 @@ public class RetrofitApi {
     private static Retrofit retrofit = null;
     private static MainActivityClient client;
     private static ProfileClient profileClient;
+    private static ItemsClient itemsClient;
+
 
 
 
@@ -45,6 +47,11 @@ public class RetrofitApi {
 
         client = retrofit.create(MainActivityClient.class);
         profileClient = retrofit.create(ProfileClient.class);
+        itemsClient = retrofit.create(ItemsClient.class);
+    }
+
+    public ItemsClient getItemsClient() {
+        return itemsClient;
     }
 
     public MainActivityClient getMainActivityClient() {

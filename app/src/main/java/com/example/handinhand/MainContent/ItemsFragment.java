@@ -39,7 +39,6 @@ public class ItemsFragment extends Fragment {
         final ImageView imageView = rootView.findViewById(R.id.item_image);
 
         addFab.setOnClickListener(view -> {
-            addFab.hide();
             FragmentNavigator.Extras extra = null;
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 addFab.setTransitionName("FloatingActionButtonTransition");
@@ -53,6 +52,7 @@ public class ItemsFragment extends Fragment {
                     null,
                     extra
             );
+            addFab.hide();
         });
 
         rootView.findViewById(R.id.item).setOnClickListener(view -> {

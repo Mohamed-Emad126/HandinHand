@@ -86,6 +86,15 @@ The first step is create the fragments and define the relationship between them.
     <string name="profile">Profile</string>
     <string name="settings">Settings</string>
     <string name="add_item">Add Item</string>
+    <string name="price">Price</string>
+    <string name="description">Description</string>
+    <string name="title">Title</string>
+    <string name="free">Free</string>
+    <string name="set_price">Set Price</string>
+    <string name="facebook_account">link of your FaceBook account</string>
+    <string name="phone_number">Your phone Number (*Required)</string>
+    <string name="upload_image">Please, Upload image of the item</string>
+    <string name="item_added">Item Added Successfully</string>
 
 
 </resources>

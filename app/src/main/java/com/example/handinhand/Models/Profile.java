@@ -50,7 +50,7 @@ public class Profile {
         private String password;
         private String email_verified_at;
         private String email;
-        private int id;
+        private String id;
 
         public Info getInfo() {
             return info;
@@ -100,11 +100,11 @@ public class Profile {
             this.email = email;
         }
 
-        public int getId() {
+        public String getId() {
             return id;
         }
 
-        public void setId(int id) {
+        public void setId(String id) {
             this.id = id;
         }
     }
