@@ -81,7 +81,7 @@ public class MainContentActivity extends AppCompatActivity
 
                             Profile.User user = profile.getDetails().getUser();
 
-                            String name = user.getInfo().getFirst_name() + user.getInfo().getLast_name();
+                            String name = user.getInfo().getFirst_name() +" "+ user.getInfo().getLast_name();
                             userName.setText(name);
 
                             if(user.getInfo()
@@ -194,7 +194,8 @@ public class MainContentActivity extends AppCompatActivity
                 R.id.itemDescriptionFragment,
                 R.id.profileFragment,
                 R.id.editProfileFragment,
-                R.id.addItemFragment
+                R.id.addItemFragment,
+                R.id.logOutFragment
         };
         List<Integer> lst = Arrays.asList(withoutToolbarAndBottomNavIds);
 

@@ -79,7 +79,7 @@ The first step is create the fragments and define the relationship between them.
     <string name="loading">Loading</string>
     <string name="report">Report</string>
     <string name="share">Share</string>
-    <string name="avatar_url">http://b52b72b4.ngrok.io/storage/avatars/</string>
+    <string name="avatar_url">http://b410a4fe.ngrok.io/storage/avatars/</string>
     <string name="update_successfully">Updated</string>
     <string name="edit_profile">Edit Profile</string>
     <string name="connection_error">No Network Connection</string>
@@ -95,6 +95,7 @@ The first step is create the fragments and define the relationship between them.
     <string name="phone_number">Your phone Number (*Required)</string>
     <string name="upload_image">Please, Upload image of the item</string>
     <string name="item_added">Item Added Successfully</string>
+    <string name="thanks_message">Thank you for being one of <b>HandInHand</b>.\n You always know how to make life brighter for everyone you know. We are waiting you to help more people again. <b>You make the world a nicer place.</b> \n We are waiting you to login again.</string>
 
 
 </resources>

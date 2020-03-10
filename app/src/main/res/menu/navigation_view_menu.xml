@@ -32,7 +32,7 @@
     <group android:id="@+id/log"
         android:checkableBehavior="single"
         >
-        <item android:id="@+id/logout"
+        <item android:id="@id/logOutFragment"
             android:title="@string/logout"
             />
     </group>

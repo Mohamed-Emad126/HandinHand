@@ -1,12 +1,12 @@
 package com.example.handinhand.MainContent;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
@@ -18,18 +18,16 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.transition.TransitionInflater;
-
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.webkit.URLUtil;
 import android.widget.ImageView;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
-
 import com.example.handinhand.Helpers.PermissionsHelper;
 import com.example.handinhand.Helpers.RetrofitHelper;
 import com.example.handinhand.Helpers.SharedPreferenceHelper;
@@ -41,15 +39,10 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.squareup.picasso.Picasso;
-
-import java.security.cert.CollectionCertStoreParameters;
 import java.util.HashMap;
 import java.util.Objects;
-
 import okhttp3.RequestBody;
-
 import static android.app.Activity.RESULT_OK;
-import static com.example.handinhand.MainContent.EditProfileFragment.GET_IMAGE_FROM_GALLERY;
 import static com.example.handinhand.RegisterFragment.IMAGE_URI;
 
 public class AddItemFragment extends Fragment {
@@ -179,14 +172,17 @@ public class AddItemFragment extends Fragment {
                                     RetrofitHelper.prepareFilePart(activity, "image", uri)
                             ).observe(activity, addItemResponse -> {
                                 if (addItemResponse.getStatus()) {
-                                    Navigation.findNavController(rootView).navigateUp();
                                     Toast.makeText(activity, R.string.item_added, Toast.LENGTH_SHORT).show();
+                                    setHideSoftKeyboard(rootView);
+                                    Navigation.findNavController(rootView).navigateUp();
+                                    addItemViewModel.leave();
                                 }
-                                addItemViewModel.leave();
+                                else{
+                                    Toast.makeText(activity, getString(R.string.something_wrong), Toast.LENGTH_SHORT).show();
+                                }
+
                             });
                         }
-
-
                     }
                     else{
                         Toast.makeText(activity, getString(R.string.something_wrong), Toast.LENGTH_SHORT).show();
@@ -200,7 +196,6 @@ public class AddItemFragment extends Fragment {
             if(aBoolean){
                 Toast.makeText(activity, getString(R.string.something_wrong), Toast.LENGTH_SHORT).show();
             }
-            addItemViewModel.leave();
         });
         addItemViewModel.getIsLoading().observe(activity, aBoolean -> {
             if(aBoolean){
@@ -221,16 +216,25 @@ public class AddItemFragment extends Fragment {
                 facebookUrl.setEnabled(true);
                 phoneNumber.setEnabled(true);
             }
-            addItemViewModel.leave();
         });
 
-        toolbar.setNavigationOnClickListener(view ->
-                Navigation.findNavController(rootView).navigateUp()
+        toolbar.setNavigationOnClickListener(view ->{
+                Navigation.findNavController(rootView).navigateUp();
+                setHideSoftKeyboard(rootView);
+                addItemViewModel.leave();
+        }
         );
 
 
         return rootView;
     }
+
+    public void setHideSoftKeyboard(View view) {
+        InputMethodManager mInputMethodManager = (InputMethodManager) getActivity()
+                .getSystemService(Context.INPUT_METHOD_SERVICE);
+        mInputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
 
     private HashMap<String, RequestBody> createItem() {
         /*

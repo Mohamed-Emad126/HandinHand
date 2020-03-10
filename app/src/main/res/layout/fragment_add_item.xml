@@ -135,7 +135,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@null"
-                    android:hint="@string/title"
+                    android:hint="@string/price"
                     android:paddingStart="4dp"
                     android:paddingEnd="4dp"
                     android:inputType="numberSigned"
@@ -159,19 +159,19 @@
                 app:layout_constraintTop_toBottomOf="@id/add_item_price_layout">
 
                 <ImageView
+                    android:id="@+id/add_item_image"
+                    android:scaleType="centerCrop"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_uploading"
+                    />
+                <ImageView
                     android:id="@+id/close_icon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end|top"
                     android:src="@drawable/ic_close"
                     android:visibility="gone"
-                    />
-                <ImageView
-                    android:id="@+id/add_item_image"
-                    android:scaleType="centerInside"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_uploading"
                     />
 
             </androidx.cardview.widget.CardView>
@@ -183,10 +183,10 @@
                 android:layout_height="wrap_content"
                 android:background="@null"
                 android:hint="@string/facebook_account"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="24dp"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
-                android:textColor="@color/textColorPrimary"
+                android:textColor="@color/colorAccent"
                 android:inputType="textUri"
                 android:maxLines="2"
                 app:layout_constraintBottom_toTopOf="@id/add_item_phone_number"
@@ -199,15 +199,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@null"
-                android:drawableStart=""
                 android:hint="@string/phone_number"
-                android:inputType="textUri"
+                android:inputType="phone"
                 android:maxLines="2"
                 android:maxLength="15"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
-                android:layout_marginTop="8dp"
-                android:textColor="@color/textColorPrimary"
+                android:layout_marginTop="24dp"
+                android:textColor="@color/colorAccent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/add_item_Facebook" />

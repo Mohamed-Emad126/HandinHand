@@ -160,7 +160,7 @@ public class LoginFragment extends Fragment {
                         if(loginResponse.getLogin() != null){
                             String token = loginResponse.getLogin().getToken();
                             SharedPreferenceHelper.saveToken(activity, "Bearer "+token);
-                            Toast.makeText(activity, token, Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(activity, token, Toast.LENGTH_SHORT).show();
                             model.leave();
 
                             startActivity(new Intent(activity, MainContentActivity.class));

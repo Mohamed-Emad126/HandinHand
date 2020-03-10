@@ -9,7 +9,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitApi {
     //TODO: set of the Api
-    private static final String BASE_URL = "http://b52b72b4.ngrok.io";
+    private static final String BASE_URL = "http://b410a4fe.ngrok.io";
 
 
     private static RetrofitApi ourInstance = new RetrofitApi();
