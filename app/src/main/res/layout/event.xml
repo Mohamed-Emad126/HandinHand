@@ -2,50 +2,106 @@
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="150dp"
+    android:layout_margin="8dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?android:attr/selectableItemBackground"
     android:maxWidth="180dp"
     android:minWidth="100dp"
-    android:clickable="true"
-    android:foreground="?android:attr/selectableItemBackground"
+    android:orientation="vertical"
     app:cardBackgroundColor="@color/gray"
     app:cardCornerRadius="4dp"
     app:cardPreventCornerOverlap="true"
     app:rippleColor="@color/highlight">
 
-    <FrameLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="match_parent">
+
         <ImageView
+            android:id="@+id/event_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
             android:src="@drawable/anthony"
-            />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
-            android:layout_width="match_parent"
+            android:id="@+id/event_name"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|start"
-            android:textStyle="bold"
-            android:textColor="@android:color/white"
-            android:padding="8dp"
             android:fontFamily="sans-serif-light"
-            android:background="@drawable/gradiant"
-            android:maxLines="3"
             android:maxLength="50"
-            tools:text="@string/spam"
-            />
+            android:maxLines="3"
+            android:padding="8dp"
+            android:shadowColor="@color/textColorPrimary"
+            android:shadowDx="3"
+            android:shadowDy="2"
+            android:shadowRadius="20"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/event_image"
+            app:layout_constraintEnd_toStartOf="@+id/linearLayout"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="@string/spam" />
+
         <LinearLayout
+            android:id="@+id/linearLayout"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|center_vertical"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <!--TODO: Complete the small bang here-->
+            <xyz.hanks.library.bang.SmallBangView
+                android:id="@+id/like_animation"
+                android:layout_width="50dp"
+                android:layout_height="50dp">
 
+                <ImageView
+                    android:id="@+id/star_icon"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/star_icon" />
+            </xyz.hanks.library.bang.SmallBangView>
+
+            <TextView
+                android:id="@+id/event_number_of_interests"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:shadowColor="@color/textColorPrimary"
+                android:shadowDx="3"
+                android:shadowDy="2"
+                android:shadowRadius="10"
+                android:text="1"
+                android:textColor="@android:color/white"
+
+                />
+
+            <TextView
+                android:id="@+id/event_interests"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:shadowColor="@color/textColorPrimary"
+                android:shadowDx="3"
+                android:shadowDy="2"
+                android:shadowRadius="10"
+                android:text="@string/interest"
+                android:textColor="@android:color/white"
+
+                />
         </LinearLayout>
 
-    </FrameLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </com.google.android.material.card.MaterialCardView>

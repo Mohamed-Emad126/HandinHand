@@ -96,6 +96,7 @@ The first step is create the fragments and define the relationship between them.
     <string name="upload_image">Please, Upload image of the item</string>
     <string name="item_added">Item Added Successfully</string>
     <string name="thanks_message">Thank you for being one of <b>HandInHand</b>.\n You always know how to make life brighter for everyone you know. We are waiting you to help more people again. <b>You make the world a nicer place.</b> \n We are waiting you to login again.</string>
+    <string name="interest">Interest</string>
 
 
 </resources>

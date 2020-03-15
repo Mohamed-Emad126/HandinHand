@@ -34,11 +34,6 @@ dependencies {
 
     //Material Design
     implementation 'com.google.android.material:material:1.2.0-alpha04'
-    /*//Room
-    implementation "androidx.room:room-runtime:2.1.0"
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    annotationProcessor "androidx.room:room-compiler:2.1.0"
-    androidTestImplementation "androidx.room:room-testing:2.1.0"*/
 
     def lifecycle_version = "2.2.0"
     // Lifecycle components
@@ -74,5 +69,11 @@ dependencies {
 
     //loading view
     implementation 'com.ldoublem.loadingview:loadingviewlib:1.0'
+
+
+    /**
+     * Like animation
+     */
+    implementation 'pub.hanks:smallbang:1.2.2'
 
 }
