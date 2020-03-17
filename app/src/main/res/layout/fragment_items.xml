@@ -7,19 +7,38 @@
     tools:context=".MainContent.ItemsFragment">
 
 
-    <!-- TODO: Update blank fragment layout -->
+    <!--&lt;!&ndash; TODO: Update blank fragment layout &ndash;&gt;
     <include layout="@layout/item" />
-
+-->
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/items_swipe_refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         >
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/items_recycler_view"
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            />
+            >
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/items_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"
+                />
+
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:id="@+id/shimmer_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:shimmer_auto_start="true"
+                >
+                <include layout="@layout/items_placeholder" />
+            </com.facebook.shimmer.ShimmerFrameLayout>
+
+            <include layout="@layout/layout_error" />
+
+        </FrameLayout>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 

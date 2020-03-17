@@ -6,6 +6,7 @@
     <color name="textColorPrimary">#00363d</color>
     <color name="ccPrimary">#cc00363d</color>
     <color name="gray">#CC808080</color>
+    <color name="place_holder_color">#dddddd</color>
     <color name="ripple">#33FF0000</color>
     <color name="highlight">#4DFF0000</color>
     <!--<color name="mtrl_textinput_default_box_stroke_color"

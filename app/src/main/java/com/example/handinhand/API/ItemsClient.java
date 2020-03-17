@@ -18,6 +18,7 @@ import retrofit2.http.Part;
 import retrofit2.http.PartMap;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+import retrofit2.http.QueryMap;
 
 public interface ItemsClient {
 
@@ -33,7 +34,8 @@ public interface ItemsClient {
 
     @GET("api/items")
     Call<ItemsPaginationObject> getItems(
-            @Query("page") int page
+            @Query("page") int page,
+            @QueryMap Map<String, String> Queries
     );
 
 }

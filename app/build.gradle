@@ -76,4 +76,9 @@ dependencies {
      */
     implementation 'pub.hanks:smallbang:1.2.2'
 
+    /**
+     * ShimmerLayout
+     */
+    implementation 'com.facebook.shimmer:shimmer:0.5.0'
+
 }

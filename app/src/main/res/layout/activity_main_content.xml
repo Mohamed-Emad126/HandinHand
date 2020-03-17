@@ -24,8 +24,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="?actionBarSize"
                 android:animateLayoutChanges="true"
-
-
+                app:elevation="1dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"

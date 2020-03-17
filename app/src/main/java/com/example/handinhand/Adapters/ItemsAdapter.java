@@ -22,6 +22,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private static final int VIEW_TYPE_ITEM = 2;
     private OnItemClickListener itemClickListener;
     List<ItemsPaginationObject.Data> itemsList;
+    boolean lastPage = false;
 
     public void setOnItemClickListener(OnItemClickListener itemClickListener) {
         this.itemClickListener = itemClickListener;
@@ -43,8 +44,20 @@ public class ItemsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     /////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////
 
+
+    public boolean isLastPage() {
+        return lastPage;
+    }
+
+    public void setLastPage(boolean lastPage) {
+        this.lastPage = lastPage;
+    }
+
     public void setItemsList(List<ItemsPaginationObject.Data> itemsList){
-        this.itemsList = itemsList;
+        int lastFinish =this.itemsList.size()-1;
+        int newFinish =lastFinish + itemsList.size()-1;
+        this.itemsList.addAll(itemsList);
+        notifyItemRangeInserted(lastFinish, newFinish);
     }
 
     /////////////////////////////////////////////////////////////////
@@ -53,7 +66,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        if(viewType == VIEW_TYPE_ITEM){
+        if(viewType == VIEW_TYPE_ITEM || lastPage){
             View view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.item, parent,false);
             return new ItemsViewHolder(view);
