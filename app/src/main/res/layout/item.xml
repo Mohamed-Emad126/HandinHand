@@ -5,15 +5,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="160dp"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="16dp"
     android:id="@+id/item"
-    android:layout_marginTop="70dp"
-    android:layout_marginRight="16dp"
-    android:layout_marginBottom="16dp"
+    android:layout_margin="8dp"
     android:clickable="true"
     android:foreground="?android:attr/selectableItemBackground"
     app:cardBackgroundColor="@color/gray"
     app:cardCornerRadius="4dp"
+    android:layout_gravity="center"
     app:cardPreventCornerOverlap="true"
     app:rippleColor="@color/highlight"
     >
@@ -28,14 +26,11 @@
         <ImageView
             android:id="@+id/item_image"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="120dp"
             android:contentDescription="@string/image_of_item"
-            android:maxHeight="180dp"
-            android:minHeight="100dp"
             android:scaleType="centerCrop"
-            android:transitionName="imageView"
             android:src="@drawable/anthony"
-            tools:targetApi="lollipop" />
+            />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -52,6 +47,8 @@
                 android:layout_height="wrap_content"
                 android:transitionName="itemTitle"
                 android:padding="2dp"
+                android:maxLength="20"
+                android:maxLines="1"
                 android:text="@string/item_name"
                 android:textAppearance="?attr/textAppearanceHeadline6"
                 tools:targetApi="lollipop" />

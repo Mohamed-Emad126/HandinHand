@@ -10,22 +10,40 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
 import com.example.handinhand.Models.ItemsPaginationObject;
 import com.example.handinhand.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class ItemsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemsViewHolder> {
 
     private static final int VIEW_TYPE_LOADING = 1;
     private static final int VIEW_TYPE_ITEM = 2;
     private OnItemClickListener itemClickListener;
+    private View rootView;
     List<ItemsPaginationObject.Data> itemsList;
     boolean lastPage = false;
 
+    public ItemsAdapter(View rootView) {
+        this.rootView = rootView;
+    }
+
     public void setOnItemClickListener(OnItemClickListener itemClickListener) {
         this.itemClickListener = itemClickListener;
+    }
+
+    public void clearAll(){
+        if(itemsList != null){
+            this.itemsList.clear();
+            notifyDataSetChanged();
+        }
+    }
+
+    public ItemsPaginationObject.Data getItem(int position) {
+        return itemsList.get(position);
     }
 
     public interface OnItemClickListener{
@@ -33,31 +51,30 @@ public class ItemsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
          * Handle when the menu icon clicked
          * @param position the position of the item
          */
-        void OnMenuClicked(int position);
+        void OnMenuClicked(int position, View view);
 
         /**
          * Handle when the whole layout of the item clicked
          * @param position he position of the item
          */
-        void OnItemClicked(int position);
+        void OnItemClicked(int position, ImageView imageView);
     }
     /////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////
 
-
-    public boolean isLastPage() {
-        return lastPage;
-    }
-
-    public void setLastPage(boolean lastPage) {
-        this.lastPage = lastPage;
-    }
 
     public void setItemsList(List<ItemsPaginationObject.Data> itemsList){
-        int lastFinish =this.itemsList.size()-1;
-        int newFinish =lastFinish + itemsList.size()-1;
-        this.itemsList.addAll(itemsList);
-        notifyItemRangeInserted(lastFinish, newFinish);
+        if(this.itemsList == null ){
+            this.itemsList = itemsList;
+            notifyDataSetChanged();
+        }
+        else{
+            int lastFinish =this.itemsList.size()-1;
+            this.itemsList.addAll(itemsList);
+            notifyItemInserted(lastFinish);
+            //notifyItemRangeInserted(lastFinish, newFinish);
+        }
+
     }
 
     /////////////////////////////////////////////////////////////////
@@ -65,31 +82,29 @@ public class ItemsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        if(viewType == VIEW_TYPE_ITEM || lastPage){
-            View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.item, parent,false);
-            return new ItemsViewHolder(view);
-        }
-        else{
-            View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.loading_view, parent,false);
-            return new LoadingViewHolder(view);
-        }
+    public ItemsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item, parent,false);
+        return new ItemsViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        if(holder instanceof ItemsViewHolder){
-            ((ItemsViewHolder)holder).itemTitle.setText(itemsList.get(position).getTitle());
-            ((ItemsViewHolder)holder).itemPrice.setText(itemsList.get(position).getPrice());
+    public void onBindViewHolder(@NonNull ItemsViewHolder holder, int position) {
+        holder.itemTitle.setText(String.valueOf(itemsList.get(position).getId()));
+        holder.itemPrice.setText(itemsList.get(position).getPrice());
 
-            //TODO: add complete image url
-            Picasso.get()
-                    .load(itemsList.get(position).getImage())
-                    .placeholder(R.drawable.ic_photo)
-                    .into(((ItemsViewHolder)holder).itemImage);
-        }
+        //TODO: add complete image url
+        Glide.with(rootView)
+                .load("http://59cbcc73.ngrok.io/storage/items/" + itemsList.get(position).getImage())
+                .placeholder(R.color.gray)
+                .into(((ItemsViewHolder)holder).itemImage);
+
+        /*Picasso.get()
+                .load("http://59cbcc73.ngrok.io/storage/items/" + itemsList.get(position).getImage())
+                .placeholder(R.color.place_holder_color)
+                .fit()
+                .into(((ItemsViewHolder)holder).itemImage);*/
+
     }
 
     @Override
@@ -97,10 +112,6 @@ public class ItemsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         return (itemsList==null)? 0 : itemsList.size();
     }
 
-    @Override
-    public int getItemViewType(int position) {
-        return itemsList.get(position) == null ? VIEW_TYPE_LOADING : VIEW_TYPE_ITEM;
-    }
 
 
     /////////////////////////////////////////////////////////////////
@@ -124,22 +135,15 @@ public class ItemsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             itemMoreMenu = itemView.findViewById(R.id.more_menu);
 
             itemLinearLayout.setOnClickListener(view -> {
-                itemClickListener.OnItemClicked(getAdapterPosition());
+                itemClickListener.OnItemClicked(getAdapterPosition(), itemImage);
             });
 
             itemMoreMenu.setOnClickListener(view -> {
-                itemClickListener.OnItemClicked(getAdapterPosition());
+                itemClickListener.OnMenuClicked(getAdapterPosition() , itemMoreMenu);
             });
 
 
         }
     }
 
-    public class LoadingViewHolder extends RecyclerView.ViewHolder {
-        ProgressBar progressBar;
-        public LoadingViewHolder(@NonNull View itemView) {
-            super(itemView);
-            progressBar = itemView.findViewById(R.id.loading_view_progressbar);
-        }
-    }
 }

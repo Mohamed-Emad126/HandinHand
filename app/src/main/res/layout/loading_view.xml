@@ -5,6 +5,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:layout_margin="8dp"
+    android:background="@color/place_holder_color"
     >
 
     <ProgressBar

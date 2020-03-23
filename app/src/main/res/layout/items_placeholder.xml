@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     android:orientation="horizontal"
     android:padding="8dp"
-    android:baselineAligned="false">
+    android:baselineAligned="false"
+    >
 
     <LinearLayout
         android:layout_width="0dp"

@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainContent.ItemDescriptionFragment"
     android:fitsSystemWindows="true"
-    >
+    tools:context=".MainContent.ItemDescriptionFragment">
 
 
     <com.google.android.material.appbar.AppBarLayout
@@ -18,45 +16,45 @@
         >
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/collapse_item_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:collapsedTitleTextAppearance="@color/colorPrimary"
             app:contentScrim="@color/colorPrimary"
             app:expandedTitleTextAppearance="@color/colorPrimary"
-            app:collapsedTitleTextAppearance="@color/colorPrimary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            app:titleEnabled="true"
             app:title="@string/item_name"
-            >
+            app:titleEnabled="true">
 
             <ImageView
                 android:id="@+id/item_image"
                 android:layout_width="match_parent"
-                android:layout_height="350dp"
+                android:layout_height="250dp"
                 android:layout_gravity="top"
                 android:scaleType="centerCrop"
                 android:src="@drawable/anthony"
                 android:transitionName="imageView"
                 app:layout_collapseMode="parallax"
-                tools:targetApi="lollipop"
-                />
+                tools:targetApi="lollipop" />
+
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="350dp"
                 android:layout_gravity="top"
-                android:src="@drawable/gradiant_white"
                 android:scaleType="centerCrop"
-                app:layout_collapseMode="parallax"
-                />
+                android:src="@drawable/gradiant_white"
+                app:layout_collapseMode="parallax" />
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/item_description_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?actionBarSize"
+                android:fitsSystemWindows="true"
                 app:layout_collapseMode="pin"
-                app:subtitleTextColor="@color/textColorPrimary"
+                app:menu="@menu/item_description_menu"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                app:titleTextColor="@color/textColorPrimary"
-                android:fitsSystemWindows="true" />
+                app:subtitleTextColor="@color/textColorPrimary"
+                app:titleTextColor="@color/textColorPrimary" />
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
@@ -69,11 +67,132 @@
         android:layout_height="match_parent"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
-        <TextView
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:text="@string/description"
+                android:textColor="@color/textColorPrimary"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/item_description_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?selectableItemBackground"
+                android:padding="12dp"
+                android:textAlignment="viewStart"
+                android:textColor="?android:textColorSecondary"
+                android:textColorLink="@color/colorAccent"
+                android:textSize="16sp" />
+
+            <View
+                android:layout_margin="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="?android:attr/listDivider" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:text="@string/price"
+                android:textColor="@color/textColorPrimary"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/item_description_price"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?selectableItemBackground"
+                android:padding="12dp"
+                android:textAlignment="viewStart"
+                android:textColor="@color/colorAccent"
+                android:textSize="16sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_margin="16dp"
+                android:background="?android:attr/listDivider" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:text="@string/contacts"
+                android:textColor="@color/textColorPrimary"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/item_description_facebook"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?selectableItemBackground"
+                android:drawableStart="@drawable/ic_account"
+                android:drawablePadding="8dp"
+                android:padding="12dp"
+                android:gravity="center|start"
+                android:textAlignment="viewStart"
+                android:textColor="@color/colorAccent"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/item_description_phoneNum"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?selectableItemBackground"
+                android:drawableStart="@drawable/ic_contact_phone"
+                android:drawablePadding="8dp"
+                android:padding="12dp"
+                android:gravity="center|start"
+                android:textAlignment="viewStart"
+                android:textColor="@color/colorAccent"
+                android:textSize="16sp" />
+
+            <View
+                android:id="@+id/divider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/item_description_book"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:text="@string/book"
+                app:backgroundTint="@color/textColorPrimary"
+                app:cornerRadius="12dp"
+                app:rippleColor="@android:color/white" />
+        </LinearLayout>
+
+        <!--<TextView
+        "id": 105,
+                "user_id": 51,
+                "title": "مممم",
+                "description": "نممممم",
+                "price": "0.00",
+                "phone": "01119067038",
+                "facebook": "m.m.m",
+                "image": "1583883731.jpg",
+                "created_at": "2020-03-10 23:42:11",
+                "updated_at": "2020-03-10 23:42:11",
+                "spam": 0
+            },
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/spam" />
-
+-->
     </androidx.core.widget.NestedScrollView>
 
 

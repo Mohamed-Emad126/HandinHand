@@ -48,7 +48,7 @@
         tools:layout="@layout/fragment_reset" >
         <deepLink
             android:id="@+id/deepLink"
-            app:uri="http://b410a4fe.ngrok.io/password/reset/{user_token}?email={user_email}" />
+            app:uri="http://59cbcc73.ngrok.io/password/reset/{user_token}?email={user_email}" />
         <argument
             android:name="user_email"
             app:argType="string" />
