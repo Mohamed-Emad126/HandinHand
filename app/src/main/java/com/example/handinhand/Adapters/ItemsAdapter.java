@@ -20,12 +20,9 @@ import java.util.List;
 
 public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemsViewHolder> {
 
-    private static final int VIEW_TYPE_LOADING = 1;
-    private static final int VIEW_TYPE_ITEM = 2;
     private OnItemClickListener itemClickListener;
     private View rootView;
     List<ItemsPaginationObject.Data> itemsList;
-    boolean lastPage = false;
 
     public ItemsAdapter(View rootView) {
         this.rootView = rootView;

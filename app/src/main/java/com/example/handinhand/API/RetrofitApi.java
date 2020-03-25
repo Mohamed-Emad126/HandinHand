@@ -17,6 +17,7 @@ public class RetrofitApi {
     private static MainActivityClient client;
     private static ProfileClient profileClient;
     private static ItemsClient itemsClient;
+    private static EventsClient eventsClient;
 
 
 
@@ -48,6 +49,11 @@ public class RetrofitApi {
         client = retrofit.create(MainActivityClient.class);
         profileClient = retrofit.create(ProfileClient.class);
         itemsClient = retrofit.create(ItemsClient.class);
+        eventsClient = retrofit.create(EventsClient.class);
+    }
+
+    public EventsClient getEventsClient() {
+        return eventsClient;
     }
 
     public ItemsClient getItemsClient() {

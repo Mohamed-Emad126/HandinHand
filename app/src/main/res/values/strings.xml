@@ -105,6 +105,7 @@ The first step is create the fragments and define the relationship between them.
     <string name="spam_item">spam</string>
     <string name="inappropriate">Inappropriate</string>
     <string name="copied">Copied</string>
+    <string name="filter">Filter</string>
 
 
 </resources>

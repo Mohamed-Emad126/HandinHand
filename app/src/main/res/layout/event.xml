@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -12,6 +13,7 @@
     android:minWidth="100dp"
     android:orientation="vertical"
     app:cardBackgroundColor="@color/gray"
+    android:id="@+id/event_material_card"
     app:cardCornerRadius="4dp"
     app:cardPreventCornerOverlap="true"
     app:rippleColor="@color/highlight">
@@ -63,8 +65,8 @@
 
             <xyz.hanks.library.bang.SmallBangView
                 android:id="@+id/like_animation"
-                android:layout_width="50dp"
-                android:layout_height="50dp">
+                android:layout_width="40dp"
+                android:layout_height="40dp">
 
                 <ImageView
                     android:id="@+id/star_icon"
@@ -83,20 +85,6 @@
                 android:shadowDy="2"
                 android:shadowRadius="10"
                 android:text="1"
-                android:textColor="@android:color/white"
-
-                />
-
-            <TextView
-                android:id="@+id/event_interests"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:shadowColor="@color/textColorPrimary"
-                android:shadowDx="3"
-                android:shadowDy="2"
-                android:shadowRadius="10"
-                android:text="@string/interest"
                 android:textColor="@android:color/white"
 
                 />
