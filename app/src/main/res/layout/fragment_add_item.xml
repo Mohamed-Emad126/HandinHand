@@ -6,7 +6,7 @@
     android:id="@+id/add_item_coordinator"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainContent.AddItemFragment">
+    tools:context=".UI.Fragments.MainContentActivityFragments.AddItemFragment">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/add_item_appbar"

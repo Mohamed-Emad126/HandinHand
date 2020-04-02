@@ -1,4 +1,4 @@
-package com.example.handinhand.MainContent;
+package com.example.handinhand.UI.Fragments.MainContentActivityFragments;
 
 
 import android.Manifest;
@@ -22,16 +22,13 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
 import com.example.handinhand.Helpers.PermissionsHelper;
 import com.example.handinhand.Helpers.RetrofitHelper;
 import com.example.handinhand.Helpers.SharedPreferenceHelper;
-import com.example.handinhand.Models.LoginResponse;
 import com.example.handinhand.Models.Profile;
-import com.example.handinhand.Models.ProfileUpdateResponse;
 import com.example.handinhand.R;
 import com.example.handinhand.ViewModels.EditProfileViewModel;
 import com.example.handinhand.ViewModels.ProfileViewModel;
@@ -42,7 +39,6 @@ import com.ldoublem.loadingviewlib.view.LVNews;
 import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;

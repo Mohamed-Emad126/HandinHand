@@ -1,4 +1,4 @@
-package com.example.handinhand.MainContent;
+package com.example.handinhand.UI.Fragments.MainContentActivityFragments;
 
 import android.os.Bundle;
 

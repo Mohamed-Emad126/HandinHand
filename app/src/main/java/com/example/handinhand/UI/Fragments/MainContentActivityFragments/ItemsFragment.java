@@ -1,33 +1,26 @@
-package com.example.handinhand.MainContent;
+package com.example.handinhand.UI.Fragments.MainContentActivityFragments;
 
 
 import android.os.Build;
 import android.os.Bundle;
-
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
+import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.FragmentNavigator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
-import android.widget.Toast;
-
 import com.example.handinhand.Adapters.ItemsAdapter;
-import com.example.handinhand.Models.ItemsPaginationObject;
 import com.example.handinhand.R;
 import com.example.handinhand.ViewModels.ItemsViewModel;
 import com.example.handinhand.ViewModels.SharedItemViewModel;
@@ -75,7 +68,7 @@ public class ItemsFragment extends Fragment {
         loading = rootView.findViewById(R.id.loading_view_progressbar);
 
         itemsAdapter = new ItemsAdapter(rootView);
-        FragmentActivity activity = getActivity();
+        FragmentActivity activity = requireActivity();
         itemsViewModel = new ViewModelProvider(activity).get(ItemsViewModel.class);
         sharedItemViewModel = new ViewModelProvider(activity).get(SharedItemViewModel.class);
         initRecyclerView(rootView);
@@ -100,9 +93,9 @@ public class ItemsFragment extends Fragment {
             addFab.hide();
         });
 
-        reload.setOnClickListener(view -> {
-            itemsViewModel.refresh();
-        });
+        reload.setOnClickListener(view ->
+            itemsViewModel.refresh()
+        );
 
         /*itemsViewModel.getIsError().observe(activity, aBoolean -> {
             if(aBoolean || (itemsAdapter == null)){
@@ -153,9 +146,9 @@ public class ItemsFragment extends Fragment {
             }
         });
 
-        itemsViewModel.getLastPage().observe(activity, integer -> {
-            lastPage = integer;
-        });
+        itemsViewModel.getLastPage().observe(activity, integer ->
+            lastPage = integer
+        );
 
         itemsViewModel.getIsLoading().observe(activity, aBoolean -> {
             if(aBoolean){
@@ -166,9 +159,9 @@ public class ItemsFragment extends Fragment {
             }
         });
 
-        itemsViewModel.getmList().observe(activity, data -> {
-            itemsAdapter.setItemsList(data);
-        });
+        itemsViewModel.getmList().observe(activity, data ->
+            itemsAdapter.setItemsList(data)
+        );
 
 
 

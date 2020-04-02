@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/itemsFragment"
-        android:name="com.example.handinhand.MainContent.ItemsFragment"
+        android:name="com.example.handinhand.UI.Fragments.MainContentActivityFragments.ItemsFragment"
         android:label="ItemsFragment" >
         <action
             android:id="@+id/action_itemsFragment_to_itemDescriptionFragment"
@@ -20,32 +20,32 @@
     </fragment>
     <fragment
         android:id="@+id/notificationsFragment"
-        android:name="com.example.handinhand.MainContent.NotificationsFragment"
+        android:name="com.example.handinhand.UI.Fragments.MainContentActivityFragments.NotificationsFragment"
         android:label="fragment_notifications"
         tools:layout="@layout/fragment_notifications" />
     <fragment
         android:id="@+id/eventsFragment"
-        android:name="com.example.handinhand.MainContent.EventsFragment"
+        android:name="com.example.handinhand.UI.Fragments.MainContentActivityFragments.EventsFragment"
         android:label="fragment_events"
         tools:layout="@layout/fragment_events" />
     <fragment
         android:id="@+id/handmadesFragment"
-        android:name="com.example.handinhand.MainContent.HandmadesFragment"
+        android:name="com.example.handinhand.UI.Fragments.MainContentActivityFragments.HandmadesFragment"
         android:label="fragment_handmades"
         tools:layout="@layout/fragment_handmades" />
     <fragment
         android:id="@+id/servicesFragment"
-        android:name="com.example.handinhand.MainContent.ServicesFragment"
+        android:name="com.example.handinhand.UI.Fragments.MainContentActivityFragments.ServicesFragment"
         android:label="fragment_services"
         tools:layout="@layout/fragment_services" />
     <fragment
         android:id="@+id/itemDescriptionFragment"
-        android:name="com.example.handinhand.MainContent.ItemDescriptionFragment"
+        android:name="com.example.handinhand.UI.Fragments.MainContentActivityFragments.ItemDescriptionFragment"
         android:label="fragment_item_description"
         tools:layout="@layout/fragment_item_description" />
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.example.handinhand.MainContent.ProfileFragment"
+        android:name="com.example.handinhand.UI.Fragments.MainContentActivityFragments.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile"
         >
@@ -61,17 +61,17 @@
     </fragment>
     <fragment
         android:id="@+id/editProfileFragment"
-        android:name="com.example.handinhand.MainContent.EditProfileFragment"
+        android:name="com.example.handinhand.UI.Fragments.MainContentActivityFragments.EditProfileFragment"
         android:label="fragment_edit_profile"
         tools:layout="@layout/fragment_edit_profile" />
     <fragment
         android:id="@+id/addItemFragment"
-        android:name="com.example.handinhand.MainContent.AddItemFragment"
+        android:name="com.example.handinhand.UI.Fragments.MainContentActivityFragments.AddItemFragment"
         android:label="fragment_add_item"
         tools:layout="@layout/fragment_add_item" />
     <fragment
         android:id="@+id/logOutFragment"
-        android:name="com.example.handinhand.MainContent.LogOutFragment"
+        android:name="com.example.handinhand.UI.Fragments.MainContentActivityFragments.LogOutFragment"
         android:label="fragment_log_out"
         tools:layout="@layout/fragment_log_out" />
 </navigation>

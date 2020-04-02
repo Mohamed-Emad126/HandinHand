@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:scrollbars="none"
     android:paddingTop="4dp"
-    tools:context=".RegisterFragment">
+    tools:context=".UI.Fragments.MainActivityFragments.RegisterFragment">
 
         <LinearLayout
 

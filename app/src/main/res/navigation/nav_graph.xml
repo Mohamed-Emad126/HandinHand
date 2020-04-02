@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.example.handinhand.LoginFragment"
+        android:name="com.example.handinhand.UI.Fragments.MainActivityFragments.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" >
         <action
@@ -32,18 +32,18 @@
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
-        android:name="com.example.handinhand.RegisterFragment"
+        android:name="com.example.handinhand.UI.Fragments.MainActivityFragments.RegisterFragment"
         android:label="fragment_register"
         tools:layout="@layout/fragment_register" >
     </fragment>
     <fragment
         android:id="@+id/forgetPasswordFragment"
-        android:name="com.example.handinhand.ForgetPasswordFragment"
+        android:name="com.example.handinhand.UI.Fragments.MainActivityFragments.ForgetPasswordFragment"
         android:label="fragment_forget_password"
         tools:layout="@layout/fragment_forget_password" />
     <fragment
         android:id="@+id/resetFragment"
-        android:name="com.example.handinhand.ResetFragment"
+        android:name="com.example.handinhand.UI.Fragments.MainActivityFragments.ResetFragment"
         android:label="fragment_reset"
         tools:layout="@layout/fragment_reset" >
         <deepLink

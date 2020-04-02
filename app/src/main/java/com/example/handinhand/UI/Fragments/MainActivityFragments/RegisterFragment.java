@@ -1,4 +1,4 @@
-package com.example.handinhand;
+package com.example.handinhand.UI.Fragments.MainActivityFragments;
 
 
 import android.content.Intent;
@@ -8,10 +8,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import android.Manifest;
@@ -25,12 +23,11 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.handinhand.API.RetrofitApi;
 import com.example.handinhand.Helpers.PermissionsHelper;
 import com.example.handinhand.Helpers.RetrofitHelper;
 import com.example.handinhand.Helpers.SharedPreferenceHelper;
-import com.example.handinhand.MainContent.MainContentActivity;
-import com.example.handinhand.Models.RegisterResponse;
+import com.example.handinhand.R;
+import com.example.handinhand.UI.Activities.MainContentActivity;
 import com.example.handinhand.Utils.NetworkUtils;
 import com.example.handinhand.ViewModels.MainActivityViewModel;
 import com.google.android.material.button.MaterialButton;

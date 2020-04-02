@@ -1,4 +1,4 @@
-package com.example.handinhand;
+package com.example.handinhand.UI.Activities;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -14,7 +14,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.NavDestination;
 
 import com.example.handinhand.Helpers.SharedPreferenceHelper;
-import com.example.handinhand.MainContent.MainContentActivity;
+import com.example.handinhand.R;
 import com.example.handinhand.ViewModels.MainActivityViewModel;
 import com.ldoublem.loadingviewlib.view.LVNews;
 

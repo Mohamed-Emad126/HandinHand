@@ -1,4 +1,4 @@
-package com.example.handinhand.MainContent;
+package com.example.handinhand.UI.Fragments.MainContentActivityFragments;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,7 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.example.handinhand.Helpers.SharedPreferenceHelper;
-import com.example.handinhand.MainActivity;
+import com.example.handinhand.UI.Activities.MainActivity;
 import com.example.handinhand.R;
 import com.google.android.material.button.MaterialButton;
 

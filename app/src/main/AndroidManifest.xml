@@ -16,7 +16,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainContent.MainContentActivity"
+        <activity android:name=".UI.Activities.MainContentActivity"
             android:launchMode="singleTop"
             android:theme="@style/splashTheme"
             android:windowSoftInputMode="adjustResize"
@@ -29,7 +29,7 @@
 
 
         <activity
-            android:name=".MainActivity"
+            android:name=".UI.Activities.MainActivity"
             android:launchMode="singleTop"
             android:theme="@style/splashTheme"
             android:windowSoftInputMode="adjustResize">
@@ -57,7 +57,7 @@
             android:name=".Utils.NetworkChangeReceiver"
             android:label="NetworkChangeReceiver" >
             <intent-filter>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+                <!--<action android:name="android.net.conn.CONNECTIVITY_CHANGE" />-->
                 <action android:name="android.net.wifi.WIFI_STATE_CHANGED" />
             </intent-filter>
         </receiver>

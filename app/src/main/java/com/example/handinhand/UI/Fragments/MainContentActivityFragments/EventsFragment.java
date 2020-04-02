@@ -1,4 +1,4 @@
-package com.example.handinhand.MainContent;
+package com.example.handinhand.UI.Fragments.MainContentActivityFragments;
 
 
 import android.os.Bundle;
@@ -14,10 +14,10 @@ import com.example.handinhand.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ServicesFragment extends Fragment {
+public class EventsFragment extends Fragment {
 
 
-    public ServicesFragment() {
+    public EventsFragment() {
         // Required empty public constructor
     }
 
@@ -26,7 +26,7 @@ public class ServicesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_services, container, false);
+        return inflater.inflate(R.layout.fragment_events, container, false);
     }
 
 }

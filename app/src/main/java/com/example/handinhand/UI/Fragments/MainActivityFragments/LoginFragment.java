@@ -1,14 +1,11 @@
-package com.example.handinhand;
+package com.example.handinhand.UI.Fragments.MainActivityFragments;
 
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import android.text.Editable;
@@ -22,24 +19,18 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.handinhand.Helpers.RetrofitHelper;
 import com.example.handinhand.Helpers.SharedPreferenceHelper;
-import com.example.handinhand.MainContent.MainContentActivity;
+import com.example.handinhand.R;
+import com.example.handinhand.UI.Activities.MainContentActivity;
 import com.example.handinhand.Models.LoginInfo;
-import com.example.handinhand.Models.LoginResponse;
 import com.example.handinhand.Utils.NetworkUtils;
 import com.example.handinhand.ViewModels.MainActivityViewModel;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import com.ldoublem.loadingviewlib.view.LVNews;
 
 import java.lang.reflect.Field;
-import java.util.HashMap;
-import java.util.Objects;
-
-import okhttp3.RequestBody;
 
 
 public class LoginFragment extends Fragment {

@@ -1,5 +1,4 @@
-package com.example.handinhand.MainContent;
-
+package com.example.handinhand.UI.Fragments.MainContentActivityFragments;
 
 import android.os.Bundle;
 
@@ -11,14 +10,10 @@ import android.view.ViewGroup;
 
 import com.example.handinhand.R;
 
-/**
- * A simple {@link Fragment} subclass.
- */
-public class HandmadesFragment extends Fragment {
 
+public class EventDescriptionFragment extends Fragment {
 
-    public HandmadesFragment() {
-        // Required empty public constructor
+    public EventDescriptionFragment() {
     }
 
 
@@ -26,7 +21,10 @@ public class HandmadesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_handmades, container, false);
-    }
+        final View rootView = inflater.inflate(R.layout.fragment_event_description,
+                container, false);
 
+
+        return rootView;
+    }
 }

@@ -1,4 +1,4 @@
-package com.example.handinhand.MainContent;
+package com.example.handinhand.UI.Fragments.MainContentActivityFragments;
 
 import android.Manifest;
 import android.content.Context;
@@ -43,7 +43,7 @@ import java.util.HashMap;
 import java.util.Objects;
 import okhttp3.RequestBody;
 import static android.app.Activity.RESULT_OK;
-import static com.example.handinhand.RegisterFragment.IMAGE_URI;
+import static com.example.handinhand.UI.Fragments.MainActivityFragments.RegisterFragment.IMAGE_URI;
 
 public class AddItemFragment extends Fragment {
 
