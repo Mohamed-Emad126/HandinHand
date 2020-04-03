@@ -153,7 +153,7 @@ public class ItemsPaginationObject {
         private String price;
         private String description;
         private String title;
-        private int user_id;
+        private String user_id;
         private int id;
 
         public int getSpam() {
@@ -228,11 +228,11 @@ public class ItemsPaginationObject {
             this.title = title;
         }
 
-        public int getUser_id() {
+        public String getUser_id() {
             return user_id;
         }
 
-        public void setUser_id(int user_id) {
+        public void setUser_id(String user_id) {
             this.user_id = user_id;
         }
 

@@ -19,6 +19,7 @@ import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
+import com.bumptech.glide.Glide;
 import com.example.handinhand.Helpers.SharedPreferenceHelper;
 import com.example.handinhand.Models.Profile;
 import com.example.handinhand.R;
@@ -89,25 +90,52 @@ public class MainContentActivity extends AppCompatActivity
                                 if(user.getInfo()
                                         .getGender().contains("male")){
 
-                                    Picasso.get().load(R.drawable.male_avatar)
+                                    Glide.with(this).load(R.drawable.male_avatar)
+                                            .placeholder(R.drawable.male_avatar)
+                                            .into(userImageHeader);
+
+                                    Glide.with(this).load(R.drawable.male_avatar)
+                                            .placeholder(R.drawable.male_avatar)
+                                            .into(userImageInToolbar);
+
+                                    /*Picasso.get().load(R.drawable.male_avatar)
                                             .placeholder(R.drawable.male_avatar)
                                             .into(userImageInToolbar);
 
                                     Picasso.get().load(R.drawable.male_avatar)
                                             .placeholder(R.drawable.male_avatar)
-                                            .into(userImageHeader);
+                                            .into(userImageHeader);*/
                                 }
                                 else{
-                                    Picasso.get().load(R.drawable.female_avatar)
+                                    Glide.with(this).load(R.drawable.female_avatar)
+                                            .placeholder(R.drawable.female_avatar)
+                                            .into(userImageHeader);
+
+                                    Glide.with(this).load(R.drawable.female_avatar)
+                                            .placeholder(R.drawable.female_avatar)
+                                            .into(userImageInToolbar);
+
+                                   /* Picasso.get().load(R.drawable.female_avatar)
                                             .placeholder(R.drawable.female_avatar)
                                             .into(userImageInToolbar);
                                     Picasso.get().load(R.drawable.female_avatar)
                                             .placeholder(R.drawable.female_avatar)
-                                            .into(userImageHeader);
+                                            .into(userImageHeader);*/
                                 }
                             }
                             else{
-                                Picasso.get().load(getString(R.string.avatar_url) +
+
+                                Glide.with(this).load(getString(R.string.avatar_url) +
+                                        user.getInfo().getAvatar())
+                                        .placeholder(R.drawable.male_avatar)
+                                        .into(userImageHeader);
+
+                                Glide.with(this).load(getString(R.string.avatar_url) +
+                                        user.getInfo().getAvatar())
+                                        .placeholder(R.drawable.male_avatar)
+                                        .into(userImageInToolbar);
+
+                                /*Picasso.get().load(getString(R.string.avatar_url) +
                                         user.getInfo().getAvatar())
                                         .placeholder(R.drawable.male_avatar)
                                         .into(userImageInToolbar);
@@ -115,7 +143,7 @@ public class MainContentActivity extends AppCompatActivity
                                 Picasso.get().load(getString(R.string.avatar_url) +
                                         user.getInfo().getAvatar())
                                         .placeholder(R.drawable.male_avatar)
-                                        .into(userImageHeader);
+                                        .into(userImageHeader);*/
                             }
                         }
                         else{

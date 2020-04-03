@@ -15,6 +15,8 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
+import com.bumptech.glide.Glide;
 import com.example.handinhand.Helpers.SharedPreferenceHelper;
 import com.example.handinhand.Models.Profile;
 import com.example.handinhand.R;
@@ -96,18 +98,33 @@ public class ProfileFragment extends Fragment{
                 profileName.setText(name);
                 if(user.getInfo().getAvatar().contains("default")){
                     if(user.getInfo().getGender().contains("male")){
-                        Picasso.get().load(R.drawable.male_avatar)
+                        /*Picasso.get().load(R.drawable.male_avatar)
+                                .placeholder(R.drawable.male_avatar)
+                                .into(profileImage);*/
+
+                        Glide.with(this).load(R.drawable.male_avatar)
                                 .placeholder(R.drawable.male_avatar)
                                 .into(profileImage);
+
                     }
                     else{
-                        Picasso.get().load(R.drawable.female_avatar)
+                        Glide.with(this).load(R.drawable.female_avatar)
                                 .placeholder(R.drawable.female_avatar)
                                 .into(profileImage);
+
+                        /*Picasso.get().load(R.drawable.female_avatar)
+                                .placeholder(R.drawable.female_avatar)
+                                .into(profileImage);*/
                     }
                 }
                 else{
-                    Picasso.get().load(getString(R.string.avatar_url) + user.getInfo().getAvatar())
+                    /*Picasso.get().load(getString(R.string.avatar_url) + user.getInfo().getAvatar())
+                            .into(profileImage);*/
+
+                    Glide.with(this).load(getString(R.string.avatar_url) +
+                            user.getInfo().getAvatar())
+                            .error(R.drawable.male_avatar)
+                            .placeholder(R.drawable.male_avatar)
                             .into(profileImage);
                 }
 

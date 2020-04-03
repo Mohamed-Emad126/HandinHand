@@ -16,11 +16,11 @@
                 app:showAsAction="never"/>
 
             <item android:id="@+id/item_description_edit"
-                android:title="@string/share"
+                android:title="@string/edit"
                 app:showAsAction="never"/>
 
             <item android:id="@+id/item_description_delete"
-                android:title="@string/share"
+                android:title="@string/delete"
                 app:showAsAction="never"/>
         </menu>
 

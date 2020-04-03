@@ -81,6 +81,7 @@ The first step is create the fragments and define the relationship between them.
     <string name="share">Share</string>
 
     <string name="avatar_url">http://59cbcc73.ngrok.io/storage/avatars/</string>
+    <string name="items_url">http://59cbcc73.ngrok.io/item/</string>
     <string name="items_image_url">http://59cbcc73.ngrok.io/storage/items/</string>
 
     <string name="update_successfully">Updated</string>
@@ -105,6 +106,13 @@ The first step is create the fragments and define the relationship between them.
     <string name="spam_item">spam</string>
     <string name="inappropriate">Inappropriate</string>
     <string name="copied">Copied</string>
+    <string name="delete">Delete</string>
+    <string name="event_name">Event Name</string>
+    <string name="deletion_warning">Are you sure you want to delete this item?</string>
+    <string name="warning">Warning</string>
+    <string name="deleted">Deleted</string>
+    <string name="Reported">Reported</string>
+    <string name="already_reported">this Item was already reported</string>
 
 
 </resources>

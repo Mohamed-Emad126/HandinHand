@@ -25,6 +25,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
+import com.bumptech.glide.Glide;
 import com.example.handinhand.Helpers.PermissionsHelper;
 import com.example.handinhand.Helpers.RetrofitHelper;
 import com.example.handinhand.Helpers.SharedPreferenceHelper;
@@ -105,11 +106,12 @@ public class EditProfileFragment extends Fragment {
         getImageIntent = new Intent(Intent.ACTION_PICK,
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 
-        FragmentActivity activity = getActivity();
+        FragmentActivity activity = requireActivity();
 
         if (savedInstanceState != null && savedInstanceState.getString(IMAGE_URI) != null) {
             uri = Uri.parse(savedInstanceState.getString(IMAGE_URI));
-            Picasso.get().load(uri).into(userImage);
+            Glide.with(rootView).load(uri).into(userImage);
+            //Picasso.get().load(uri).into(userImage);
         }
 
         model = new ViewModelProvider(activity).get(ProfileViewModel.class);
@@ -190,21 +192,33 @@ public class EditProfileFragment extends Fragment {
                 if(user.getInfo()
                         .getGender().contains("male")){
 
-                    Picasso.get().load(R.drawable.male_avatar)
+                    Glide.with(rootView).load(R.drawable.male_avatar)
                             .placeholder(R.drawable.male_avatar)
                             .into(userImage);
+                    /*Picasso.get().load(R.drawable.male_avatar)
+                            .placeholder(R.drawable.male_avatar)
+                            .into(userImage);*/
                 }
                 else{
-                    Picasso.get().load(R.drawable.female_avatar)
+                    Glide.with(rootView).load(R.drawable.female_avatar)
                             .placeholder(R.drawable.female_avatar)
                             .into(userImage);
+                    /*Picasso.get().load(R.drawable.female_avatar)
+                            .placeholder(R.drawable.female_avatar)
+                            .into(userImage);*/
                 }
             }
             else{
-                Picasso.get().load(getString(R.string.avatar_url) +
+                /*Picasso.get().load(getString(R.string.avatar_url) +
                         user.getInfo().getAvatar())
                         .placeholder(R.drawable.female_avatar)
+                        .into(userImage);*/
+                Glide.with(rootView).load(getString(R.string.avatar_url) +
+                        user.getInfo().getAvatar())
+                        .error(R.drawable.female_avatar)
+                        .placeholder(R.drawable.female_avatar)
                         .into(userImage);
+
             }
         });
 
@@ -222,9 +236,9 @@ public class EditProfileFragment extends Fragment {
                         selectImage(activity);
                     }
                 })
-                .setOnDismissListener(dialogInterface -> {
-                    editModel.setIsDialogShowed(false);
-                })
+                .setOnDismissListener(dialogInterface ->
+                    editModel.setIsDialogShowed(false)
+                )
                 .create();
 
         editModel.getIsDialogShowed().observe(activity, aBoolean -> {
@@ -236,9 +250,9 @@ public class EditProfileFragment extends Fragment {
             }
         });
 
-        userImage.setOnClickListener(view -> {
-            editModel.setIsDialogShowed(true);
-        });
+        userImage.setOnClickListener(view ->
+            editModel.setIsDialogShowed(true)
+        );
 
         toolbar.setNavigationOnClickListener(view -> {
             Navigation.findNavController(rootView).popBackStack();
@@ -393,9 +407,13 @@ public class EditProfileFragment extends Fragment {
                 uri = data.getData();
                 editModel.setIsImageRemoved(false);
                 editModel.setIsDialogShowed(false);
-                Picasso.get().load(uri)
+                Glide.with(requireActivity())
+                        .load(uri)
                         .placeholder(R.drawable.male_avatar)
                         .into(userImage);
+                /*Picasso.get().load(uri)
+                        .placeholder(R.drawable.male_avatar)
+                        .into(userImage);*/
             }
 
         }

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/edit"
+        android:title="@string/edit"
+        android:orderInCategory="1"
+        app:showAsAction="never"/>
+
+    <item android:id="@+id/delete"
+        android:title="@string/delete"
+        android:orderInCategory="1"
+        app:showAsAction="never"/>
+
+    <item android:id="@+id/report"
+        android:title="@string/report"
+        android:orderInCategory="1"
+        app:showAsAction="never"/>
+
+    <item android:id="@+id/share"
+        android:title="@string/share"
+        android:orderInCategory="2"
+        app:showAsAction="never"/>
+
+
+
+
+</menu>

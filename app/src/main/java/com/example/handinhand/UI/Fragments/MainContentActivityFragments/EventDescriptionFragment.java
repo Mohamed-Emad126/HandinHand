@@ -27,4 +27,5 @@ public class EventDescriptionFragment extends Fragment {
 
         return rootView;
     }
+
 }

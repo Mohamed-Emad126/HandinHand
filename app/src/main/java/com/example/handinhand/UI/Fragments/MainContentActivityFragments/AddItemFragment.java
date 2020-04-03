@@ -28,6 +28,8 @@ import android.webkit.URLUtil;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
 import com.example.handinhand.Helpers.PermissionsHelper;
 import com.example.handinhand.Helpers.RetrofitHelper;
 import com.example.handinhand.Helpers.SharedPreferenceHelper;
@@ -92,7 +94,7 @@ public class AddItemFragment extends Fragment {
                              Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_add_item, container, false);
         layout = rootView.findViewById(R.id.add_item_coordinator);
-        FragmentActivity activity = getActivity();
+        FragmentActivity activity = requireActivity();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             layout.setTransitionName("FloatingActionButtonTransition");
         }
@@ -117,10 +119,15 @@ public class AddItemFragment extends Fragment {
 
         if (savedInstanceState != null && savedInstanceState.getString(IMAGE_URI) != null) {
             uri = Uri.parse(savedInstanceState.getString(IMAGE_URI));
-            Picasso.get()
+            Glide.with(rootView)
                     .load(uri)
                     .placeholder(R.drawable.ic_uploading)
                     .into(itemImage);
+
+            /*Picasso.get()
+                    .load(uri)
+                    .placeholder(R.drawable.ic_uploading)
+                    .into(itemImage);*/
             closeIcon.setVisibility(View.VISIBLE);
         }
         else{
@@ -133,9 +140,12 @@ public class AddItemFragment extends Fragment {
         });
         closeIcon.setOnClickListener(view -> {
             closeIcon.setVisibility(View.GONE);
-            Picasso.get()
+            Glide.with(rootView)
                     .load(R.drawable.ic_uploading)
                     .into(itemImage);
+            /*Picasso.get()
+                    .load(R.drawable.ic_uploading)
+                    .into(itemImage);*/
             uri = null;
         });
 

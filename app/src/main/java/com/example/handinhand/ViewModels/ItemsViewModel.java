@@ -5,7 +5,10 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import com.example.handinhand.API.ItemsClient;
 import com.example.handinhand.API.RetrofitApi;
+import com.example.handinhand.Models.DeletionResponse;
 import com.example.handinhand.Models.ItemsPaginationObject;
+import com.example.handinhand.Models.ReportResponse;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,14 +17,84 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ItemsViewModel extends ViewModel {
-    MutableLiveData<ItemsPaginationObject> mResponse;
-    MutableLiveData<Integer> page = new MutableLiveData<>();
-    MutableLiveData<Integer> lastPage = new MutableLiveData<>();
-    MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
-    MutableLiveData<Boolean> isFirstLoading = new MutableLiveData<>();
-    MutableLiveData<Boolean> isFirstError = new MutableLiveData<>();
-    MutableLiveData<Boolean> isError = new MutableLiveData<>();
-    MutableLiveData<List<ItemsPaginationObject.Data>> mList;
+    private MutableLiveData<ItemsPaginationObject> mResponse;
+    private MutableLiveData<Integer> page = new MutableLiveData<>();
+    private MutableLiveData<Integer> lastPage = new MutableLiveData<>();
+    private MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
+    private MutableLiveData<Boolean> isFirstLoading = new MutableLiveData<>();
+    private MutableLiveData<Boolean> isFirstError = new MutableLiveData<>();
+    private MutableLiveData<Boolean> isError = new MutableLiveData<>();
+    private MutableLiveData<List<ItemsPaginationObject.Data>> mList;
+    private MutableLiveData<Boolean> deleted = new MutableLiveData<>();;
+    private MutableLiveData<ReportResponse> reported = new MutableLiveData<>();;
+    private MutableLiveData<Boolean> sharedError = new MutableLiveData<>();;
+
+
+    public LiveData<Boolean> getSharedError() {
+        return sharedError;
+    }
+
+    public void setSharedError(Boolean sharedError) {
+        this.sharedError.postValue(sharedError);
+    }
+
+    public LiveData<Boolean> deleted(String token , String id) {
+        deletedItem(token, id);
+        return deleted;
+    }
+
+    public LiveData<ReportResponse> reported(String token ,String id, Map<String, String> reson) {
+        reportItem(token, id, reson);
+        return reported;
+    }
+
+    private void reportItem(String token, String id, Map<String, String> reson) {
+        sharedError.postValue(false);
+        ItemsClient client = RetrofitApi.getInstance().getItemsClient();
+        client.reportItem(token, id, reson).enqueue(new Callback<ReportResponse>() {
+            @Override
+            public void onResponse(Call<ReportResponse> call, Response<ReportResponse> response) {
+                if(response.isSuccessful() && response.body()!= null){
+                    reported.postValue(response.body());
+                }
+                else {
+                    sharedError.postValue(true);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ReportResponse> call, Throwable t) {
+                sharedError.postValue(true);
+            }
+        });
+    }
+
+    private void deletedItem(String token, String id) {
+        sharedError.postValue(false);
+        deleted.postValue(false);
+        ItemsClient itemsClient = RetrofitApi.getInstance().getItemsClient();
+        itemsClient.deleteItem(token, id).enqueue(new Callback<DeletionResponse>() {
+            @Override
+            public void onResponse(Call<DeletionResponse> call, Response<DeletionResponse> response) {
+                if(response.isSuccessful() && response.body()!= null && response.body().getStatus()){
+                    deleted.postValue(true);
+                }
+                else{
+                    deleted.postValue(false);
+                    sharedError.postValue(true);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<DeletionResponse> call, Throwable t) {
+                sharedError.postValue(true);
+            }
+        });
+    }
+
+    public void setDeleted(Boolean deleted) {
+        this.deleted.postValue(deleted);
+    }
 
     public LiveData<Integer> getPage() {
         return page;
@@ -53,6 +126,10 @@ public class ItemsViewModel extends ViewModel {
 
     public LiveData<Boolean> getIsError() {
         return isError;
+    }
+
+    public void setIsError(Boolean isError) {
+        this.isError.postValue(isError);
     }
 
     public LiveData<Boolean> getIsFirstError() {

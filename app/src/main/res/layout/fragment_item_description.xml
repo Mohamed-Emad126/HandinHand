@@ -7,14 +7,11 @@
     android:fitsSystemWindows="true"
     tools:context=".UI.Fragments.MainContentActivityFragments.ItemDescriptionFragment">
 
-
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar_layout_item_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
         >
-
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/collapse_item_description"
             android:layout_width="match_parent"
@@ -39,7 +36,7 @@
 
             <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="350dp"
+                android:layout_height="250dp"
                 android:layout_gravity="top"
                 android:scaleType="centerCrop"
                 android:src="@drawable/gradiant_white"
