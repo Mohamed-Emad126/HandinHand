@@ -17,13 +17,13 @@ import androidx.navigation.Navigation;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.handinhand.Helpers.SharedPreferenceHelper;
 import com.example.handinhand.Models.Profile;
 import com.example.handinhand.R;
 import com.example.handinhand.Utils.NetworkUtils;
 import com.example.handinhand.ViewModels.ProfileViewModel;
 import com.google.android.material.button.MaterialButton;
-import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -98,31 +98,26 @@ public class ProfileFragment extends Fragment{
                 profileName.setText(name);
                 if(user.getInfo().getAvatar().contains("default")){
                     if(user.getInfo().getGender().contains("male")){
-                        /*Picasso.get().load(R.drawable.male_avatar)
-                                .placeholder(R.drawable.male_avatar)
-                                .into(profileImage);*/
 
                         Glide.with(this).load(R.drawable.male_avatar)
+                                .diskCacheStrategy(DiskCacheStrategy.DATA)
                                 .placeholder(R.drawable.male_avatar)
                                 .into(profileImage);
 
                     }
                     else{
                         Glide.with(this).load(R.drawable.female_avatar)
+                                .diskCacheStrategy(DiskCacheStrategy.DATA)
                                 .placeholder(R.drawable.female_avatar)
                                 .into(profileImage);
 
-                        /*Picasso.get().load(R.drawable.female_avatar)
-                                .placeholder(R.drawable.female_avatar)
-                                .into(profileImage);*/
                     }
                 }
                 else{
-                    /*Picasso.get().load(getString(R.string.avatar_url) + user.getInfo().getAvatar())
-                            .into(profileImage);*/
 
                     Glide.with(this).load(getString(R.string.avatar_url) +
                             user.getInfo().getAvatar())
+                            .diskCacheStrategy(DiskCacheStrategy.DATA)
                             .error(R.drawable.male_avatar)
                             .placeholder(R.drawable.male_avatar)
                             .into(profileImage);

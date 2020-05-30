@@ -19,13 +19,13 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.handinhand.Helpers.PermissionsHelper;
 import com.example.handinhand.Helpers.RetrofitHelper;
 import com.example.handinhand.Helpers.SharedPreferenceHelper;
@@ -40,7 +40,6 @@ import com.ldoublem.loadingviewlib.view.LVNews;
 import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
-import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.RequestBody;
@@ -110,8 +109,7 @@ public class EditProfileFragment extends Fragment {
 
         if (savedInstanceState != null && savedInstanceState.getString(IMAGE_URI) != null) {
             uri = Uri.parse(savedInstanceState.getString(IMAGE_URI));
-            Glide.with(rootView).load(uri).into(userImage);
-            //Picasso.get().load(uri).into(userImage);
+            Glide.with(rootView).load(uri).diskCacheStrategy(DiskCacheStrategy.DATA).into(userImage);
         }
 
         model = new ViewModelProvider(activity).get(ProfileViewModel.class);
@@ -193,28 +191,21 @@ public class EditProfileFragment extends Fragment {
                         .getGender().contains("male")){
 
                     Glide.with(rootView).load(R.drawable.male_avatar)
+                            .diskCacheStrategy(DiskCacheStrategy.DATA)
                             .placeholder(R.drawable.male_avatar)
                             .into(userImage);
-                    /*Picasso.get().load(R.drawable.male_avatar)
-                            .placeholder(R.drawable.male_avatar)
-                            .into(userImage);*/
                 }
                 else{
                     Glide.with(rootView).load(R.drawable.female_avatar)
+                            .diskCacheStrategy(DiskCacheStrategy.DATA)
                             .placeholder(R.drawable.female_avatar)
                             .into(userImage);
-                    /*Picasso.get().load(R.drawable.female_avatar)
-                            .placeholder(R.drawable.female_avatar)
-                            .into(userImage);*/
                 }
             }
             else{
-                /*Picasso.get().load(getString(R.string.avatar_url) +
-                        user.getInfo().getAvatar())
-                        .placeholder(R.drawable.female_avatar)
-                        .into(userImage);*/
                 Glide.with(rootView).load(getString(R.string.avatar_url) +
                         user.getInfo().getAvatar())
+                        .diskCacheStrategy(DiskCacheStrategy.DATA)
                         .error(R.drawable.female_avatar)
                         .placeholder(R.drawable.female_avatar)
                         .into(userImage);
@@ -278,7 +269,6 @@ public class EditProfileFragment extends Fragment {
 
                         updates.remove("avatar");
                         updates.put("avatar", RetrofitHelper.createPartFromString("default.png"));
-                        //TODO: Complete
                         editModel.getResponse(
                                 SharedPreferenceHelper.getToken(activity),
                                 updates,
@@ -373,8 +363,7 @@ public class EditProfileFragment extends Fragment {
 
         }
         else{
-            ActivityCompat.requestPermissions(Objects.requireNonNull(activity),
-                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
                     READ_EXTERNAL_STORAGE_ID);
         }
     }
@@ -388,14 +377,11 @@ public class EditProfileFragment extends Fragment {
             case READ_EXTERNAL_STORAGE_ID: {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    // permission was granted, yay!
                     startActivityForResult(getImageIntent, GET_IMAGE_FROM_GALLERY);
                 }
                 return;
             }
 
-            // other 'case' lines to check for other
-            // permissions this app might request.
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
@@ -411,9 +397,6 @@ public class EditProfileFragment extends Fragment {
                         .load(uri)
                         .placeholder(R.drawable.male_avatar)
                         .into(userImage);
-                /*Picasso.get().load(uri)
-                        .placeholder(R.drawable.male_avatar)
-                        .into(userImage);*/
             }
 
         }

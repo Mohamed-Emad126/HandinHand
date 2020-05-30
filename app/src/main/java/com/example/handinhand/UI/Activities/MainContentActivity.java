@@ -20,6 +20,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.handinhand.Helpers.SharedPreferenceHelper;
 import com.example.handinhand.Models.Profile;
 import com.example.handinhand.R;
@@ -28,10 +29,10 @@ import com.example.handinhand.ViewModels.ProfileViewModel;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
-import com.squareup.picasso.Picasso;
 
 import java.util.Arrays;
 import java.util.List;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 
@@ -91,59 +92,42 @@ public class MainContentActivity extends AppCompatActivity
                                         .getGender().contains("male")){
 
                                     Glide.with(this).load(R.drawable.male_avatar)
+                                            .diskCacheStrategy(DiskCacheStrategy.DATA)
                                             .placeholder(R.drawable.male_avatar)
                                             .into(userImageHeader);
 
                                     Glide.with(this).load(R.drawable.male_avatar)
+                                            .diskCacheStrategy(DiskCacheStrategy.DATA)
                                             .placeholder(R.drawable.male_avatar)
                                             .into(userImageInToolbar);
 
-                                    /*Picasso.get().load(R.drawable.male_avatar)
-                                            .placeholder(R.drawable.male_avatar)
-                                            .into(userImageInToolbar);
-
-                                    Picasso.get().load(R.drawable.male_avatar)
-                                            .placeholder(R.drawable.male_avatar)
-                                            .into(userImageHeader);*/
                                 }
                                 else{
                                     Glide.with(this).load(R.drawable.female_avatar)
+                                            .diskCacheStrategy(DiskCacheStrategy.DATA)
                                             .placeholder(R.drawable.female_avatar)
                                             .into(userImageHeader);
 
                                     Glide.with(this).load(R.drawable.female_avatar)
+                                            .diskCacheStrategy(DiskCacheStrategy.DATA)
                                             .placeholder(R.drawable.female_avatar)
                                             .into(userImageInToolbar);
-
-                                   /* Picasso.get().load(R.drawable.female_avatar)
-                                            .placeholder(R.drawable.female_avatar)
-                                            .into(userImageInToolbar);
-                                    Picasso.get().load(R.drawable.female_avatar)
-                                            .placeholder(R.drawable.female_avatar)
-                                            .into(userImageHeader);*/
                                 }
                             }
                             else{
 
                                 Glide.with(this).load(getString(R.string.avatar_url) +
                                         user.getInfo().getAvatar())
+                                        .diskCacheStrategy(DiskCacheStrategy.DATA)
                                         .placeholder(R.drawable.male_avatar)
                                         .into(userImageHeader);
 
                                 Glide.with(this).load(getString(R.string.avatar_url) +
                                         user.getInfo().getAvatar())
+                                        .diskCacheStrategy(DiskCacheStrategy.DATA)
                                         .placeholder(R.drawable.male_avatar)
                                         .into(userImageInToolbar);
 
-                                /*Picasso.get().load(getString(R.string.avatar_url) +
-                                        user.getInfo().getAvatar())
-                                        .placeholder(R.drawable.male_avatar)
-                                        .into(userImageInToolbar);
-
-                                Picasso.get().load(getString(R.string.avatar_url) +
-                                        user.getInfo().getAvatar())
-                                        .placeholder(R.drawable.male_avatar)
-                                        .into(userImageHeader);*/
                             }
                         }
                         else{

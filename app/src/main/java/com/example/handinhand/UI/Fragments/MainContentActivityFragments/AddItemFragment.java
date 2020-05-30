@@ -7,17 +7,6 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
-import androidx.cardview.widget.CardView;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
-import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.Navigation;
-import androidx.transition.TransitionInflater;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -29,7 +18,19 @@ import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
+import androidx.transition.TransitionInflater;
+
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.handinhand.Helpers.PermissionsHelper;
 import com.example.handinhand.Helpers.RetrofitHelper;
 import com.example.handinhand.Helpers.SharedPreferenceHelper;
@@ -41,9 +42,11 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.squareup.picasso.Picasso;
+
 import java.util.HashMap;
-import java.util.Objects;
+
 import okhttp3.RequestBody;
+
 import static android.app.Activity.RESULT_OK;
 import static com.example.handinhand.UI.Fragments.MainActivityFragments.RegisterFragment.IMAGE_URI;
 
@@ -121,13 +124,10 @@ public class AddItemFragment extends Fragment {
             uri = Uri.parse(savedInstanceState.getString(IMAGE_URI));
             Glide.with(rootView)
                     .load(uri)
+                    .diskCacheStrategy(DiskCacheStrategy.DATA)
                     .placeholder(R.drawable.ic_uploading)
                     .into(itemImage);
 
-            /*Picasso.get()
-                    .load(uri)
-                    .placeholder(R.drawable.ic_uploading)
-                    .into(itemImage);*/
             closeIcon.setVisibility(View.VISIBLE);
         }
         else{
@@ -143,9 +143,6 @@ public class AddItemFragment extends Fragment {
             Glide.with(rootView)
                     .load(R.drawable.ic_uploading)
                     .into(itemImage);
-            /*Picasso.get()
-                    .load(R.drawable.ic_uploading)
-                    .into(itemImage);*/
             uri = null;
         });
 
@@ -309,7 +306,7 @@ public class AddItemFragment extends Fragment {
 
         }
         else{
-            ActivityCompat.requestPermissions(Objects.requireNonNull(activity),
+            requestPermissions(
                     new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
                     READ_EXTERNAL_STORAGE_ID);
         }
