@@ -146,24 +146,11 @@ public class MainContentActivity extends AppCompatActivity
 
         toolbar.inflateMenu(R.menu.toolbar_menu);
 
-/*
-        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                if(item.getItemId() == R.id.filter){
-                    navController.
-                }
-                return false;
-            }
-        });
-*/
-
-
-
         navController.addOnDestinationChangedListener(this);
 
         NavigationUI.setupWithNavController(bottomNavigation, navController);
         NavigationUI.setupWithNavController(navigationView, navController);
+        NavigationUI.setupWithNavController(toolbar, navController);
 
         userImageInToolbar.setOnClickListener(view ->
                 drawerLayout.openDrawer(GravityCompat.START)

@@ -1,7 +1,5 @@
 package com.example.handinhand.API;
 
-import com.example.handinhand.Helpers.RetrofitHelper;
-
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -14,12 +12,10 @@ public class RetrofitApi {
 
     private static RetrofitApi ourInstance = new RetrofitApi();
     private static Retrofit retrofit = null;
-    private static MainActivityClient client;
-    private static ProfileClient profileClient;
-    private static ItemsClient itemsClient;
-    private static EventsClient eventsClient;
-
-
+    private static MainActivityClient client = null;
+    private static ProfileClient profileClient = null;
+    private static ItemsClient itemsClient = null;
+    private static EventsClient eventsClient = null;
 
 
     public static RetrofitApi getInstance() {
@@ -30,41 +26,44 @@ public class RetrofitApi {
     }
 
     private RetrofitApi() {
-
-
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient clientLog = new OkHttpClient.Builder()
           .addInterceptor(logging)
           .build();
 
-
         retrofit = new Retrofit.Builder()
                             .baseUrl(BASE_URL)
                             .addConverterFactory(GsonConverterFactory.create())
                             .client(clientLog)
                             .build();
-
-
-        client = retrofit.create(MainActivityClient.class);
-        profileClient = retrofit.create(ProfileClient.class);
-        itemsClient = retrofit.create(ItemsClient.class);
-        eventsClient = retrofit.create(EventsClient.class);
     }
 
     public EventsClient getEventsClient() {
+        if(eventsClient == null){
+            eventsClient = retrofit.create(EventsClient.class);
+        }
         return eventsClient;
     }
 
     public ItemsClient getItemsClient() {
+        if(itemsClient == null){
+            itemsClient = retrofit.create(ItemsClient.class);
+        }
         return itemsClient;
     }
 
     public MainActivityClient getMainActivityClient() {
+        if(client == null){
+            client = retrofit.create(MainActivityClient.class);
+        }
         return client;
     }
 
     public ProfileClient getProfileClient() {
+        if(profileClient == null){
+            profileClient = retrofit.create(ProfileClient.class);
+        }
         return profileClient;
     }
 
