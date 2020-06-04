@@ -5,16 +5,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.handinhand.Models.ItemsPaginationObject;
 import com.example.handinhand.R;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -93,14 +92,9 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemsViewHol
         //TODO: add complete image url
         Glide.with(rootView)
                 .load("http://59cbcc73.ngrok.io/storage/items/" + itemsList.get(position).getImage())
+                .diskCacheStrategy(DiskCacheStrategy.DATA)
                 .placeholder(R.color.gray)
                 .into(((ItemsViewHolder)holder).itemImage);
-
-        /*Picasso.get()
-                .load("http://59cbcc73.ngrok.io/storage/items/" + itemsList.get(position).getImage())
-                .placeholder(R.color.place_holder_color)
-                .fit()
-                .into(((ItemsViewHolder)holder).itemImage);*/
 
     }
 

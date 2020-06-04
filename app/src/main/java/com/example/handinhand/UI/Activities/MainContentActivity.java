@@ -193,7 +193,8 @@ public class MainContentActivity extends AppCompatActivity
                 R.id.profileFragment,
                 R.id.editProfileFragment,
                 R.id.addItemFragment,
-                R.id.logOutFragment
+                R.id.logOutFragment,
+                R.id.imagePreviewFragment
         };
         List<Integer> lst = Arrays.asList(withoutToolbarAndBottomNavIds);
 

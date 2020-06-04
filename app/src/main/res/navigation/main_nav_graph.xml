@@ -42,7 +42,11 @@
         android:id="@+id/itemDescriptionFragment"
         android:name="com.example.handinhand.UI.Fragments.MainContentActivityFragments.ItemDescriptionFragment"
         android:label="fragment_item_description"
-        tools:layout="@layout/fragment_item_description" />
+        tools:layout="@layout/fragment_item_description" >
+        <action
+            android:id="@+id/action_itemDescriptionFragment_to_imagePreviewFragment"
+            app:destination="@id/imagePreviewFragment" />
+    </fragment>
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.example.handinhand.UI.Fragments.MainContentActivityFragments.ProfileFragment"
@@ -58,6 +62,9 @@
             app:popEnterAnim="@anim/anim_slide_in_left"
             app:popExitAnim="@anim/anim_slide_out_right"
             />
+        <action
+            android:id="@+id/action_profileFragment_to_imagePreviewFragment"
+            app:destination="@id/imagePreviewFragment" />
     </fragment>
     <fragment
         android:id="@+id/editProfileFragment"
@@ -74,4 +81,9 @@
         android:name="com.example.handinhand.UI.Fragments.MainContentActivityFragments.LogOutFragment"
         android:label="fragment_log_out"
         tools:layout="@layout/fragment_log_out" />
+    <fragment
+        android:id="@+id/imagePreviewFragment"
+        android:name="com.example.handinhand.UI.Fragments.MainContentActivityFragments.ImagePreviewFragment"
+        android:label="fragment_image_preview"
+        tools:layout="@layout/fragment_image_preview" />
 </navigation>

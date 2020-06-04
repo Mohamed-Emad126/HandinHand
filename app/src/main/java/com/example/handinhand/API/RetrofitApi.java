@@ -16,6 +16,7 @@ public class RetrofitApi {
     private static ProfileClient profileClient = null;
     private static ItemsClient itemsClient = null;
     private static EventsClient eventsClient = null;
+    private static ImagesClient imagesClient = null;
 
 
     public static RetrofitApi getInstance() {
@@ -37,6 +38,13 @@ public class RetrofitApi {
                             .addConverterFactory(GsonConverterFactory.create())
                             .client(clientLog)
                             .build();
+    }
+
+    public ImagesClient getImagesClient() {
+        if(imagesClient == null){
+            imagesClient = retrofit.create(ImagesClient.class);
+        }
+        return imagesClient;
     }
 
     public EventsClient getEventsClient() {

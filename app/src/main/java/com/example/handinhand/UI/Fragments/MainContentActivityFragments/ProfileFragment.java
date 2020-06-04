@@ -2,6 +2,7 @@ package com.example.handinhand.UI.Fragments.MainContentActivityFragments;
 
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -17,11 +19,16 @@ import androidx.navigation.Navigation;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.example.handinhand.Helpers.SharedPreferenceHelper;
 import com.example.handinhand.Models.Profile;
 import com.example.handinhand.R;
 import com.example.handinhand.Utils.NetworkUtils;
+import com.example.handinhand.ViewModels.ImagePreviewViewModel;
 import com.example.handinhand.ViewModels.ProfileViewModel;
 import com.google.android.material.button.MaterialButton;
 
@@ -40,6 +47,8 @@ public class ProfileFragment extends Fragment{
     MaterialButton reloadButton;
     private Toolbar toolbar;
     private TextView editText;
+    private ImagePreviewViewModel imagePreviewViewModel;
+    private String url = null;
 
     public ProfileFragment() {
     }
@@ -68,6 +77,7 @@ public class ProfileFragment extends Fragment{
         FragmentActivity activity = getActivity();
 
         model = new ViewModelProvider(activity).get(ProfileViewModel.class);
+        imagePreviewViewModel = new ViewModelProvider(activity).get(ImagePreviewViewModel.class);
 
         toolbar.setNavigationOnClickListener(view -> {
             Navigation.findNavController(rootView).popBackStack();
@@ -117,6 +127,19 @@ public class ProfileFragment extends Fragment{
 
                     Glide.with(this).load(getString(R.string.avatar_url) +
                             user.getInfo().getAvatar())
+                            .listener(new RequestListener<Drawable>() {
+                                @Override
+                                public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                                    return false;
+                                }
+
+                                @Override
+                                public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                                    url = getString(R.string.avatar_url) +
+                                            user.getInfo().getAvatar();
+                                    return false;
+                                }
+                            })
                             .diskCacheStrategy(DiskCacheStrategy.DATA)
                             .error(R.drawable.male_avatar)
                             .placeholder(R.drawable.male_avatar)
@@ -128,6 +151,16 @@ public class ProfileFragment extends Fragment{
         else{
             model.setIsError(true);
         }
+
+        profileImage.setOnClickListener(view -> {
+            if(url != null){
+                imagePreviewViewModel.setUrl(url);
+                Navigation.findNavController(rootView).navigate(R.id.action_profileFragment_to_imagePreviewFragment);
+            }
+
+        });
+
+
         model.getIsLoading().observe(activity, aBoolean -> {
             if(aBoolean){
                 refreshLayout.setRefreshing(true);

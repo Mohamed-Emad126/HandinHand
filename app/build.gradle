@@ -65,5 +65,8 @@ dependencies {
     implementation 'com.github.florent37:shapeofview:1.4.7'
     //PhotoView
     implementation 'com.github.chrisbanes:PhotoView:2.3.0'
+    //Work Manager
+    def work_version = "2.3.4"
+    implementation "androidx.work:work-runtime:$work_version"
 
 }
