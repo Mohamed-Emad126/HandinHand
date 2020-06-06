@@ -3,9 +3,9 @@
     package="com.example.handinhand">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
 
@@ -16,29 +16,29 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".UI.Activities.MainContentActivity"
+
+        <activity
+            android:name=".UI.Activities.MainContentActivity"
             android:launchMode="singleTop"
             android:theme="@style/splashTheme"
-            android:windowSoftInputMode="adjustResize"
-            >
-
+            android:windowSoftInputMode="adjustResize">
             <nav-graph android:value="@navigation/main_nav_graph" />
-
         </activity>
 
+        <activity android:name=".UI.Activities.SettingsActivity">
+            <nav-graph android:value="@navigation/setting_nav_graph" />
+        </activity>
 
+        <activity android:name=".UI.Activities.AboutUsActivity"/>
 
         <activity
             android:name=".UI.Activities.MainActivity"
             android:launchMode="singleTop"
             android:theme="@style/splashTheme"
             android:windowSoftInputMode="adjustResize">
-
             <nav-graph android:value="@navigation/nav_graph" />
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -55,7 +55,7 @@
 
         <receiver
             android:name=".Utils.NetworkChangeReceiver"
-            android:label="NetworkChangeReceiver" >
+            android:label="NetworkChangeReceiver">
             <intent-filter>
                 <!--<action android:name="android.net.conn.CONNECTIVITY_CHANGE" />-->
                 <action android:name="android.net.wifi.WIFI_STATE_CHANGED" />
@@ -63,5 +63,4 @@
         </receiver>
 
     </application>
-
 </manifest>

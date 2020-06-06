@@ -17,6 +17,9 @@
             app:destination="@id/addItemFragment"
             app:enterAnim="@anim/anim_pop_up"
             />
+        <action
+            android:id="@+id/action_itemsFragment_to_reportFragment"
+            app:destination="@id/reportFragment" />
     </fragment>
     <fragment
         android:id="@+id/notificationsFragment"
@@ -27,17 +30,29 @@
         android:id="@+id/eventsFragment"
         android:name="com.example.handinhand.UI.Fragments.MainContentActivityFragments.EventsFragment"
         android:label="fragment_events"
-        tools:layout="@layout/fragment_events" />
+        tools:layout="@layout/fragment_events" >
+        <action
+            android:id="@+id/action_eventsFragment_to_reportFragment"
+            app:destination="@id/reportFragment" />
+    </fragment>
     <fragment
         android:id="@+id/handmadesFragment"
         android:name="com.example.handinhand.UI.Fragments.MainContentActivityFragments.HandmadesFragment"
         android:label="fragment_handmades"
-        tools:layout="@layout/fragment_handmades" />
+        tools:layout="@layout/fragment_handmades" >
+        <action
+            android:id="@+id/action_handmadesFragment_to_reportFragment"
+            app:destination="@id/reportFragment" />
+    </fragment>
     <fragment
         android:id="@+id/servicesFragment"
         android:name="com.example.handinhand.UI.Fragments.MainContentActivityFragments.ServicesFragment"
         android:label="fragment_services"
-        tools:layout="@layout/fragment_services" />
+        tools:layout="@layout/fragment_services" >
+        <action
+            android:id="@+id/action_servicesFragment_to_reportFragment"
+            app:destination="@id/reportFragment" />
+    </fragment>
     <fragment
         android:id="@+id/itemDescriptionFragment"
         android:name="com.example.handinhand.UI.Fragments.MainContentActivityFragments.ItemDescriptionFragment"
@@ -46,6 +61,9 @@
         <action
             android:id="@+id/action_itemDescriptionFragment_to_imagePreviewFragment"
             app:destination="@id/imagePreviewFragment" />
+        <action
+            android:id="@+id/action_itemDescriptionFragment_to_reportFragment"
+            app:destination="@id/reportFragment" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
@@ -86,4 +104,26 @@
         android:name="com.example.handinhand.UI.Fragments.MainContentActivityFragments.ImagePreviewFragment"
         android:label="fragment_image_preview"
         tools:layout="@layout/fragment_image_preview" />
+    <fragment
+        android:id="@+id/reportFragment"
+        android:name="com.example.handinhand.UI.Fragments.MainContentActivityFragments.ReportFragment"
+        android:label="fragment_report"
+        tools:layout="@layout/fragment_report" />
+    <fragment
+        android:id="@+id/eventDescriptionFragment"
+        android:name="com.example.handinhand.UI.Fragments.MainContentActivityFragments.EventDescriptionFragment"
+        android:label="fragment_event_description"
+        tools:layout="@layout/fragment_event_description" >
+        <action
+            android:id="@+id/action_eventDescriptionFragment_to_reportFragment"
+            app:destination="@id/reportFragment" />
+        <action
+            android:id="@+id/action_eventDescriptionFragment_to_imagePreviewFragment"
+            app:destination="@id/imagePreviewFragment" />
+    </fragment>
+    <activity
+        android:id="@+id/settingsActivity"
+        android:name="com.example.handinhand.UI.Activities.SettingsActivity"
+        android:label="activity_settings"
+        tools:layout="@layout/activity_settings" />
 </navigation>

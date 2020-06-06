@@ -5,20 +5,15 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".UI.Fragments.MainContentActivityFragments.LogOutFragment">
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:orientation="vertical"
-        >
+        android:orientation="vertical">
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:src="@drawable/ic_thank_you"
-
-            />
-
+            android:src="@drawable/ic_thank_you" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -27,7 +22,6 @@
             android:gravity="center"
             android:textColor="@color/textColorPrimary"
             android:text="@string/thanks_message" />
-
         <com.google.android.material.button.MaterialButton
             android:id="@+id/button_logout"
             android:layout_width="wrap_content"
@@ -36,9 +30,7 @@
             android:layout_marginTop="16dp"
             android:text="@string/logout"
             app:backgroundTint="@color/textColorPrimary"
-            app:rippleColor="@color/colorPrimary"
-            />
-
+            app:rippleColor="@color/colorPrimary" />
         <com.google.android.material.button.MaterialButton
             android:id="@+id/button_logout_cancel"
             android:layout_width="wrap_content"
@@ -50,11 +42,6 @@
             app:strokeColor="@color/textColorPrimary"
             app:strokeWidth="1dp"
             app:rippleColor="@color/textColorPrimary"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
-            />
-
-
+            style="@style/Widget.MaterialComponents.Button.TextButton" />
     </LinearLayout>
-
-
 </ScrollView>

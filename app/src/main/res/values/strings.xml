@@ -109,5 +109,9 @@ The first step is create the fragments and define the relationship between them.
     <string name="denied">Permission denied</string>
     <string name="saved">Saved</string>
     <string name="save_error">unable save the image</string>
+    <string name="location">Location</string>
+    <string name="about">About the organizer</string>
+    <string name="report_message">Remind that you should report only the items that may goes \n against our Term of service, thank you for your support</string>
+    <string name="license">License</string>
 
 </resources>

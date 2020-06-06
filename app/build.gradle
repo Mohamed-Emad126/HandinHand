@@ -68,5 +68,8 @@ dependencies {
     //Work Manager
     def work_version = "2.3.4"
     implementation "androidx.work:work-runtime:$work_version"
+    //KenBurnsView
+    implementation 'com.flaviofaria:kenburnsview:1.0.7'
+
 
 }

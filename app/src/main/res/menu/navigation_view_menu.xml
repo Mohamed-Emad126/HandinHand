@@ -9,7 +9,7 @@
             android:title="@string/profile"
             android:icon="@drawable/ic_account"
             />
-        <item android:id="@+id/profileFragment1"
+        <item android:id="@id/settingsActivity"
             android:title="@string/settings"
             android:icon="@drawable/ic_settings"
             />
@@ -18,6 +18,10 @@
     <group android:id="@+id/contacts"
         android:checkableBehavior="single"
         >
+        <item android:id="@+id/licences"
+            android:title="@string/license"
+            android:icon="@drawable/ic_licenses"
+            />
         <item android:id="@+id/about_us"
             android:title="@string/about_us"
             android:icon="@drawable/ic_info"

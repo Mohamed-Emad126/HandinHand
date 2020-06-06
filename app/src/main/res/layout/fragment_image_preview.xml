@@ -7,6 +7,14 @@
     tools:context=".UI.Fragments.MainContentActivityFragments.ImagePreviewFragment">
 
     <ImageButton
+        android:id="@+id/back_button_in_image_preview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_arrow_back_white"
+        android:background="@drawable/circle"
+        android:layout_margin="16dp"
+        />
+    <ImageButton
         android:id="@+id/download_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

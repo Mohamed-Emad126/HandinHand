@@ -17,6 +17,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 import androidx.work.Constraints;
 import androidx.work.Data;
 import androidx.work.NetworkType;
@@ -48,9 +49,13 @@ public class ImagePreviewFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_image_preview, container, false);
         PhotoView photoView = rootView.findViewById(R.id.image_preview);
         ImageButton downloadButton = rootView.findViewById(R.id.download_button);
+        ImageButton backButton = rootView.findViewById(R.id.back_button_in_image_preview);
         FragmentActivity activity = getActivity();
         model = new ViewModelProvider(activity).get(ImagePreviewViewModel.class);
 
+        backButton.setOnClickListener(view -> {
+            Navigation.findNavController(rootView).navigateUp();
+        });
         model.getUrl().observe(activity, s -> {
             if(!s.isEmpty()){
                 Glide.with(activity)
@@ -75,11 +80,14 @@ public class ImagePreviewFragment extends Fragment {
             }
         });
 
+
         photoView.setOnClickListener(view -> {
             if(downloadButton.getVisibility() == View.GONE){
+                backButton.setVisibility(View.VISIBLE);
                 downloadButton.setVisibility(View.VISIBLE);
             }
             else{
+                backButton.setVisibility(View.GONE);
                 downloadButton.setVisibility(View.GONE);
             }
         });
