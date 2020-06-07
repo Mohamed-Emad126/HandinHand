@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    tools:context=".UI.Activities.ContactUsActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/licence_appbar"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/contact_us_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            android:theme="@style/Widget.AppCompat.PopupMenu.Overflow"
+            app:navigationIcon="@drawable/ic_back"
+            app:title="@string/contact_us"
+            app:titleTextColor="@color/textColorPrimary" />
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp"
+                android:background="@color/textColorPrimary"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_handinhand" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp">
+
+                <View
+                    android:id="@+id/divider"
+                    android:layout_width="150dp"
+                    android:layout_height="1dp"
+                    android:layout_gravity="center"
+                    android:background="#F5F5F5" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:background="?selectableItemBackground">
+
+                <TextView
+                    android:id="@+id/text3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/android_team"
+                    android:textColor="@android:color/black"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/flat1_icons"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Mohamed Emad Abd El-Sameaa"
+                    android:textColor="@android:color/black" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:autoLink="email"
+                    android:text="mohamed.emad2222@gmail.com"
+                    android:textColor="?android:textColorSecondary"
+                    android:textColorLink="@color/colorAccent"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/text42"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Amira Salah Ahmed"
+                    android:textColor="@android:color/black" />
+
+                <TextView
+                    android:id="@+id/sphinx"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:autoLink="email"
+                    android:text="amirameraaa6666@gmail.com"
+                    android:textColor="?android:textColorSecondary"
+                    android:textColorLink="@color/colorAccent"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="24dp">
+
+                <View
+                    android:id="@+id/dividerxx"
+                    android:layout_width="150dp"
+                    android:layout_height="1dp"
+                    android:layout_gravity="center"
+                    android:background="#F5F5F5" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="?selectableItemBackground">
+
+                <TextView
+                    android:id="@+id/text11"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Web Team"
+                    android:textColor="@android:color/black"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/text4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Aya Hassan Fouad"
+                    android:textColor="@android:color/black" />
+
+                <TextView
+                    android:id="@+id/text5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:autoLink="email"
+                    android:text="ayahassan8598@gmail.com"
+                    android:textColor="?android:textColorSecondary"
+                    android:textColorLink="@color/colorAccent"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Aya Mohamed Saleh"
+                    android:textColor="@android:color/black" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:autoLink="email"
+                    android:text="ayamohamedsaleh796@gmail.com"
+                    android:textColor="?android:textColorSecondary"
+                    android:textColorLink="@color/colorAccent"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="?selectableItemBackground">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Backend Team"
+                    android:textColor="@android:color/black"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Mohamed Fathy Abd El-Kamel"
+                    android:textColor="@android:color/black" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:autoLink="email"
+                    android:text="mohamed.fathy301011@gmail.com"
+                    android:textColor="?android:textColorSecondary"
+                    android:textColorLink="@color/colorAccent"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="24dp">
+
+                <View
+                    android:layout_width="150dp"
+                    android:layout_height="1dp"
+                    android:layout_gravity="center"
+                    android:background="#F5F5F5" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:gravity="center"
+                android:text="@string/made_with_love"
+                android:textColor="?android:textColorSecondary" />
+        </LinearLayout>
+    </ScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

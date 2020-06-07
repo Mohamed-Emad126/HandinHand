@@ -90,6 +90,7 @@ The first step is create the fragments and define the relationship between them.
     <string name="upload_image">Please, Upload image of the item</string>
     <string name="item_added">Item Added Successfully</string>
     <string name="thanks_message">Thank you for being one of <b>HandInHand</b>.\n You always know how to make life brighter for everyone you know. We are waiting you to help more people again. <b>You make the world a nicer place.</b> \n We are waiting you to login again.</string>
+    <string name="thanks_message_about">Thank you for being one of <b>HandInHand</b>.\n You always know how to make life brighter for everyone you know.</string>
     <string name="interest">Interest</string>
     <string name="contacts">Contacts</string>
     <string name="book">Book</string>
@@ -113,5 +114,24 @@ The first step is create the fragments and define the relationship between them.
     <string name="about">About the organizer</string>
     <string name="report_message">Remind that you should report only the items that may goes \n against our Term of service, thank you for your support</string>
     <string name="license">License</string>
+    <string name="about_the_idea">About the idea</string>
+    <string name="about_app">According to statistics about 3 million students go to universities each year. Students need materials to go through the college. Some of them can be provided by the university and others the student should get them himself. Providing materials for about 3 million students is huge but the problem is when these materials aren’t needed they are mostly thrown away each year. Life in university is different. It is the last stage of education before joining the market and discover how real work and projects are done. That’s why in university you will find events made by companies and organizations to teach and attract students, student union for helping students and other student activities and families. It appears that university is a more social place than school so why all these materials are wasted not donated? so we did it and we hope it will become helpful to other students.</string>
+    <string name="why_use_it">The project consists of a website and an android application that provide a platform for students to find what they need and share their tools, books ,knowledge and many other things with each other.
+The platform will provide four major services: -
+\n<b>1.</b> A way to donate, sell, exchange and search for study materials like books and tools.
+\n<b>2.</b> A way to find, offer and ask for services (questions - teaching or explaining a subject, conducting workshops – trips).
+\n<b>3.</b> A way for students to know about all the important events happening soon.
+\n<b>4.</b> A way for students who have a talent in making hand-made products to come to light and show their talent. It can be a start for their future career.
+\n It is a highly scalable project with huge potential for more future work.</string>
+    <string name="what_is_the_project">What is the project?</string>
+    <string name="image_resource">Images</string>
+    <string name="flat_icons_site">Flat Icon Site</string>
+    <string name="mdc">MDC</string>
+    <string name="mdc_icons">bottom navigation icons and the star and some other icons\nhttps://material.io/</string>
+    <string name="freepik">filter icon and other icons: \nIcon made by Freepik from www.flaticon.com</string>
+    <string name="undraw">Undraw</string>
+    <string name="undrawres">all illustration and the default avatar image and the error illustration from Undraw:\nhttps://undraw.co/illustrations</string>
+    <string name="made_with_love">Made with love by\n<b>HandinHand</b> team</string>
+    <string name="android_team">Android Team</string>
 
 </resources>

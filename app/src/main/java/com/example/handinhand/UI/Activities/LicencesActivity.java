@@ -7,14 +7,14 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.example.handinhand.R;
 
-public class AboutUsActivity extends AppCompatActivity {
+public class LicencesActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTheme(R.style.AppTheme);
-        setContentView(R.layout.activity_about_us);
-        Toolbar toolbar = findViewById(R.id.about_us_toolbar);
+        setContentView(R.layout.activity_licence);
+        Toolbar toolbar = findViewById(R.id.licence_toolbar);
         toolbar.setNavigationOnClickListener(view -> {
             finish();
         });

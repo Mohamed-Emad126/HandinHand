@@ -30,6 +30,8 @@
         </activity>
 
         <activity android:name=".UI.Activities.AboutUsActivity"/>
+        <activity android:name=".UI.Activities.LicencesActivity"/>
+        <activity android:name=".UI.Activities.ContactUsActivity"/>
 
         <activity
             android:name=".UI.Activities.MainActivity"

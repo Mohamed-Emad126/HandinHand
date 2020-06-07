@@ -126,4 +126,19 @@
         android:name="com.example.handinhand.UI.Activities.SettingsActivity"
         android:label="activity_settings"
         tools:layout="@layout/activity_settings" />
+    <activity
+        android:id="@+id/aboutUsActivity"
+        android:name="com.example.handinhand.UI.Activities.AboutUsActivity"
+        android:label="activity_about_us"
+        tools:layout="@layout/activity_about_us" />
+    <activity
+        android:id="@+id/licencesActivity"
+        android:name="com.example.handinhand.UI.Activities.LicencesActivity"
+        android:label="activity_licence"
+        tools:layout="@layout/activity_licence" />
+    <activity
+        android:id="@+id/contactUsActivity"
+        android:name="com.example.handinhand.UI.Activities.ContactUsActivity"
+        android:label="activity_contact_us"
+        tools:layout="@layout/activity_contact_us" />
 </navigation>
