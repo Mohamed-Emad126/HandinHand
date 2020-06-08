@@ -13,7 +13,7 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:src="@drawable/ic_thank_you" />
+            android:src="@drawable/ic_notify" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
             <com.google.android.material.chip.ChipGroup
-                android:id="@+id/report_chip_group"
+                android:id="@+id/report_chip_group_fragment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -37,7 +37,7 @@
                 app:selectionRequired="true"
                 app:singleSelection="true">
                 <com.google.android.material.chip.Chip
-                    android:id="@+id/spam_chip"
+                    android:id="@+id/spam_chip_fragment"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
@@ -46,7 +46,7 @@
                     app:chipBackgroundColor="@android:color/white"
                     app:chipStrokeWidth="1dp" />
                 <com.google.android.material.chip.Chip
-                    android:id="@+id/inappropriate_chip"
+                    android:id="@+id/inappropriate_chip_fragment"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
@@ -69,7 +69,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="8dp"
-                android:text="@android:string/cancel"
+                android:text="@string/cancel"
                 android:textColor="@color/textColorPrimary"
                 app:strokeColor="@color/textColorPrimary"
                 app:strokeWidth="1dp"

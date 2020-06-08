@@ -148,9 +148,11 @@ public class MainContentActivity extends AppCompatActivity
 
         navController.addOnDestinationChangedListener(this);
 
+        //AppBarConfiguration configuration = new AppBarConfiguration.Builder(bottomNavigation.getMenu()).build();
+
         NavigationUI.setupWithNavController(bottomNavigation, navController);
         NavigationUI.setupWithNavController(navigationView, navController);
-        NavigationUI.setupWithNavController(toolbar, navController);
+        //NavigationUI.setupWithNavController(toolbar, navController, configuration);
 
         userImageInToolbar.setOnClickListener(view ->
                 drawerLayout.openDrawer(GravityCompat.START)
@@ -187,7 +189,6 @@ public class MainContentActivity extends AppCompatActivity
     public void onDestinationChanged(@NonNull NavController controller,
                                      @NonNull NavDestination destination,
                                      @Nullable Bundle arguments) {
-
         Integer []withoutToolbarAndBottomNavIds = {
                 R.id.itemDescriptionFragment,
                 R.id.profileFragment,

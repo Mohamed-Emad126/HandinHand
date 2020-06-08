@@ -10,7 +10,7 @@ public class RetrofitApi {
     private static final String BASE_URL = "http://59cbcc73.ngrok.io";
 
 
-    private static RetrofitApi ourInstance = new RetrofitApi();
+    private static RetrofitApi ourInstance = null;
     private static Retrofit retrofit = null;
     private static MainActivityClient client = null;
     private static ProfileClient profileClient = null;

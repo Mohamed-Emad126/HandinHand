@@ -1,44 +1,44 @@
 package com.example.handinhand.UI.Fragments.MainContentActivityFragments;
 
 
-import android.app.Dialog;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.FragmentNavigator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.work.Constraints;
+import androidx.work.Data;
+import androidx.work.NetworkType;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkManager;
+
 import com.example.handinhand.Adapters.ItemsAdapter;
 import com.example.handinhand.Helpers.SharedPreferenceHelper;
-import com.example.handinhand.Models.Profile;
-import com.example.handinhand.Models.ReportResponse;
 import com.example.handinhand.R;
 import com.example.handinhand.ViewModels.ItemsViewModel;
 import com.example.handinhand.ViewModels.ProfileViewModel;
 import com.example.handinhand.ViewModels.SharedItemViewModel;
+import com.example.handinhand.services.DeleteWorker;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.button.MaterialButton;
-import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -62,10 +62,11 @@ public class ItemsFragment extends Fragment {
 
     int page = 0;
     int lastPage = 0;
-    private Dialog reportDialog;
-    private Dialog deleteDialog;
+
+    AlertDialog alertDialog;
     private String userId;
     private int selectedItemId;
+    private int selectedItemPosition;
 
 
     public ItemsFragment() {
@@ -85,18 +86,11 @@ public class ItemsFragment extends Fragment {
         reload = rootView.findViewById(R.id.reload);
         loading = rootView.findViewById(R.id.loading_view_progressbar);
 
-        reportDialog = new Dialog(rootView.getContext());
-        reportDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-        reportDialog.setContentView(R.layout.report_dialog);
-        reportDialog.setCanceledOnTouchOutside(true);
-
-        deleteDialog = new Dialog(rootView.getContext());
-        deleteDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-        deleteDialog.setContentView(R.layout.delete_dialog);
-        deleteDialog.setCanceledOnTouchOutside(true);
-
         itemsAdapter = new ItemsAdapter(rootView);
         FragmentActivity activity = requireActivity();
+
+        createDeleteDialog(activity);
+
 
         itemsViewModel = new ViewModelProvider(activity).get(ItemsViewModel.class);
         sharedItemViewModel = new ViewModelProvider(activity).get(SharedItemViewModel.class);
@@ -200,47 +194,6 @@ public class ItemsFragment extends Fragment {
         );
 
 
-        deleteDialog.findViewById(R.id.cancel_button_dialog)
-                .setOnClickListener(view -> deleteDialog.dismiss());
-
-        deleteDialog.findViewById(R.id.delete_button_dialog)
-                .setOnClickListener(view ->
-                        itemsViewModel.deleted(SharedPreferenceHelper.getToken(activity),
-                                String.valueOf(selectedItemId)).observe(activity, aBoolean -> {
-                            if(aBoolean){
-                                Toast.makeText(activity, getString(R.string.deleted), Toast.LENGTH_SHORT).show();
-                                itemsViewModel.setDeleted(false);
-                                deleteDialog.dismiss();
-                            }
-                        }));
-
-
-        reportDialog.findViewById(R.id.report_button_dialog)
-                .setOnClickListener(view -> {
-                    Map<String, String> reason = new HashMap<>();
-                    ChipGroup group = reportDialog.findViewById(R.id.report_chip_group);
-                    if(group.getCheckedChipId() == R.id.spam_chip){
-                        reason.put("reason", "spam");
-                    }
-                    else{
-                        reason.put("reason", "inappropriate");
-                    }
-                            itemsViewModel.reported(SharedPreferenceHelper.getToken(activity),
-                            String.valueOf(selectedItemId),
-                                    reason
-                            ).observe(activity, reportResponse -> {
-                                if(reportResponse.getItem_report().equals("reported!!!")){
-                                    Toast.makeText(activity, getString(R.string.Reported), Toast.LENGTH_SHORT).show();
-                                }
-                                else if(reportResponse.getError().equals("this item is already reported")){
-                                    Toast.makeText(activity, getString(R.string.already_reported), Toast.LENGTH_SHORT).show();
-                                }
-                                else{
-                                    Toast.makeText(activity, getString(R.string.something_wrong), Toast.LENGTH_SHORT).show();
-                                }
-                            });
-                });
-
 
         itemsViewModel.getSharedError().observe(activity, aBoolean -> {
             if(aBoolean){
@@ -249,27 +202,42 @@ public class ItemsFragment extends Fragment {
             }
         });
 
-
-        /*itemsViewModel.getmResponse(page).observe(activity, itemsPaginationObject -> {
-
-            if(itemsPaginationObject.getStatus()){
-                itemsAdapter.setItemsList(itemsPaginationObject.getItems().getData());
-                page = itemsPaginationObject.getItems().getCurrent_page();
-                lastPage = itemsPaginationObject.getItems().getLast_page();
-
-                shimmerLayout.setVisibility(View.GONE);
-                errorPage.setVisibility(View.GONE);
-                recyclerView.setVisibility(View.VISIBLE);
-            }
-            else{
-                shimmerLayout.setVisibility(View.GONE);
-                errorPage.setVisibility(View.GONE);
-                recyclerView.setVisibility(View.GONE);
-            }
-        });*/
-
-
         return rootView;
+    }
+
+    private void createDeleteDialog(FragmentActivity activity) {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(activity);
+        dialog.setTitle(R.string.warning);
+        dialog.setMessage(R.string.warning_message);
+        dialog.setCancelable(true);
+
+        dialog.setPositiveButton(
+                getString(R.string.delete), (dialogInterface, i) -> {
+
+                    Constraints constraints = new Constraints.Builder()
+                            .setRequiredNetworkType(NetworkType.CONNECTED)
+                            .build();
+                    Data data = new Data.Builder()
+                            .putString("TYPE", "item")
+                            .putString("ELEMENT_ID", String.valueOf(selectedItemId))
+                            .build();
+
+                    OneTimeWorkRequest deleteWorker = new OneTimeWorkRequest
+                            .Builder(DeleteWorker.class)
+                            .setConstraints(constraints)
+                            .setInputData(data)
+                            .build();
+                    WorkManager.getInstance(requireActivity()).enqueue(deleteWorker);
+                    itemsAdapter.removeItem(selectedItemPosition);
+                    alertDialog.dismiss();
+                });
+
+        dialog.setNegativeButton(
+                getString(R.string.cancel),(dialogInterface, i) -> {
+                    alertDialog.dismiss();
+                });
+
+        alertDialog = dialog.create();
     }
 
     private void initRecyclerView(View rootView) {
@@ -282,22 +250,24 @@ public class ItemsFragment extends Fragment {
         itemsAdapter.setOnItemClickListener(new ItemsAdapter.OnItemClickListener() {
             @Override
             public void OnMenuClicked(int position, View view) {
-                PopupMenu popup = new PopupMenu(rootView.getContext(), view);
 
                 selectedItemId = itemsAdapter.getItem(position).getId();
+                selectedItemPosition = position;
 
+                PopupMenu popup = new PopupMenu(rootView.getContext(), view);
                 if(itemsAdapter.getItem(position).getUser_id().equals(userId)){
                     popup.getMenuInflater().inflate(R.menu.out_menu, popup.getMenu());
                 }
                 else{
                     popup.getMenuInflater().inflate(R.menu.out_menu_not_mine, popup.getMenu());
                 }
-
                 popup.show();
 
+
                 popup.setOnMenuItemClickListener(item -> {
+
                     if(item.getItemId() == R.id.report){
-                        reportDialog.show();
+                        reportItem(rootView);
                     }
                     else if(item.getItemId() == R.id.share){
                         Intent sendIntent = new Intent();
@@ -311,7 +281,7 @@ public class ItemsFragment extends Fragment {
                         startActivity(shareIntent);
                     }
                     else if(item.getItemId() == R.id.delete){
-                        deleteDialog.show();
+                        alertDialog.show();
                     }
                     popup.dismiss();
 
@@ -343,7 +313,6 @@ public class ItemsFragment extends Fragment {
 
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
@@ -370,6 +339,14 @@ public class ItemsFragment extends Fragment {
 
             }
         });
+    }
+
+    private void reportItem(View rootView) {
+        Bundle bundle = new Bundle();
+        bundle.putString("id", String.valueOf(selectedItemId));
+        bundle.putString("type", "item");
+        Navigation.findNavController(rootView)
+                .navigate(R.id.action_itemsFragment_to_reportFragment, bundle);
     }
 
 }

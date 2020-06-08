@@ -33,7 +33,7 @@ public class EventPaginationObject {
         this.events = events;
     }
 
-    public class Events {
+    public static class Events {
         private int total;
         private int to;
         private String prev_page_url;
@@ -145,6 +145,7 @@ public class EventPaginationObject {
     }
 
     public class Data {
+        private boolean is_interested;
         private int interests;
         private String updated_at;
         private String created_at;
@@ -157,6 +158,14 @@ public class EventPaginationObject {
         private String title;
         private int user_id;
         private int id;
+
+        public boolean getIs_interested() {
+            return is_interested;
+        }
+
+        public void setIs_interested(boolean is_interested) {
+            this.is_interested = is_interested;
+        }
 
         public int getInterests() {
             return interests;

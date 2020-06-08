@@ -62,13 +62,16 @@
                     >
 
                     <com.flaviofaria.kenburnsview.KenBurnsView
+                        android:id="@+id/image_ken"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:scaleType="centerCrop"
                         android:src="@drawable/ic_image_placeholder"
+                        android:transitionName="event_1"
                         />
                 </com.github.florent37.shapeofview.shapes.ArcView>
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/interest_fab"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"

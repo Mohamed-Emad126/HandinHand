@@ -38,6 +38,11 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemsViewHol
         }
     }
 
+    public void removeItem(int position){
+        itemsList.remove(position);
+        notifyItemRemoved(position);
+    }
+
     public ItemsPaginationObject.Data getItem(int position) {
         return itemsList.get(position);
     }
@@ -132,7 +137,6 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemsViewHol
             itemMoreMenu.setOnClickListener(view -> {
                 itemClickListener.OnMenuClicked(getAdapterPosition() , itemMoreMenu);
             });
-
 
         }
     }

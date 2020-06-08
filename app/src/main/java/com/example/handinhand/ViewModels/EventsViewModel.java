@@ -3,12 +3,13 @@ package com.example.handinhand.ViewModels;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+
 import com.example.handinhand.API.EventsClient;
 import com.example.handinhand.API.RetrofitApi;
 import com.example.handinhand.Models.EventPaginationObject;
-import java.util.HashMap;
+
 import java.util.List;
-import java.util.Map;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -30,6 +31,10 @@ public class EventsViewModel extends ViewModel {
 
     public void setPage(Integer pge) {
         page.postValue(pge);
+    }
+
+    public void setIsError(Boolean isError) {
+        this.isError.postValue(isError);
     }
 
     public LiveData<Integer> getLastPage() {
@@ -66,20 +71,20 @@ public class EventsViewModel extends ViewModel {
             isFirstError.postValue(false);
             mList = new MutableLiveData<>();
             mResponse = new MutableLiveData<>();
-            getListOfItems(page);
+            getListOfEvents(page);
         }
         return mResponse;
     }
 
-    private void getListOfItems(int page) {
+    private void getListOfEvents(int page) {
         EventsClient client = RetrofitApi.getInstance().getEventsClient();
         isLoading.postValue(true);
-        Map<String, String> q = new HashMap<>();
+        /*Map<String, String> q = new HashMap<>();
         //f_params[orderBy][field]=price&f_params[orderBy][type]=ASC
         q.put("f_params[orderBy][field]", "price");
-        q.put("f_params[orderBy][type]", "ASC");
+        q.put("f_params[orderBy][type]", "ASC");*/
 
-        Call<EventPaginationObject> call = client.getEvents(page, q);
+        Call<EventPaginationObject> call = client.getEvents(page, null);
         call.enqueue(new Callback<EventPaginationObject>() {
             @Override
             public void onResponse(Call<EventPaginationObject> call,
@@ -149,11 +154,15 @@ public class EventsViewModel extends ViewModel {
         isError.postValue(false);
         isFirstLoading.postValue(true);
         isFirstError.postValue(false);
-        getListOfItems(1);
+        getListOfEvents(1);
     }
 
 
     public void loadNextPage(int page){
-        getListOfItems(page);
+        getListOfEvents(page);
+    }
+
+    public void interestEvent(List<EventPaginationObject.Data> eventsList) {
+        mList.postValue(eventsList);
     }
 }

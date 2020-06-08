@@ -133,5 +133,7 @@ The platform will provide four major services: -
     <string name="undrawres">all illustration and the default avatar image and the error illustration from Undraw:\nhttps://undraw.co/illustrations</string>
     <string name="made_with_love">Made with love by\n<b>HandinHand</b> team</string>
     <string name="android_team">Android Team</string>
+    <string name="cancel">Cancel</string>
+    <string name="warning_message">Are you sure you want to delete this item?</string>
 
 </resources>

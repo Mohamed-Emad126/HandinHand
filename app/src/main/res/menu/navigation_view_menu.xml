@@ -3,7 +3,6 @@
 
 
     <group android:id="@+id/menu_top"
-           android:checkableBehavior="single"
         >
         <item android:id="@id/profileFragment"
             android:title="@string/profile"
@@ -16,7 +15,6 @@
     </group>
 
     <group android:id="@+id/contacts"
-        android:checkableBehavior="single"
         >
         <item android:id="@id/licencesActivity"
             android:title="@string/license"
@@ -34,7 +32,6 @@
 
 
     <group android:id="@+id/log"
-        android:checkableBehavior="single"
         >
         <item android:id="@id/logOutFragment"
             android:title="@string/logout"

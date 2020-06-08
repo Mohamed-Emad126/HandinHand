@@ -34,6 +34,9 @@
         <action
             android:id="@+id/action_eventsFragment_to_reportFragment"
             app:destination="@id/reportFragment" />
+        <action
+            android:id="@+id/action_eventsFragment_to_eventDescriptionFragment"
+            app:destination="@id/eventDescriptionFragment" />
     </fragment>
     <fragment
         android:id="@+id/handmadesFragment"

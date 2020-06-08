@@ -67,7 +67,6 @@
                 android:id="@+id/like_animation"
                 android:layout_width="40dp"
                 android:layout_height="40dp">
-
                 <ImageView
                     android:id="@+id/star_icon"
                     android:layout_width="match_parent"
