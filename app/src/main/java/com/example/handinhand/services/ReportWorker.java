@@ -50,7 +50,7 @@ public class ReportWorker extends Worker {
             isDone = reportProduct(id, mp);
         }
         else if(type.equals("service")){
-            isDone = reportProduct(id, mp);
+            isDone = reportService(id, mp);
         }
         Handler handler = new Handler(Looper.getMainLooper());
         if(isDone){
@@ -82,7 +82,7 @@ public class ReportWorker extends Worker {
 
             @Override
             public void onFailure(Call<ReportResponse> call, Throwable t) {
-                status[0] = true;
+                status[0] = false;
             }
         });
         return status[0];

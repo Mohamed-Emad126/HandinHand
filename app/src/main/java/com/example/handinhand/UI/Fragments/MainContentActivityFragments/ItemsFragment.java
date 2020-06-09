@@ -173,6 +173,7 @@ public class ItemsFragment extends Fragment {
             page = integer;
             if(page == lastPage){
                 loading.setVisibility(View.GONE);
+                Toast.makeText(activity, R.string.end_of_list, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -202,42 +203,14 @@ public class ItemsFragment extends Fragment {
             }
         });
 
+        sharedItemViewModel.getDeleteAt().observe(activity, integer -> {
+            if(integer != null && integer != -1){
+                itemsViewModel.deleteItem(integer);
+                sharedItemViewModel.deleteAt(-1);
+            }
+        });
+
         return rootView;
-    }
-
-    private void createDeleteDialog(FragmentActivity activity) {
-        AlertDialog.Builder dialog = new AlertDialog.Builder(activity);
-        dialog.setTitle(R.string.warning);
-        dialog.setMessage(R.string.warning_message);
-        dialog.setCancelable(true);
-
-        dialog.setPositiveButton(
-                getString(R.string.delete), (dialogInterface, i) -> {
-
-                    Constraints constraints = new Constraints.Builder()
-                            .setRequiredNetworkType(NetworkType.CONNECTED)
-                            .build();
-                    Data data = new Data.Builder()
-                            .putString("TYPE", "item")
-                            .putString("ELEMENT_ID", String.valueOf(selectedItemId))
-                            .build();
-
-                    OneTimeWorkRequest deleteWorker = new OneTimeWorkRequest
-                            .Builder(DeleteWorker.class)
-                            .setConstraints(constraints)
-                            .setInputData(data)
-                            .build();
-                    WorkManager.getInstance(requireActivity()).enqueue(deleteWorker);
-                    itemsAdapter.removeItem(selectedItemPosition);
-                    alertDialog.dismiss();
-                });
-
-        dialog.setNegativeButton(
-                getString(R.string.cancel),(dialogInterface, i) -> {
-                    alertDialog.dismiss();
-                });
-
-        alertDialog = dialog.create();
     }
 
     private void initRecyclerView(View rootView) {
@@ -300,10 +273,12 @@ public class ItemsFragment extends Fragment {
                             .addSharedElement(imageView, "imageView")
                             .build();
                 }
+                Bundle bundle = new Bundle();
+                bundle.putInt("position", position);
 
                 Navigation.findNavController(rootView).navigate(
                         R.id.action_itemsFragment_to_itemDescriptionFragment,
-                        null,
+                        bundle,
                         null,
                         extra
                 );
@@ -316,8 +291,6 @@ public class ItemsFragment extends Fragment {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-
-
                 if(dy > 0){ // only when scrolling up
 
                     final int visibleThreshold = 2;
@@ -341,12 +314,48 @@ public class ItemsFragment extends Fragment {
         });
     }
 
+
     private void reportItem(View rootView) {
         Bundle bundle = new Bundle();
         bundle.putString("id", String.valueOf(selectedItemId));
         bundle.putString("type", "item");
         Navigation.findNavController(rootView)
                 .navigate(R.id.action_itemsFragment_to_reportFragment, bundle);
+    }
+
+    private void createDeleteDialog(FragmentActivity activity) {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(activity);
+        dialog.setTitle(R.string.warning);
+        dialog.setMessage(R.string.warning_message);
+        dialog.setCancelable(true);
+
+        dialog.setPositiveButton(
+                getString(R.string.delete), (dialogInterface, i) -> {
+
+                    Constraints constraints = new Constraints.Builder()
+                            .setRequiredNetworkType(NetworkType.CONNECTED)
+                            .build();
+                    Data data = new Data.Builder()
+                            .putString("TYPE", "item")
+                            .putString("ELEMENT_ID", String.valueOf(selectedItemId))
+                            .build();
+
+                    OneTimeWorkRequest deleteWorker = new OneTimeWorkRequest
+                            .Builder(DeleteWorker.class)
+                            .setConstraints(constraints)
+                            .setInputData(data)
+                            .build();
+                    WorkManager.getInstance(requireActivity()).enqueue(deleteWorker);
+                    itemsViewModel.deleteItem(selectedItemPosition);
+                    alertDialog.dismiss();
+                });
+
+        dialog.setNegativeButton(
+                getString(R.string.cancel),(dialogInterface, i) -> {
+                    alertDialog.dismiss();
+                });
+
+        alertDialog = dialog.create();
     }
 
 }

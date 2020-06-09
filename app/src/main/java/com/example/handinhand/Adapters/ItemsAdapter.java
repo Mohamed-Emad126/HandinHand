@@ -39,7 +39,6 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemsViewHol
     }
 
     public void removeItem(int position){
-        itemsList.remove(position);
         notifyItemRemoved(position);
     }
 

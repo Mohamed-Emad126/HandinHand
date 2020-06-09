@@ -3,10 +3,13 @@ package com.example.handinhand.ViewModels;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+
 import com.example.handinhand.API.ItemsClient;
 import com.example.handinhand.API.RetrofitApi;
 import com.example.handinhand.Models.AddItemResponse;
+
 import java.util.HashMap;
+
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
@@ -43,7 +46,7 @@ public class AddItemViewModel extends ViewModel {
     private void addItem(String token, String id, HashMap<String, RequestBody> itemInfo,
                          MultipartBody.Part image) {
         ItemsClient itemsClient = RetrofitApi.getInstance().getItemsClient();
-        Call<AddItemResponse> addItemResponseCall = itemsClient.addItem(token, id, itemInfo, image);
+        Call<AddItemResponse> addItemResponseCall = itemsClient.addItem(token, itemInfo, image);
 
         addItemResponseCall.enqueue(new Callback<AddItemResponse>() {
             @Override

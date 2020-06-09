@@ -135,5 +135,7 @@ The platform will provide four major services: -
     <string name="android_team">Android Team</string>
     <string name="cancel">Cancel</string>
     <string name="warning_message">Are you sure you want to delete this item?</string>
+    <string name="end_of_list">End of list</string>
+    <string name="done">Done</string>
 
 </resources>

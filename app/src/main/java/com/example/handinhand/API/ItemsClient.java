@@ -3,16 +3,15 @@ package com.example.handinhand.API;
 
 import com.example.handinhand.Models.AddItemResponse;
 import com.example.handinhand.Models.DeletionResponse;
+import com.example.handinhand.Models.ItemRequestResponse;
 import com.example.handinhand.Models.ItemsPaginationObject;
 import com.example.handinhand.Models.ReportResponse;
 
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
-import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
@@ -29,10 +28,9 @@ import retrofit2.http.QueryMap;
 public interface ItemsClient {
 
     @Multipart
-    @POST("api/user/{user_id}/item")
+    @POST("api/items")
     Call<AddItemResponse> addItem(
             @Header("Authorization") String token,
-            @Path("user_id") String user_id,
             @PartMap Map<String, RequestBody> item,
             @Part MultipartBody.Part image
     );
@@ -60,5 +58,11 @@ public interface ItemsClient {
             @Path("item_id") String item_id
     );
 
+    @FormUrlEncoded
+    @POST("api/items/{item id}/request")
+    Call<ItemRequestResponse> itemRequest(
+            @Header("Authorization") String token,
+            @Path("item_id") String item_id
+    );
 
 }

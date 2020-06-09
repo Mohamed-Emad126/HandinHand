@@ -3,6 +3,7 @@ package com.example.handinhand.ViewModels;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+
 import com.example.handinhand.API.ItemsClient;
 import com.example.handinhand.API.RetrofitApi;
 import com.example.handinhand.Models.DeletionResponse;
@@ -12,6 +13,7 @@ import com.example.handinhand.Models.ReportResponse;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -228,6 +230,13 @@ public class ItemsViewModel extends ViewModel {
         getListOfItems(1);
     }
 
+    public void deleteItem(int position){
+        List<ItemsPaginationObject.Data> list = mList.getValue();
+        if(list != null) {
+            list.remove(position);
+        }
+        mList.postValue(list);
+    }
 
     public void loadNextPage(int page){
         getListOfItems(page);

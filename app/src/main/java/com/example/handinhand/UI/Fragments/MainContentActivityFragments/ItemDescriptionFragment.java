@@ -1,6 +1,7 @@
 package com.example.handinhand.UI.Fragments.MainContentActivityFragments;
 
 
+import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -23,6 +24,11 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.transition.TransitionInflater;
+import androidx.work.Constraints;
+import androidx.work.Data;
+import androidx.work.NetworkType;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkManager;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
@@ -30,9 +36,14 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+import com.example.handinhand.Helpers.SharedPreferenceHelper;
 import com.example.handinhand.R;
+import com.example.handinhand.Utils.NetworkUtils;
 import com.example.handinhand.ViewModels.ImagePreviewViewModel;
+import com.example.handinhand.ViewModels.ProfileViewModel;
 import com.example.handinhand.ViewModels.SharedItemViewModel;
+import com.example.handinhand.services.DeleteWorker;
+import com.example.handinhand.services.InterestWorker;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.button.MaterialButton;
 
@@ -50,10 +61,16 @@ public class ItemDescriptionFragment extends Fragment {
 
     private SharedItemViewModel sharedItemViewModel;
     private ImagePreviewViewModel imagePreviewViewModel;
+    private ProfileViewModel profileViewModel;
+    private Toolbar toolbar;
 
     private ClipboardManager clipboardManager;
     private ClipData mClipData;
     private String url = null;
+    String id;
+    int itemId;
+    int position;
+    private AlertDialog alertDialog;
 
     public ItemDescriptionFragment() {
         // Required empty public constructor
@@ -78,8 +95,11 @@ public class ItemDescriptionFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_item_description, container,
                 false);
 
-        FragmentActivity activity = requireActivity();
+        FragmentActivity requireActivity = requireActivity();
+        FragmentActivity activity = requireActivity;
         setUpToolBar(rootView);
+        createDeleteDialog(requireActivity, rootView);
+        position = getArguments().getInt("position");
 
         itemImage = rootView.findViewById(R.id.item_image);
         titleToolbarLayout = rootView.findViewById(R.id.collapse_item_description);
@@ -88,11 +108,18 @@ public class ItemDescriptionFragment extends Fragment {
         facebook = rootView.findViewById(R.id.item_description_facebook);
         phoneNum = rootView.findViewById(R.id.item_description_phoneNum);
         bookButton = rootView.findViewById(R.id.item_description_book);
-        clipboardManager = (ClipboardManager) requireActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+        clipboardManager = (ClipboardManager) requireActivity.getSystemService(Context.CLIPBOARD_SERVICE);
 
-        sharedItemViewModel = new ViewModelProvider(requireActivity()).get(SharedItemViewModel.class);
-        imagePreviewViewModel = new ViewModelProvider(requireActivity()).get(ImagePreviewViewModel.class);
+        sharedItemViewModel = new ViewModelProvider(requireActivity).get(SharedItemViewModel.class);
+        imagePreviewViewModel = new ViewModelProvider(requireActivity).get(ImagePreviewViewModel.class);
+        profileViewModel = new ViewModelProvider(requireActivity).get(ProfileViewModel.class);
+        toolbar = rootView.findViewById(R.id.item_description_toolbar);
 
+        id = profileViewModel.getProfile(SharedPreferenceHelper.getToken(requireActivity))
+                .getValue()
+                .getDetails()
+                .getUser()
+                .getId();
 
         sharedItemViewModel.getSelected().observe(getViewLifecycleOwner(), data -> {
             Glide.with(rootView)
@@ -112,6 +139,7 @@ public class ItemDescriptionFragment extends Fragment {
                     .diskCacheStrategy(DiskCacheStrategy.DATA)
                     .placeholder(R.color.gray)
                     .into(itemImage);
+            itemId = data.getId();
             description.setText(data.getDescription());
             titleToolbarLayout.setTitle(data.getTitle());
             facebook.setText(data.getFacebook());
@@ -121,6 +149,13 @@ public class ItemDescriptionFragment extends Fragment {
                             getString(R.string.free)
                             : data.getPrice()
             );
+
+            if(data.getUser_id().equals(id)){
+                toolbar.inflateMenu(R.menu.out_menu);
+            }
+            else{
+                toolbar.inflateMenu(R.menu.out_menu_not_mine);
+            }
 
         });
 
@@ -142,7 +177,7 @@ public class ItemDescriptionFragment extends Fragment {
         facebook.setOnClickListener(view -> {
             Uri webPage = Uri.parse(facebook.getText().toString());
             Intent intent = new Intent(Intent.ACTION_VIEW, webPage);
-            if (intent.resolveActivity(requireActivity().getPackageManager()) != null) {
+            if (intent.resolveActivity(requireActivity.getPackageManager()) != null) {
                 startActivity(intent);
             }
         });
@@ -155,7 +190,27 @@ public class ItemDescriptionFragment extends Fragment {
         });
 
         bookButton.setOnClickListener(view -> {
+            Constraints constraints = new Constraints.Builder()
+                    .setRequiredNetworkType(NetworkType.CONNECTED)
+                    .build();
+            Data data = new Data.Builder()
+                    .putString("TYPE", "item")
+                    .putString("ELEMENT_ID", String.valueOf(itemId))
+                    .build();
 
+            OneTimeWorkRequest interestWorker = new OneTimeWorkRequest
+                    .Builder(InterestWorker.class)
+                    .setConstraints(constraints)
+                    .setInputData(data)
+                    .build();
+            if(NetworkUtils.getConnectivityStatus(requireActivity) == NetworkUtils.TYPE_NOT_CONNECTED){
+                Toast.makeText(activity, getString(R.string.connection_error), Toast.LENGTH_SHORT).show();
+            }
+            else{
+                WorkManager.getInstance(requireActivity).enqueue(interestWorker);
+                Toast.makeText(activity, getString(R.string.done), Toast.LENGTH_SHORT).show();
+                Navigation.findNavController(rootView).navigateUp();
+            }
         });
 
         return rootView;
@@ -163,17 +218,73 @@ public class ItemDescriptionFragment extends Fragment {
 
 
     private void setUpToolBar(final View rootView) {
-
-        Toolbar toolbar = rootView.findViewById(R.id.item_description_toolbar);
-
         toolbar.setNavigationIcon(R.drawable.ic_back);
         toolbar.setNavigationOnClickListener(view ->
                 Navigation.findNavController(rootView).popBackStack()
         );
+        toolbar.setOnMenuItemClickListener(item -> {
+            if(item.getItemId() == R.id.report){
+                reportItem(rootView);
+            }
+            else if(item.getItemId() == R.id.share){
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                //TODO: Change the text
+                sendIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.items_url)+
+                        String.valueOf(itemId));
+                sendIntent.setType("text/plain");
 
-        toolbar.setOnMenuItemClickListener(item -> false);
-
+                Intent shareIntent = Intent.createChooser(sendIntent, null);
+                startActivity(shareIntent);
+            }
+            else if(item.getItemId() == R.id.delete){
+                alertDialog.show();
+            }
+            return true;
+        });
     }
 
+    private void reportItem(View rootView) {
+        Bundle bundle = new Bundle();
+        bundle.putString("id", String.valueOf(itemId));
+        bundle.putString("type", "item");
+        Navigation.findNavController(rootView)
+                .navigate(R.id.action_itemDescriptionFragment_to_reportFragment, bundle);
+    }
 
+    private void createDeleteDialog(FragmentActivity activity, View rootView) {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(activity);
+        dialog.setTitle(R.string.warning);
+        dialog.setMessage(R.string.warning_message);
+        dialog.setCancelable(true);
+
+        dialog.setPositiveButton(
+                getString(R.string.delete), (dialogInterface, i) -> {
+
+                    Constraints constraints = new Constraints.Builder()
+                            .setRequiredNetworkType(NetworkType.CONNECTED)
+                            .build();
+                    Data data = new Data.Builder()
+                            .putString("TYPE", "item")
+                            .putString("ELEMENT_ID", String.valueOf(itemId))
+                            .build();
+
+                    OneTimeWorkRequest deleteWorker = new OneTimeWorkRequest
+                            .Builder(DeleteWorker.class)
+                            .setConstraints(constraints)
+                            .setInputData(data)
+                            .build();
+                    WorkManager.getInstance(requireActivity()).enqueue(deleteWorker);
+                    sharedItemViewModel.deleteAt(position);
+                    alertDialog.dismiss();
+                    Navigation.findNavController(rootView).navigateUp();
+                });
+
+        dialog.setNegativeButton(
+                getString(R.string.cancel),(dialogInterface, i) -> {
+                    alertDialog.dismiss();
+                });
+
+        alertDialog = dialog.create();
+    }
 }

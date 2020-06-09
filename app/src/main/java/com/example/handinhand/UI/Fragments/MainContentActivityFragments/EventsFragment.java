@@ -111,9 +111,8 @@ public class EventsFragment extends Fragment {
         });
 
 
-
         eventsViewModel.getIsError().observe(activity, aBoolean -> {
-            if(aBoolean){
+            if (aBoolean) {
                 loading.setVisibility(View.GONE);
                 Toast.makeText(activity, getString(R.string.something_wrong), Toast.LENGTH_SHORT).show();
                 eventsViewModel.setIsError(false);
@@ -122,7 +121,7 @@ public class EventsFragment extends Fragment {
 
         eventsViewModel.getIsFirstLoading().observe(activity, aBoolean -> {
             refreshLayout.setRefreshing(false);
-            if(aBoolean){
+            if (aBoolean) {
                 fullLoadingView.setVisibility(View.VISIBLE);
                 errorPage.setVisibility(View.GONE);
                 recyclerView.setVisibility(View.GONE);
@@ -130,7 +129,7 @@ public class EventsFragment extends Fragment {
         });
 
         eventsViewModel.getIsFirstError().observe(activity, aBoolean -> {
-            if(aBoolean){
+            if (aBoolean) {
                 fullLoadingView.setVisibility(View.GONE);
                 errorPage.setVisibility(View.VISIBLE);
                 recyclerView.setVisibility(View.GONE);
@@ -139,8 +138,9 @@ public class EventsFragment extends Fragment {
 
         eventsViewModel.getPage().observe(activity, integer -> {
             page = integer;
-            if(page == lastPage){
+            if (page == lastPage) {
                 loading.setVisibility(View.GONE);
+                Toast.makeText(activity, R.string.end_of_list, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -149,10 +149,9 @@ public class EventsFragment extends Fragment {
         );
 
         eventsViewModel.getIsLoading().observe(activity, aBoolean -> {
-            if(aBoolean){
+            if (aBoolean) {
                 loading.setVisibility(View.VISIBLE);
-            }
-            else{
+            } else {
                 loading.setVisibility(View.GONE);
             }
         });
@@ -165,7 +164,8 @@ public class EventsFragment extends Fragment {
     }
 
     private void initRecyclerView(View rootView) {
-        recyclerView.setLayoutManager(new LinearLayoutManager(rootView.getContext()));
+        LinearLayoutManager layoutManager = new LinearLayoutManager(rootView.getContext());
+        recyclerView.setLayoutManager(layoutManager);
         recyclerView.setSaveEnabled(true);
         recyclerView.setAdapter(eventsAdapter);
         recyclerView.setHasFixedSize(true);
@@ -195,6 +195,25 @@ public class EventsFragment extends Fragment {
             public void OnEventInterest(int position) {
                 eventsAdapter.interestEvent(position);
                 eventsViewModel.interestEvent(eventsAdapter.getEventsList());
+            }
+        });
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                if (dy > 0) {
+                    int visibleItemCount = layoutManager.getChildCount();
+                    int totalItemCount = layoutManager.getItemCount();
+                    int pastVisibleItems = layoutManager.findFirstVisibleItemPosition();
+
+                    if ((visibleItemCount + pastVisibleItems) >= totalItemCount) {
+                        Toast.makeText(getActivity(), "End", Toast.LENGTH_SHORT).show();
+                        if (page != lastPage || (eventsViewModel.getIsLoading().getValue() != null &&
+                                eventsViewModel.getIsLoading().getValue())) {
+                            eventsViewModel.loadNextPage(page+1);
+                        }
+                    }
+                }
             }
         });
     }
