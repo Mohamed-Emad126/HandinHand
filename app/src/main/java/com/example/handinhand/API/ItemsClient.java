@@ -38,6 +38,7 @@ public interface ItemsClient {
 
     @GET("api/items")
     Call<ItemsPaginationObject> getItems(
+            @Header("Authorization") String token,
             @Query("page") int page,
             @QueryMap Map<String, String> Queries
     );

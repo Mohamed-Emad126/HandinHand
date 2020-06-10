@@ -58,7 +58,7 @@ public class FileUtils {
     static final String TAG = "FileUtils";
     private static final boolean DEBUG = false; // Set to true to enable logging
     /**
-     * File and folder comparator. TODO Expose sorting option method
+     * File and folder comparator.
      */
     public static Comparator<File> sComparator = (f1, f2) -> {
         // Sort alphabetically by lower case, which is much cleaner

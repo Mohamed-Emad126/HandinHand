@@ -274,9 +274,9 @@ public class RegisterFragment extends Fragment {
 
                     if(registerResponse.getRegister() != null){
                         String token = registerResponse.getRegister().getToken();
-                        SharedPreferenceHelper.saveToken(activity, token);
+                        SharedPreferenceHelper.saveToken(activity, "Bearer "+token);
                         model.leave();
-                        Toast.makeText(activity, token, Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(activity, token, Toast.LENGTH_SHORT).show();
 
                         startActivity(new Intent(activity, MainContentActivity.class));
                         activity.finish();
@@ -295,8 +295,9 @@ public class RegisterFragment extends Fragment {
                 if(model.getRegisterResponse() != null){
                     if(model.getError().getValue() != null
                         &&model.getError().getValue().equals("The email has already been taken.")){
-                        Snackbar.make(rootView, getString(R.string.taken_email)
-                                ,Snackbar.LENGTH_LONG).show();
+                        Toast.makeText(activity, getString(R.string.taken_email), Toast.LENGTH_SHORT).show();
+                        /*Snackbar.make(rootView, getString(R.string.taken_email)
+                                ,Snackbar.LENGTH_LONG).show();*/
                     }
                     else{
                         Snackbar.make(rootView, getString(R.string.undefined_error)

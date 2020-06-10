@@ -45,6 +45,7 @@ public class Profile {
 
     public class User {
         private Info info;
+        private int is_trusted;
         private String updated_at;
         private String created_at;
         private String password;
@@ -58,6 +59,14 @@ public class Profile {
 
         public void setInfo(Info info) {
             this.info = info;
+        }
+
+        public int getIs_trusted() {
+            return is_trusted;
+        }
+
+        public void setIs_trusted(int is_trusted) {
+            this.is_trusted = is_trusted;
         }
 
         public String getUpdated_at() {

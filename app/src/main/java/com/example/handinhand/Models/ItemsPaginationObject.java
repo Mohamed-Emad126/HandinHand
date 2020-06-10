@@ -144,6 +144,7 @@ public class ItemsPaginationObject {
     }
 
     public class Data {
+        private boolean is_requested;
         private int spam;
         private String updated_at;
         private String created_at;
@@ -155,6 +156,14 @@ public class ItemsPaginationObject {
         private String title;
         private String user_id;
         private int id;
+
+        public boolean getIs_requested() {
+            return is_requested;
+        }
+
+        public void setIs_requested(boolean is_requested) {
+            this.is_requested = is_requested;
+        }
 
         public int getSpam() {
             return spam;

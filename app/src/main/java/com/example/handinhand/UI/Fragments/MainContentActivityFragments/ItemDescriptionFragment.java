@@ -208,7 +208,8 @@ public class ItemDescriptionFragment extends Fragment {
             }
             else{
                 WorkManager.getInstance(requireActivity).enqueue(interestWorker);
-                Toast.makeText(activity, getString(R.string.done), Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity, getString(R.string.requested), Toast.LENGTH_SHORT).show();
+                sharedItemViewModel.setRequestAt(position);
                 Navigation.findNavController(rootView).navigateUp();
             }
         });
@@ -223,6 +224,10 @@ public class ItemDescriptionFragment extends Fragment {
                 Navigation.findNavController(rootView).popBackStack()
         );
         toolbar.setOnMenuItemClickListener(item -> {
+            if(String.valueOf(itemId).equals(id) && item.getItemId() == R.id.delete){
+                item.setVisible(false);
+                item.setEnabled(false);
+            }
             if(item.getItemId() == R.id.report){
                 reportItem(rootView);
             }

@@ -29,10 +29,10 @@ public class SharedItemViewModel extends ViewModel {
     }
 
     public void setRequestAt(int i){
-        deleteAt.postValue(i);
+        requestAt.postValue(i);
     }
 
-    public LiveData<Integer> setRequestAt() {
-        return deleteAt;
+    public LiveData<Integer> getRequestAt() {
+        return requestAt;
     }
 }

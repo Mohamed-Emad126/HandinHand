@@ -138,18 +138,18 @@ public class ItemsViewModel extends ViewModel {
         return isFirstError;
     }
 
-    public LiveData<ItemsPaginationObject> getmResponse(int page) {
+    public LiveData<ItemsPaginationObject> getmResponse(int page, String token) {
         if(mResponse == null){
             isFirstLoading.postValue(true);
             isFirstError.postValue(false);
             mList = new MutableLiveData<>();
             mResponse = new MutableLiveData<>();
-            getListOfItems(page);
+            getListOfItems(page, token);
         }
         return mResponse;
     }
 
-    private void getListOfItems(int page) {
+    private void getListOfItems(int page, String token) {
         ItemsClient client = RetrofitApi.getInstance().getItemsClient();
         isLoading.postValue(true);
         Map<String, String> q = new HashMap<>();
@@ -157,7 +157,7 @@ public class ItemsViewModel extends ViewModel {
         q.put("f_params[orderBy][field]", "price");
         q.put("f_params[orderBy][type]", "ASC");
 
-        Call<ItemsPaginationObject> call = client.getItems(page, q);
+        Call<ItemsPaginationObject> call = client.getItems(token, page, q);
         call.enqueue(new Callback<ItemsPaginationObject>() {
             @Override
             public void onResponse(Call<ItemsPaginationObject> call,
@@ -223,11 +223,11 @@ public class ItemsViewModel extends ViewModel {
 
     }
 
-    public void refresh(){
+    public void refresh(String token){
         isError.postValue(false);
         isFirstLoading.postValue(true);
         isFirstError.postValue(false);
-        getListOfItems(1);
+        getListOfItems(1, token);
     }
 
     public void deleteItem(int position){
@@ -238,7 +238,18 @@ public class ItemsViewModel extends ViewModel {
         mList.postValue(list);
     }
 
-    public void loadNextPage(int page){
-        getListOfItems(page);
+    public void loadNextPage(int page, String token){
+        getListOfItems(page, token);
+    }
+
+    public void requestItem(int position) {
+        List<ItemsPaginationObject.Data> list = mList.getValue();
+        if(list != null && list.size() >0) {
+            ItemsPaginationObject.Data data = list.get(position);
+            data.setIs_requested(true);
+            list.remove(position);
+            list.add(position, data);
+        }
+        mList.postValue(list);
     }
 }

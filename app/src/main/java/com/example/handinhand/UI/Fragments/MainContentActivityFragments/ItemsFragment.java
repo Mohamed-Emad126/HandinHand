@@ -58,6 +58,7 @@ public class ItemsFragment extends Fragment {
     private ItemsAdapter itemsAdapter;
     private ItemsViewModel itemsViewModel;
     private SharedItemViewModel sharedItemViewModel;
+    private String token;
     private ProfileViewModel user;
 
     int page = 0;
@@ -87,7 +88,8 @@ public class ItemsFragment extends Fragment {
         loading = rootView.findViewById(R.id.loading_view_progressbar);
 
         itemsAdapter = new ItemsAdapter(rootView);
-        FragmentActivity activity = requireActivity();
+        FragmentActivity activity = getActivity();
+        token = SharedPreferenceHelper.getToken(activity);
 
         createDeleteDialog(activity);
 
@@ -101,7 +103,7 @@ public class ItemsFragment extends Fragment {
                 });
 
         initRecyclerView(rootView);
-        itemsViewModel.getmResponse(page);
+        itemsViewModel.getmResponse(page, token);
 
         addFab = rootView.findViewById(R.id.items_fab);
         addFab.show();
@@ -123,7 +125,7 @@ public class ItemsFragment extends Fragment {
         });
 
         reload.setOnClickListener(view ->
-            itemsViewModel.refresh()
+            itemsViewModel.refresh(token)
         );
 
         /*itemsViewModel.getIsError().observe(activity, aBoolean -> {
@@ -137,7 +139,7 @@ public class ItemsFragment extends Fragment {
             }
         });*/
         refreshLayout.setOnRefreshListener(() -> {
-            itemsViewModel.refresh();
+            itemsViewModel.refresh(token);
             page = 0;
             itemsAdapter.clearAll();
         });
@@ -207,6 +209,12 @@ public class ItemsFragment extends Fragment {
             if(integer != null && integer != -1){
                 itemsViewModel.deleteItem(integer);
                 sharedItemViewModel.deleteAt(-1);
+            }
+        });
+        sharedItemViewModel.getRequestAt().observe(activity, integer -> {
+            if(integer != null && integer != -1){
+                itemsViewModel.requestItem(integer);
+                sharedItemViewModel.setRequestAt(-1);
             }
         });
 
@@ -305,7 +313,7 @@ public class ItemsFragment extends Fragment {
                         // load content in background
                         if(page != lastPage || (itemsViewModel.getIsLoading().getValue() != null &&
                                 itemsViewModel.getIsLoading().getValue())){
-                            itemsViewModel.loadNextPage(page + 1);
+                            itemsViewModel.loadNextPage(page + 1, token);
                         }
                     }
                 }

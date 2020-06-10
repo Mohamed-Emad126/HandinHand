@@ -63,7 +63,7 @@ public class ReportWorker extends Worker {
                             Toast.makeText(context, R.string.something_wrong, Toast.LENGTH_SHORT).show(),
                     0 );
         }
-        return Result.success();
+        return isDone?Result.success():Result.retry();
     }
 
     private boolean reportItem(String id, Map<String, String> reason){

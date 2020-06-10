@@ -28,7 +28,6 @@ public class ApiErrors {
     public void setError(Error error) {
         this.error = error;
     }
-    //TODO: create the model from json
 
 
 }

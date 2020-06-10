@@ -58,7 +58,7 @@ public class InterestWorker extends Worker {
                             Toast.makeText(context, R.string.something_wrong, Toast.LENGTH_SHORT).show(),
                     0 );
         }
-        return Result.success();
+        return isDone?Result.success():Result.retry();
     }
 
     private boolean requestItem(String id){

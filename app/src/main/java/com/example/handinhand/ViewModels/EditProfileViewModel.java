@@ -1,18 +1,16 @@
 package com.example.handinhand.ViewModels;
 
-import android.util.Log;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.handinhand.API.ProfileClient;
 import com.example.handinhand.API.RetrofitApi;
-import com.example.handinhand.Models.LoginResponse;
 import com.example.handinhand.Models.Profile;
 import com.example.handinhand.Models.ProfileUpdateResponse;
 
 import java.util.HashMap;
+
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
@@ -81,7 +79,6 @@ public class EditProfileViewModel extends ViewModel {
             call = client.updateProfileInfo(token, updates);
         }
 
-        //TODO: Complete
         call.enqueue(new Callback<ProfileUpdateResponse>() {
             @Override
             public void onResponse(Call<ProfileUpdateResponse> call, Response<ProfileUpdateResponse> response) {
