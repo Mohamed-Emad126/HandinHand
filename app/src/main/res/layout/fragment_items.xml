@@ -19,7 +19,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:visibility="gone"
                 >
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/items_recycler_view"
@@ -28,9 +27,18 @@
                     android:layout_gravity="center"
                     android:visibility="gone"
                     android:overScrollMode="never"
+                    android:layout_above="@+id/loading_view_progressbar"
                     android:background="@color/place_holder_color"
                     />
-                <include layout="@layout/loading_view" />
+                <ProgressBar
+                    android:id="@+id/loading_view_progressbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center|bottom"
+                    android:indeterminate="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    />
             </RelativeLayout>
 
             <com.facebook.shimmer.ShimmerFrameLayout

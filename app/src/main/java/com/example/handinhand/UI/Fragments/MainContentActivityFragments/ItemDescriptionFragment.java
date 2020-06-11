@@ -97,7 +97,6 @@ public class ItemDescriptionFragment extends Fragment {
 
         FragmentActivity requireActivity = requireActivity();
         FragmentActivity activity = requireActivity;
-        setUpToolBar(rootView);
         createDeleteDialog(requireActivity, rootView);
         position = getArguments().getInt("position");
 
@@ -114,6 +113,7 @@ public class ItemDescriptionFragment extends Fragment {
         imagePreviewViewModel = new ViewModelProvider(requireActivity).get(ImagePreviewViewModel.class);
         profileViewModel = new ViewModelProvider(requireActivity).get(ProfileViewModel.class);
         toolbar = rootView.findViewById(R.id.item_description_toolbar);
+        setUpToolBar(rootView);
 
         id = profileViewModel.getProfile(SharedPreferenceHelper.getToken(requireActivity))
                 .getValue()
@@ -155,6 +155,12 @@ public class ItemDescriptionFragment extends Fragment {
             }
             else{
                 toolbar.inflateMenu(R.menu.out_menu_not_mine);
+            }
+
+            if(data.getIs_requested()){
+                bookButton.setEnabled(false);
+                bookButton.setText(R.string.already_requested);
+                bookButton.setBackgroundColor(getResources().getColor(R.color.highlight));
             }
 
         });
@@ -210,7 +216,7 @@ public class ItemDescriptionFragment extends Fragment {
                 WorkManager.getInstance(requireActivity).enqueue(interestWorker);
                 Toast.makeText(activity, getString(R.string.requested), Toast.LENGTH_SHORT).show();
                 sharedItemViewModel.setRequestAt(position);
-                Navigation.findNavController(rootView).navigateUp();
+                Navigation.findNavController(rootView).popBackStack();
             }
         });
 

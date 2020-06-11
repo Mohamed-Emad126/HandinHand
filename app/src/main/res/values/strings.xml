@@ -72,9 +72,9 @@ The first step is create the fragments and define the relationship between them.
     <string name="report">Report</string>
     <string name="share">Share</string>
     <!--TODO: change the url-->
-    <string name="avatar_url">http://ebf4988b3761.ngrok.io/storage/avatars/</string>
-    <string name="items_url">http://ebf4988b3761.ngrok.io/item/</string>
-    <string name="items_image_url">http://59cbcc73.ngrok.io/storage/items/</string>
+    <string name="avatar_url">http://9523122526e2.ngrok.io/storage/avatars/</string>
+    <string name="items_url">http://9523122526e2.ngrok.io/item/</string>
+    <string name="items_image_url">http://9523122526e2.ngrok.io/storage/items/</string>
     <string name="update_successfully">Updated</string>
     <string name="edit_profile">Edit Profile</string>
     <string name="connection_error">No Network Connection</string>
@@ -139,5 +139,6 @@ The platform will provide four major services: -
     <string name="end_of_list">End of list</string>
     <string name="done">Done</string>
     <string name="requested">Requested</string>
+    <string name="already_requested">Already Requested</string>
 
 </resources>

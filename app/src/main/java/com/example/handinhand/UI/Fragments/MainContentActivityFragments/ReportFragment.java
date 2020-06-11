@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
@@ -14,6 +15,7 @@ import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkManager;
 
 import com.example.handinhand.R;
+import com.example.handinhand.Utils.NetworkUtils;
 import com.example.handinhand.services.ReportWorker;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.chip.ChipGroup;
@@ -25,7 +27,6 @@ public class ReportFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_report, container, false);
         MaterialButton cancel = rootView.findViewById(R.id.button_report_cancel);
         MaterialButton report = rootView.findViewById(R.id.report_button);
@@ -60,8 +61,13 @@ public class ReportFragment extends Fragment {
                 .setInputData(data)
                 .build();
         report.setOnClickListener(view -> {
-            WorkManager.getInstance(requireActivity()).enqueue(reportWorker);
-            Navigation.findNavController(rootView).navigateUp();
+            if(NetworkUtils.getConnectivityStatus(getActivity()) == NetworkUtils.TYPE_NOT_CONNECTED){
+                Toast.makeText(getActivity(), getString(R.string.connection_error), Toast.LENGTH_SHORT).show();
+            }
+            else{
+                WorkManager.getInstance(getActivity()).enqueue(reportWorker);
+                Navigation.findNavController(rootView).popBackStack();
+            }
         });
 
 

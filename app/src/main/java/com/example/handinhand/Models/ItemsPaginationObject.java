@@ -141,116 +141,116 @@ public class ItemsPaginationObject {
         public void setCurrent_page(int current_page) {
             this.current_page = current_page;
         }
-    }
 
-    public class Data {
-        private boolean is_requested;
-        private int spam;
-        private String updated_at;
-        private String created_at;
-        private String image;
-        private String facebook;
-        private String phone;
-        private String price;
-        private String description;
-        private String title;
-        private String user_id;
-        private int id;
+        public class Data {
+            private boolean is_requested;
+            private int spam;
+            private String updated_at;
+            private String created_at;
+            private String image;
+            private String facebook;
+            private String phone;
+            private String price;
+            private String description;
+            private String title;
+            private String user_id;
+            private int id;
 
-        public boolean getIs_requested() {
-            return is_requested;
-        }
+            public boolean getIs_requested() {
+                return is_requested;
+            }
 
-        public void setIs_requested(boolean is_requested) {
-            this.is_requested = is_requested;
-        }
+            public void setIs_requested(boolean is_requested) {
+                this.is_requested = is_requested;
+            }
 
-        public int getSpam() {
-            return spam;
-        }
+            public int getSpam() {
+                return spam;
+            }
 
-        public void setSpam(int spam) {
-            this.spam = spam;
-        }
+            public void setSpam(int spam) {
+                this.spam = spam;
+            }
 
-        public String getUpdated_at() {
-            return updated_at;
-        }
+            public String getUpdated_at() {
+                return updated_at;
+            }
 
-        public void setUpdated_at(String updated_at) {
-            this.updated_at = updated_at;
-        }
+            public void setUpdated_at(String updated_at) {
+                this.updated_at = updated_at;
+            }
 
-        public String getCreated_at() {
-            return created_at;
-        }
+            public String getCreated_at() {
+                return created_at;
+            }
 
-        public void setCreated_at(String created_at) {
-            this.created_at = created_at;
-        }
+            public void setCreated_at(String created_at) {
+                this.created_at = created_at;
+            }
 
-        public String getImage() {
-            return image;
-        }
+            public String getImage() {
+                return image;
+            }
 
-        public void setImage(String image) {
-            this.image = image;
-        }
+            public void setImage(String image) {
+                this.image = image;
+            }
 
-        public String getFacebook() {
-            return facebook;
-        }
+            public String getFacebook() {
+                return facebook;
+            }
 
-        public void setFacebook(String facebook) {
-            this.facebook = facebook;
-        }
+            public void setFacebook(String facebook) {
+                this.facebook = facebook;
+            }
 
-        public String getPhone() {
-            return phone;
-        }
+            public String getPhone() {
+                return phone;
+            }
 
-        public void setPhone(String phone) {
-            this.phone = phone;
-        }
+            public void setPhone(String phone) {
+                this.phone = phone;
+            }
 
-        public String getPrice() {
-            return price;
-        }
+            public String getPrice() {
+                return price;
+            }
 
-        public void setPrice(String price) {
-            this.price = price;
-        }
+            public void setPrice(String price) {
+                this.price = price;
+            }
 
-        public String getDescription() {
-            return description;
-        }
+            public String getDescription() {
+                return description;
+            }
 
-        public void setDescription(String description) {
-            this.description = description;
-        }
+            public void setDescription(String description) {
+                this.description = description;
+            }
 
-        public String getTitle() {
-            return title;
-        }
+            public String getTitle() {
+                return title;
+            }
 
-        public void setTitle(String title) {
-            this.title = title;
-        }
+            public void setTitle(String title) {
+                this.title = title;
+            }
 
-        public String getUser_id() {
-            return user_id;
-        }
+            public String getUser_id() {
+                return user_id;
+            }
 
-        public void setUser_id(String user_id) {
-            this.user_id = user_id;
-        }
+            public void setUser_id(String user_id) {
+                this.user_id = user_id;
+            }
 
-        public int getId() {
-            return id;
-        }
+            public int getId() {
+                return id;
+            }
 
-        public void setId(int id) {
-            this.id = id;
+            public void setId(int id) {
+                this.id = id;
+            }
         }
     }
 }

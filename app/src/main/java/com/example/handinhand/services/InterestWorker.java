@@ -48,17 +48,10 @@ public class InterestWorker extends Worker {
             isDone = requestService(id);
         }
         Handler handler = new Handler(Looper.getMainLooper());
-        if(isDone){
             handler.postDelayed(() ->
                             Toast.makeText(context, R.string.done, Toast.LENGTH_SHORT).show(),
                     0 );
-        }
-        else{
-            handler.postDelayed(() ->
-                            Toast.makeText(context, R.string.something_wrong, Toast.LENGTH_SHORT).show(),
-                    0 );
-        }
-        return isDone?Result.success():Result.retry();
+        return Result.success();
     }
 
     private boolean requestItem(String id){

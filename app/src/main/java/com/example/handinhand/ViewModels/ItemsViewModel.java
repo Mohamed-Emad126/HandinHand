@@ -10,6 +10,7 @@ import com.example.handinhand.Models.DeletionResponse;
 import com.example.handinhand.Models.ItemsPaginationObject;
 import com.example.handinhand.Models.ReportResponse;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,7 +27,7 @@ public class ItemsViewModel extends ViewModel {
     private MutableLiveData<Boolean> isFirstLoading = new MutableLiveData<>();
     private MutableLiveData<Boolean> isFirstError = new MutableLiveData<>();
     private MutableLiveData<Boolean> isError = new MutableLiveData<>();
-    private MutableLiveData<List<ItemsPaginationObject.Data>> mList;
+    private MutableLiveData<List<ItemsPaginationObject.Items.Data>> mList;
     private MutableLiveData<Boolean> deleted = new MutableLiveData<>();;
     private MutableLiveData<ReportResponse> reported = new MutableLiveData<>();;
     private MutableLiveData<Boolean> sharedError = new MutableLiveData<>();;
@@ -114,7 +115,7 @@ public class ItemsViewModel extends ViewModel {
         lastPage.postValue(lstPge);
     }
 
-    public LiveData<List<ItemsPaginationObject.Data>> getmList() {
+    public LiveData<List<ItemsPaginationObject.Items.Data>> getmList() {
         return mList;
     }
 
@@ -142,8 +143,8 @@ public class ItemsViewModel extends ViewModel {
         if(mResponse == null){
             isFirstLoading.postValue(true);
             isFirstError.postValue(false);
-            mList = new MutableLiveData<>();
             mResponse = new MutableLiveData<>();
+            mList = new MutableLiveData<>();
             getListOfItems(page, token);
         }
         return mResponse;
@@ -167,9 +168,13 @@ public class ItemsViewModel extends ViewModel {
                     if(response.body() != null && response.body().getStatus()){
                         isFirstLoading.postValue(false);
                         isError.postValue(false);
+                        isFirstError.postValue(false);
                         mResponse.postValue(response.body());
 
-                        List<ItemsPaginationObject.Data> list = mList.getValue();
+                        List<ItemsPaginationObject.Items.Data> list = mList.getValue();
+                        if(list == null){
+                            list = new ArrayList<>();
+                        }
 
                         setPage(response.body().getItems().getCurrent_page());
                         setLastPage(response.body().getItems().getLast_page());
@@ -183,9 +188,13 @@ public class ItemsViewModel extends ViewModel {
                     else{
                         if(isFirstLoading.getValue() != null && isFirstLoading.getValue()){
                             isFirstError.postValue(true);
+                            isError.postValue(false);
                             isFirstLoading.postValue(false);
+                            isLoading.postValue(false);
                         }
                         else {
+                            isFirstLoading.postValue(false);
+                            isFirstError.postValue(false);
                             isError.postValue(true);
                             isLoading.postValue(false);
                         }
@@ -194,11 +203,13 @@ public class ItemsViewModel extends ViewModel {
                 else{
                     if(isFirstLoading.getValue() != null && isFirstLoading.getValue()){
                         isFirstError.postValue(true);
-                        isError.postValue(true);
+                        isError.postValue(false);
                         isFirstLoading.postValue(false);
                         isLoading.postValue(false);
                     }
                     else {
+                        isFirstLoading.postValue(false);
+                        isFirstError.postValue(false);
                         isError.postValue(true);
                         isLoading.postValue(false);
                     }
@@ -209,13 +220,15 @@ public class ItemsViewModel extends ViewModel {
             public void onFailure(Call<ItemsPaginationObject> call, Throwable t) {
                 if(isFirstLoading.getValue() != null && isFirstLoading.getValue()){
                     isFirstError.postValue(true);
-                    isError.postValue(true);
+                    isError.postValue(false);
                     isFirstLoading.postValue(false);
                     isLoading.postValue(false);
                 }
                 else{
-                    isLoading.postValue(false);
+                    isFirstLoading.postValue(false);
+                    isFirstError.postValue(false);
                     isError.postValue(true);
+                    isLoading.postValue(false);
                 }
             }
 
@@ -231,7 +244,7 @@ public class ItemsViewModel extends ViewModel {
     }
 
     public void deleteItem(int position){
-        List<ItemsPaginationObject.Data> list = mList.getValue();
+        List<ItemsPaginationObject.Items.Data> list = mList.getValue();
         if(list != null) {
             list.remove(position);
         }
@@ -243,9 +256,9 @@ public class ItemsViewModel extends ViewModel {
     }
 
     public void requestItem(int position) {
-        List<ItemsPaginationObject.Data> list = mList.getValue();
+        List<ItemsPaginationObject.Items.Data> list = mList.getValue();
         if(list != null && list.size() >0) {
-            ItemsPaginationObject.Data data = list.get(position);
+            ItemsPaginationObject.Items.Data data = list.get(position);
             data.setIs_requested(true);
             list.remove(position);
             list.add(position, data);

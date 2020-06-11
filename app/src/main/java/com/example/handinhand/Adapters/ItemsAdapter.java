@@ -21,7 +21,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemsViewHol
 
     private OnItemClickListener itemClickListener;
     private View rootView;
-    List<ItemsPaginationObject.Data> itemsList;
+    List<ItemsPaginationObject.Items.Data> itemsList;
 
     public ItemsAdapter(View rootView) {
         this.rootView = rootView;
@@ -42,7 +42,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemsViewHol
         notifyItemRemoved(position);
     }
 
-    public ItemsPaginationObject.Data getItem(int position) {
+    public ItemsPaginationObject.Items.Data getItem(int position) {
         return itemsList.get(position);
     }
 
@@ -63,17 +63,23 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemsViewHol
     /////////////////////////////////////////////////////////////////
 
 
-    public void setItemsList(List<ItemsPaginationObject.Data> itemsList){
-        if(this.itemsList == null ){
+    public void setItemsList(List<ItemsPaginationObject.Items.Data> itemsList){
+        /*if(this.itemsList == null ){*/
             this.itemsList = itemsList;
             notifyDataSetChanged();
-        }
+        /*}
         else{
             int lastFinish =this.itemsList.size()-1;
-            this.itemsList.addAll(itemsList);
+            List<ItemsPaginationObject.Items.Data> list = new ArrayList<>();
+            Collections.reverse(itemsList);
+            for(int i = 0;i<16; i++){
+                list.add(itemsList.get(i));
+            }
+            Collections.reverse(list);
+            this.itemsList.addAll(list);
             notifyItemInserted(lastFinish);
             //notifyItemRangeInserted(lastFinish, newFinish);
-        }
+        }*/
 
     }
 
@@ -95,7 +101,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemsViewHol
 
         //TODO: add complete image url
         Glide.with(rootView)
-                .load("http://ebf4988b3761.ngrok.io/storage/items/" + itemsList.get(position).getImage())
+                .load("http://9523122526e2.ngrok.io/storage/items/" + itemsList.get(position).getImage())
                 .diskCacheStrategy(DiskCacheStrategy.DATA)
                 .placeholder(R.color.gray)
                 .into(((ItemsViewHolder)holder).itemImage);

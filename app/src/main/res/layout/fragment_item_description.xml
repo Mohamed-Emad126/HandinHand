@@ -48,7 +48,6 @@
                 android:layout_height="?actionBarSize"
                 android:fitsSystemWindows="true"
                 app:layout_collapseMode="pin"
-                app:menu="@menu/item_description_menu"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
                 app:subtitleTextColor="@color/textColorPrimary"
                 app:titleTextColor="@color/textColorPrimary" />

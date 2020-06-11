@@ -44,7 +44,7 @@ public interface ItemsClient {
     );
 
     @FormUrlEncoded
-    @POST("api/item/{item_id}/report")
+    @POST("api/items/{item_id}/report")
     Call<ReportResponse> reportItem(
             @Header("Authorization") String token,
             @Path("item_id") String item_id,
@@ -52,15 +52,15 @@ public interface ItemsClient {
     );
 
 
-    @FormUrlEncoded
-    @DELETE("api/item/{item_id}")
+
+    @DELETE("api/items/{item_id}")
     Call<DeletionResponse> deleteItem(
             @Header("Authorization") String token,
             @Path("item_id") String item_id
     );
 
-    @FormUrlEncoded
-    @POST("api/items/{item id}/request")
+
+    @POST("api/items/{item_id}/request")
     Call<ItemRequestResponse> itemRequest(
             @Header("Authorization") String token,
             @Path("item_id") String item_id

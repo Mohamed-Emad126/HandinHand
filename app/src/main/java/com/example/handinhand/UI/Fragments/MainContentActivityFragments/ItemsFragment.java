@@ -125,19 +125,9 @@ public class ItemsFragment extends Fragment {
         });
 
         reload.setOnClickListener(view ->
-            itemsViewModel.refresh(token)
+                itemsViewModel.refresh(token)
         );
 
-        /*itemsViewModel.getIsError().observe(activity, aBoolean -> {
-            if(aBoolean || (itemsAdapter == null)){
-                shimmerLayout.setVisibility(View.GONE);
-                errorPage.setVisibility(View.VISIBLE);
-                recyclerView.setVisibility(View.GONE);
-            }
-            else{
-
-            }
-        });*/
         refreshLayout.setOnRefreshListener(() -> {
             itemsViewModel.refresh(token);
             page = 0;
@@ -145,9 +135,8 @@ public class ItemsFragment extends Fragment {
         });
 
 
-
         itemsViewModel.getIsError().observe(activity, aBoolean -> {
-            if(aBoolean){
+            if (aBoolean) {
                 loading.setVisibility(View.GONE);
                 Toast.makeText(activity, getString(R.string.something_wrong), Toast.LENGTH_SHORT).show();
                 itemsViewModel.setIsError(false);
@@ -156,7 +145,7 @@ public class ItemsFragment extends Fragment {
 
         itemsViewModel.getIsFirstLoading().observe(activity, aBoolean -> {
             refreshLayout.setRefreshing(false);
-            if(aBoolean){
+            if (aBoolean) {
                 shimmerLayout.setVisibility(View.VISIBLE);
                 errorPage.setVisibility(View.GONE);
                 recyclerView.setVisibility(View.GONE);
@@ -164,7 +153,7 @@ public class ItemsFragment extends Fragment {
         });
 
         itemsViewModel.getIsFirstError().observe(activity, aBoolean -> {
-            if(aBoolean){
+            if (aBoolean) {
                 shimmerLayout.setVisibility(View.GONE);
                 errorPage.setVisibility(View.VISIBLE);
                 recyclerView.setVisibility(View.GONE);
@@ -173,46 +162,48 @@ public class ItemsFragment extends Fragment {
 
         itemsViewModel.getPage().observe(activity, integer -> {
             page = integer;
-            if(page == lastPage){
+            if (page == lastPage) {
                 loading.setVisibility(View.GONE);
                 Toast.makeText(activity, R.string.end_of_list, Toast.LENGTH_SHORT).show();
             }
         });
 
         itemsViewModel.getLastPage().observe(activity, integer ->
-            lastPage = integer
+                lastPage = integer
         );
 
         itemsViewModel.getIsLoading().observe(activity, aBoolean -> {
-            if(aBoolean){
+            if (aBoolean) {
                 loading.setVisibility(View.VISIBLE);
-            }
-            else{
+            } else {
                 loading.setVisibility(View.GONE);
             }
         });
 
-        itemsViewModel.getmList().observe(activity, data ->
-            itemsAdapter.setItemsList(data)
-        );
-
+        itemsViewModel.getmList().observe(activity, data -> {
+            shimmerLayout.setVisibility(View.GONE);
+            errorPage.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
+            itemsAdapter.setItemsList(data);
+            Toast.makeText(activity, String.valueOf(data.size()), Toast.LENGTH_SHORT).show();
+        });
 
 
         itemsViewModel.getSharedError().observe(activity, aBoolean -> {
-            if(aBoolean){
+            if (aBoolean) {
                 Toast.makeText(activity, getString(R.string.something_wrong), Toast.LENGTH_SHORT).show();
                 itemsViewModel.setSharedError(false);
             }
         });
 
         sharedItemViewModel.getDeleteAt().observe(activity, integer -> {
-            if(integer != null && integer != -1){
+            if (integer != null && integer != -1) {
                 itemsViewModel.deleteItem(integer);
                 sharedItemViewModel.deleteAt(-1);
             }
         });
         sharedItemViewModel.getRequestAt().observe(activity, integer -> {
-            if(integer != null && integer != -1){
+            if (integer != null && integer != -1) {
                 itemsViewModel.requestItem(integer);
                 sharedItemViewModel.setRequestAt(-1);
             }
@@ -236,10 +227,9 @@ public class ItemsFragment extends Fragment {
                 selectedItemPosition = position;
 
                 PopupMenu popup = new PopupMenu(rootView.getContext(), view);
-                if(itemsAdapter.getItem(position).getUser_id().equals(userId)){
+                if (itemsAdapter.getItem(position).getUser_id().equals(userId)) {
                     popup.getMenuInflater().inflate(R.menu.out_menu, popup.getMenu());
-                }
-                else{
+                } else {
                     popup.getMenuInflater().inflate(R.menu.out_menu_not_mine, popup.getMenu());
                 }
                 popup.show();
@@ -247,21 +237,19 @@ public class ItemsFragment extends Fragment {
 
                 popup.setOnMenuItemClickListener(item -> {
 
-                    if(item.getItemId() == R.id.report){
+                    if (item.getItemId() == R.id.report) {
                         reportItem(rootView);
-                    }
-                    else if(item.getItemId() == R.id.share){
+                    } else if (item.getItemId() == R.id.share) {
                         Intent sendIntent = new Intent();
                         sendIntent.setAction(Intent.ACTION_SEND);
                         //TODO: Change the text
-                        sendIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.items_url)+
+                        sendIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.items_url) +
                                 itemsAdapter.getItem(position).getId());
                         sendIntent.setType("text/plain");
 
                         Intent shareIntent = Intent.createChooser(sendIntent, null);
                         startActivity(shareIntent);
-                    }
-                    else if(item.getItemId() == R.id.delete){
+                    } else if (item.getItemId() == R.id.delete) {
                         alertDialog.show();
                     }
                     popup.dismiss();
@@ -299,20 +287,20 @@ public class ItemsFragment extends Fragment {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                if(dy > 0){ // only when scrolling up
+                if (dy > 0) { // only when scrolling up
 
                     final int visibleThreshold = 2;
 
-                    GridLayoutManager layoutManager = (GridLayoutManager)recyclerView.getLayoutManager();
-                    int lastItem  = layoutManager.findLastCompletelyVisibleItemPosition();
+                    GridLayoutManager layoutManager = (GridLayoutManager) recyclerView.getLayoutManager();
+                    int lastItem = layoutManager.findLastCompletelyVisibleItemPosition();
                     int currentTotalCount = layoutManager.getItemCount();
 
-                    if(currentTotalCount <= lastItem + visibleThreshold){
+                    if (currentTotalCount <= lastItem + visibleThreshold) {
                         Toast.makeText(getActivity(), "End", Toast.LENGTH_SHORT).show();
                         //show your loading view
                         // load content in background
-                        if(page != lastPage || (itemsViewModel.getIsLoading().getValue() != null &&
-                                itemsViewModel.getIsLoading().getValue())){
+                        if (page != lastPage || (itemsViewModel.getIsLoading().getValue() != null &&
+                                itemsViewModel.getIsLoading().getValue())) {
                             itemsViewModel.loadNextPage(page + 1, token);
                         }
                     }
@@ -321,7 +309,6 @@ public class ItemsFragment extends Fragment {
             }
         });
     }
-
 
     private void reportItem(View rootView) {
         Bundle bundle = new Bundle();
@@ -359,7 +346,7 @@ public class ItemsFragment extends Fragment {
                 });
 
         dialog.setNegativeButton(
-                getString(R.string.cancel),(dialogInterface, i) -> {
+                getString(R.string.cancel), (dialogInterface, i) -> {
                     alertDialog.dismiss();
                 });
 

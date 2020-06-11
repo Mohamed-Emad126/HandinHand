@@ -53,17 +53,11 @@ public class ReportWorker extends Worker {
             isDone = reportService(id, mp);
         }
         Handler handler = new Handler(Looper.getMainLooper());
-        if(isDone){
-            handler.postDelayed(() ->
-                            Toast.makeText(context, R.string.Reported, Toast.LENGTH_SHORT).show(),
-                    0 );
-        }
-        else{
-            handler.postDelayed(() ->
-                            Toast.makeText(context, R.string.something_wrong, Toast.LENGTH_SHORT).show(),
-                    0 );
-        }
-        return isDone?Result.success():Result.retry();
+        handler.postDelayed(() ->
+                        Toast.makeText(context, R.string.Reported, Toast.LENGTH_SHORT).show(),
+                0 );
+
+        return Result.success();
     }
 
     private boolean reportItem(String id, Map<String, String> reason){
