@@ -144,7 +144,7 @@ public class ItemsPaginationObject {
 
         public class Data {
             private boolean is_requested;
-            private int spam;
+            private int reports;
             private String updated_at;
             private String created_at;
             private String image;
@@ -165,11 +165,11 @@ public class ItemsPaginationObject {
             }
 
             public int getSpam() {
-                return spam;
+                return reports;
             }
 
             public void setSpam(int spam) {
-                this.spam = spam;
+                this.reports = spam;
             }
 
             public String getUpdated_at() {

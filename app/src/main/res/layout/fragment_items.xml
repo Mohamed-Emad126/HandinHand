@@ -1,44 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".UI.Fragments.MainContentActivityFragments.ItemsFragment"
-    >
+    tools:context=".UI.Fragments.MainContentActivityFragments.ItemsFragment">
+
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/items_swipe_refresh_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="match_parent">
+
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
+            android:layout_height="match_parent">
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_gravity="center"
-                >
+                android:layout_gravity="center">
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/items_recycler_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:visibility="gone"
-                    android:overScrollMode="never"
                     android:layout_above="@+id/loading_view_progressbar"
+                    android:layout_gravity="center"
                     android:background="@color/place_holder_color"
-                    />
+                    android:clipToPadding="false"
+                    android:overScrollMode="never"
+                    android:paddingBottom="50dp"
+                    android:visibility="gone" />
+
                 <ProgressBar
                     android:id="@+id/loading_view_progressbar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center|bottom"
-                    android:indeterminate="true"
                     android:layout_alignParentBottom="true"
                     android:layout_centerHorizontal="true"
-                    />
+                    android:layout_gravity="center|bottom"
+                    android:indeterminate="true" />
             </RelativeLayout>
 
             <com.facebook.shimmer.ShimmerFrameLayout
@@ -46,8 +47,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:shimmer_auto_start="true"
-                app:shimmer_duration="600"
-                >
+                app:shimmer_duration="600">
+
                 <include layout="@layout/items_placeholder" />
             </com.facebook.shimmer.ShimmerFrameLayout>
 
@@ -61,14 +62,13 @@
         android:id="@+id/items_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:fabSize="auto"
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
-        app:backgroundTint="@color/textColorPrimary"
-        app:rippleColor="@android:color/white"
         android:src="@drawable/ic_add"
-        app:tint="@android:color/white"
         android:transitionName="FloatingActionButtonTransition"
-        />
+        app:backgroundTint="@color/textColorPrimary"
+        app:fabSize="auto"
+        app:rippleColor="@android:color/white"
+        app:tint="@android:color/white" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

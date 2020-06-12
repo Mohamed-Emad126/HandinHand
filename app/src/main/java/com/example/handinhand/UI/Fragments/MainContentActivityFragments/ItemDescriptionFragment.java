@@ -69,6 +69,7 @@ public class ItemDescriptionFragment extends Fragment {
     private String url = null;
     String id;
     int itemId;
+    String userId;
     int position;
     private AlertDialog alertDialog;
 
@@ -140,6 +141,7 @@ public class ItemDescriptionFragment extends Fragment {
                     .placeholder(R.color.gray)
                     .into(itemImage);
             itemId = data.getId();
+            userId = data.getUser_id();
             description.setText(data.getDescription());
             titleToolbarLayout.setTitle(data.getTitle());
             facebook.setText(data.getFacebook());
@@ -230,7 +232,7 @@ public class ItemDescriptionFragment extends Fragment {
                 Navigation.findNavController(rootView).popBackStack()
         );
         toolbar.setOnMenuItemClickListener(item -> {
-            if(String.valueOf(itemId).equals(id) && item.getItemId() == R.id.delete){
+            if(String.valueOf(userId).equals(id) && item.getItemId() == R.id.delete){
                 item.setVisible(false);
                 item.setEnabled(false);
             }

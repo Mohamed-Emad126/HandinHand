@@ -10,9 +10,11 @@ import androidx.work.Data;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
+import com.example.handinhand.API.EventsClient;
 import com.example.handinhand.API.ItemsClient;
 import com.example.handinhand.API.RetrofitApi;
 import com.example.handinhand.Helpers.SharedPreferenceHelper;
+import com.example.handinhand.Models.EventInterestResponse;
 import com.example.handinhand.Models.ItemRequestResponse;
 import com.example.handinhand.R;
 
@@ -78,7 +80,30 @@ public class InterestWorker extends Worker {
 
     private boolean requestEvent(String id){
         final boolean[] status = {false};
+        EventsClient eventsClient = RetrofitApi.getInstance().getEventsClient();
+        eventsClient.interestEvent(SharedPreferenceHelper.getToken(context), id)
+                .enqueue(new Callback<EventInterestResponse>() {
+                    @Override
+                    public void onResponse(Call<EventInterestResponse> call, Response<EventInterestResponse> response) {
+                        if(response.isSuccessful() && response.body()!= null){
+                            status[0] = true;
+                            new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(context, R.string.done, Toast.LENGTH_SHORT).show();
+                                }
+                            }, 0);
+                        }
+                        else {
+                            status[0] = false;
+                        }
+                    }
 
+                    @Override
+                    public void onFailure(Call<EventInterestResponse> call, Throwable t) {
+                        status[0] = false;
+                    }
+                });
         return status[0];
     }
 

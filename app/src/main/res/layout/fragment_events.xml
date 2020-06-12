@@ -5,32 +5,52 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".UI.Fragments.MainContentActivityFragments.EventsFragment">
+
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/events_swipe_refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:visibility="gone">
+                android:layout_gravity="center">
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/events_recycler_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_above="@id/events_loading_view_progressbar"
                     android:layout_gravity="center"
                     android:background="@color/place_holder_color"
+                    android:clipToPadding="false"
                     android:overScrollMode="never"
+                    android:paddingBottom="50dp"
                     android:visibility="gone" />
-                <include layout="@layout/loading_view" />
+
+                <ProgressBar
+                    android:id="@+id/events_loading_view_progressbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_gravity="center|bottom"
+                    android:visibility="gone"
+                    android:indeterminate="true" />
             </RelativeLayout>
-            <include layout="@layout/loading_layout" />
+
+            <include layout="@layout/loading_layout"/>
+
             <include layout="@layout/layout_error" />
+
         </FrameLayout>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/events_fab"
         android:layout_width="wrap_content"
@@ -38,10 +58,11 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
         android:src="@drawable/ic_add"
-        android:transitionName="FloatingActionButtonTransition"
         android:visibility="gone"
+        android:transitionName="FloatingActionButtonTransition"
         app:backgroundTint="@color/textColorPrimary"
         app:fabSize="auto"
         app:rippleColor="@android:color/white"
         app:tint="@android:color/white" />
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

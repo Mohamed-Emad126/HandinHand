@@ -77,7 +77,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_marginEnd="20dp"
                     android:layout_marginTop="325dp"
-                    android:src="@drawable/ic_star_border"
+                    android:src="@drawable/star_icon"
                     app:backgroundTint="@color/textColorPrimary"
                     app:elevation="15dp"
                     app:fabSize="normal"

@@ -37,6 +37,9 @@
         <action
             android:id="@+id/action_eventsFragment_to_eventDescriptionFragment"
             app:destination="@id/eventDescriptionFragment" />
+        <action
+            android:id="@+id/action_eventsFragment_to_addEventFragment"
+            app:destination="@id/addEventFragment" />
     </fragment>
     <fragment
         android:id="@+id/handmadesFragment"
@@ -144,4 +147,9 @@
         android:name="com.example.handinhand.UI.Activities.ContactUsActivity"
         android:label="activity_contact_us"
         tools:layout="@layout/activity_contact_us" />
+    <fragment
+        android:id="@+id/addEventFragment"
+        android:name="com.example.handinhand.UI.Fragments.MainContentActivityFragments.AddEventFragment"
+        android:label="fragment_add_event"
+        tools:layout="@layout/fragment_add_event" />
 </navigation>

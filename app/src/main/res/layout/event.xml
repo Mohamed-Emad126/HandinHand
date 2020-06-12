@@ -48,8 +48,8 @@
             android:shadowRadius="20"
             android:textColor="@android:color/white"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/event_image"
-            app:layout_constraintEnd_toStartOf="@+id/linearLayout"
+            app:layout_constraintBottom_toBottomOf="@id/event_image"
+            app:layout_constraintEnd_toStartOf="@id/linearLayout"
             app:layout_constraintStart_toStartOf="parent"
             tools:text="@string/spam" />
 

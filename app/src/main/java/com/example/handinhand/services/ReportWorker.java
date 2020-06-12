@@ -10,9 +10,11 @@ import androidx.work.Data;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
+import com.example.handinhand.API.EventsClient;
 import com.example.handinhand.API.ItemsClient;
 import com.example.handinhand.API.RetrofitApi;
 import com.example.handinhand.Helpers.SharedPreferenceHelper;
+import com.example.handinhand.Models.EventReportResponse;
 import com.example.handinhand.Models.ReportResponse;
 import com.example.handinhand.R;
 
@@ -84,7 +86,30 @@ public class ReportWorker extends Worker {
 
     private boolean reportEvent(String id, Map<String, String> reason){
         final boolean[] status = {false};
+        EventsClient eventsClient = RetrofitApi.getInstance().getEventsClient();
+        eventsClient.reportEvent(SharedPreferenceHelper.getToken(context), id, reason)
+                .enqueue(new Callback<EventReportResponse>() {
+                    @Override
+                    public void onResponse(Call<EventReportResponse> call, Response<EventReportResponse> response) {
+                        if(response.isSuccessful() && response.body()!= null){
+                            status[0] = true;
+                            new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(context, R.string.deleted, Toast.LENGTH_SHORT).show();
+                                }
+                            }, 0);
+                        }
+                        else {
+                            status[0] = false;
+                        }
+                    }
 
+                    @Override
+                    public void onFailure(Call<EventReportResponse> call, Throwable t) {
+                        status[0] = false;
+                    }
+                });
         return status[0];
     }
 

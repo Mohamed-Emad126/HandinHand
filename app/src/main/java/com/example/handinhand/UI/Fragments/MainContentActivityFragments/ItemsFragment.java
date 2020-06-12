@@ -40,9 +40,6 @@ import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class ItemsFragment extends Fragment {
 
     private FloatingActionButton addFab;
@@ -78,7 +75,6 @@ public class ItemsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         final View rootView = inflater.inflate(R.layout.fragment_items, container, false);
         recyclerView = rootView.findViewById(R.id.items_recycler_view);
         shimmerLayout = rootView.findViewById(R.id.shimmer_layout);
@@ -305,7 +301,6 @@ public class ItemsFragment extends Fragment {
                         }
                     }
                 }
-
             }
         });
     }

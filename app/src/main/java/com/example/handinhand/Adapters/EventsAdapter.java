@@ -70,22 +70,16 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventsView
         void OnEventClicked(int position, ImageView imageView);
 
         void OnEventInterest(int position);
+
+        void onEventLongClicked(int position);
     }
     /////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////
 
 
     public void setEventsList(List<EventPaginationObject.Data> eventsList){
-        if(this.eventsList == null ){
-            this.eventsList = eventsList;
-            notifyDataSetChanged();
-        }
-        else{
-            int lastFinish =this.eventsList.size()-1;
-            this.eventsList.addAll(eventsList);
-            notifyItemInserted(lastFinish);
-        }
-
+        this.eventsList = eventsList;
+        notifyDataSetChanged();
     }
 
     /////////////////////////////////////////////////////////////////
@@ -146,9 +140,14 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventsView
             });
 
             bangView.setOnClickListener(view -> {
+                bangView.likeAnimation();
                 eventClickListener.OnEventInterest(getAdapterPosition());
             });
 
+            cardView.setOnLongClickListener(view -> {
+                eventClickListener.onEventLongClicked(getAdapterPosition());
+                return true;
+            });
 
         }
     }
