@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
@@ -306,9 +307,17 @@ public class AddItemFragment extends Fragment {
 
         }
         else{
-            requestPermissions(
-                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                    READ_EXTERNAL_STORAGE_ID);
+            if (shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                new AlertDialog.Builder(requireActivity())
+                        .setTitle(R.string.permission_nedded)
+                        .setMessage(R.string.permission_reason)
+                        .setPositiveButton(android.R.string.ok, (dialog, which) -> requestPermissions(
+                                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 70))
+                        .setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss())
+                        .create().show();
+            } else {
+                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, READ_EXTERNAL_STORAGE_ID);
+            }
         }
     }
 

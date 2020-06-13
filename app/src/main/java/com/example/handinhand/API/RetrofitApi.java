@@ -1,6 +1,8 @@
 package com.example.handinhand.API;
 
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -17,6 +19,7 @@ public class RetrofitApi {
     private static ItemsClient itemsClient = null;
     private static EventsClient eventsClient = null;
     private static ImagesClient imagesClient = null;
+    private static ServicesClient servicesClient = null;
 
 
     public static RetrofitApi getInstance() {
@@ -29,8 +32,18 @@ public class RetrofitApi {
     private RetrofitApi() {
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+        Interceptor accept = chain -> {
+            Request original = chain.request();
+            Request request = original.newBuilder()
+                    .header("Accept", "application/json")
+                    .method(original.method(), original.body())
+                    .build();
+
+            return chain.proceed(request);
+        };
         OkHttpClient clientLog = new OkHttpClient.Builder()
           .addInterceptor(logging)
+          .addInterceptor(accept)
           .build();
 
         retrofit = new Retrofit.Builder()
@@ -52,6 +65,13 @@ public class RetrofitApi {
             eventsClient = retrofit.create(EventsClient.class);
         }
         return eventsClient;
+    }
+
+    public ServicesClient getServicesClient() {
+        if(servicesClient == null){
+            servicesClient = retrofit.create(ServicesClient.class);
+        }
+        return servicesClient;
     }
 
     public ItemsClient getItemsClient() {

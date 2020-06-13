@@ -13,13 +13,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.webkit.URLUtil;
 import android.widget.ImageView;
-import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
@@ -36,13 +35,18 @@ import com.example.handinhand.Helpers.RetrofitHelper;
 import com.example.handinhand.Helpers.SharedPreferenceHelper;
 import com.example.handinhand.R;
 import com.example.handinhand.Utils.NetworkUtils;
-import com.example.handinhand.ViewModels.AddItemViewModel;
+import com.example.handinhand.ViewModels.AddEventViewModel;
 import com.example.handinhand.ViewModels.ProfileViewModel;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
+import com.kunzisoft.switchdatetime.SwitchDateTimeDialogFragment;
 import com.squareup.picasso.Picasso;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 
 import okhttp3.RequestBody;
@@ -61,22 +65,21 @@ public class AddEventFragment extends Fragment {
     }
 
     private CoordinatorLayout layout;
+    private SwitchDateTimeDialogFragment dateTimeDialog;
     private Toolbar toolbar;
-    private RadioGroup priceRadioGroup;
-    private TextInputLayout priceLayout;
-    private TextInputEditText priceEditText;
     private TextInputEditText titleEditText;
     private TextInputEditText descriptionEditText;
-    private TextInputEditText facebookUrl;
-    private TextInputEditText phoneNumber;
+    private TextInputEditText about;
+    private TextInputEditText location;
+    private TextInputEditText dateText;
 
     private ImageView closeIcon;
     private ImageView itemImage;
+    long dateTime = 0;
     private CardView cardImage;
-    private AddItemViewModel addItemViewModel;
+    private AddEventViewModel addEventViewModel;
     private ProfileViewModel profileViewModel;
     private MenuItem shareItem;
-
 
 
     @Override
@@ -95,27 +98,25 @@ public class AddEventFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        final View rootView = inflater.inflate(R.layout.fragment_add_item, container, false);
-        layout = rootView.findViewById(R.id.add_item_coordinator);
+        final View rootView = inflater.inflate(R.layout.fragment_add_event, container, false);
+        layout = rootView.findViewById(R.id.add_event_coordinator);
         FragmentActivity activity = requireActivity();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             layout.setTransitionName("FloatingActionButtonTransition");
         }
 
-        addItemViewModel = new ViewModelProvider(activity).get(AddItemViewModel.class);
+        addEventViewModel = new ViewModelProvider(activity).get(AddEventViewModel.class);
         profileViewModel = new ViewModelProvider(activity).get(ProfileViewModel.class);
-        toolbar = rootView.findViewById(R.id.add_item_toolbar);
-        priceRadioGroup = rootView.findViewById(R.id.add_item_radio_group);
-        priceLayout = rootView.findViewById(R.id.add_item_price_layout);
+        toolbar = rootView.findViewById(R.id.add_event_toolbar);
 
-        priceEditText = rootView.findViewById(R.id.add_item_price);
-        titleEditText = rootView.findViewById(R.id.add_item_title);
-        facebookUrl = rootView.findViewById(R.id.add_item_Facebook);
-        phoneNumber = rootView.findViewById(R.id.add_item_phone_number);
-        descriptionEditText = rootView.findViewById(R.id.add_item_description);
+        titleEditText = rootView.findViewById(R.id.add_event_title);
+        descriptionEditText = rootView.findViewById(R.id.add_event_description);
+        about = rootView.findViewById(R.id.add_event_about);
+        dateText = rootView.findViewById(R.id.add_event_date);
+        location = rootView.findViewById(R.id.add_event_location);
 
-        cardImage = rootView.findViewById(R.id.add_item_card_image);
-        itemImage = rootView.findViewById(R.id.add_item_image);
+        cardImage = rootView.findViewById(R.id.add_event_card_image);
+        itemImage = rootView.findViewById(R.id.add_event_image);
         closeIcon = rootView.findViewById(R.id.close_icon);
         shareItem = toolbar.getMenu().getItem(0);
 
@@ -129,9 +130,13 @@ public class AddEventFragment extends Fragment {
                     .into(itemImage);
 
             closeIcon.setVisibility(View.VISIBLE);
-        }
-        else{
+        } else {
             closeIcon.setVisibility(View.GONE);
+        }
+        if (savedInstanceState != null && savedInstanceState.containsKey("dateTime")) {
+            dateTime = savedInstanceState.getLong("dateTime");
+        } else {
+            dateTime = 0;
         }
         getImageIntent = new Intent(Intent.ACTION_PICK,
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -146,52 +151,40 @@ public class AddEventFragment extends Fragment {
             uri = null;
         });
 
-        priceRadioGroup.setOnCheckedChangeListener((radioGroup, i) -> {
-            if(i == R.id.free_item){
-                priceLayout.setVisibility(View.GONE);
-            }
-            else{
-                priceLayout.setVisibility(View.VISIBLE);
-            }
-        });
-
         toolbar.setOnMenuItemClickListener(item -> {
-            if(item.getItemId() == R.id.action_share){
-                if(checkEmptyCells(rootView)){
+            if (item.getItemId() == R.id.action_share) {
+                if (checkEmptyCells(rootView)) {
                     HashMap<String, RequestBody> itemInfo = createItem();
-                    if(profileViewModel.getProfile(SharedPreferenceHelper.getToken(activity))
+                    if (profileViewModel.getProfile(SharedPreferenceHelper.getToken(activity))
                             .getValue() != null
                             && profileViewModel.getProfile(SharedPreferenceHelper.getToken(activity))
-                            .getValue().getStatus()){
+                            .getValue().getStatus()) {
 
 
-                        if(NetworkUtils.getConnectivityStatus(activity)
-                                == NetworkUtils.TYPE_NOT_CONNECTED){
+                        if (NetworkUtils.getConnectivityStatus(activity)
+                                == NetworkUtils.TYPE_NOT_CONNECTED) {
                             Snackbar.make(rootView, getString(R.string.connection_error),
                                     Snackbar.LENGTH_LONG).show();
-                        }
-                        else{
-                            addItemViewModel.getmResponse(
+                        } else {
+                            addEventViewModel.getmResponse(
                                     SharedPreferenceHelper.getToken(activity),
                                     profileViewModel.getProfile(SharedPreferenceHelper.getToken(activity))
                                             .getValue().getDetails().getUser().getId(),
                                     itemInfo,
                                     RetrofitHelper.prepareFilePart(activity, "image", uri)
-                            ).observe(activity, addItemResponse -> {
-                                if (addItemResponse.getStatus()) {
+                            ).observe(activity, addEventResponse  -> {
+                                if (addEventResponse.getStatus()) {
                                     Toast.makeText(activity, R.string.item_added, Toast.LENGTH_SHORT).show();
                                     setHideSoftKeyboard(rootView);
                                     Navigation.findNavController(rootView).navigateUp();
-                                    addItemViewModel.leave();
-                                }
-                                else{
+                                    addEventViewModel.leave();
+                                } else {
                                     Toast.makeText(activity, getString(R.string.something_wrong), Toast.LENGTH_SHORT).show();
                                 }
 
                             });
                         }
-                    }
-                    else{
+                    } else {
                         Toast.makeText(activity, getString(R.string.something_wrong), Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -199,36 +192,37 @@ public class AddEventFragment extends Fragment {
             return true;
         });
 
-        addItemViewModel.getIsError().observe(activity, aBoolean -> {
-            if(aBoolean){
+        dateText.setOnClickListener(view -> createDialog());
+
+        addEventViewModel.getIsError().observe(activity, aBoolean -> {
+            if (aBoolean) {
                 Toast.makeText(activity, getString(R.string.something_wrong), Toast.LENGTH_SHORT).show();
             }
         });
-        addItemViewModel.getIsLoading().observe(activity, aBoolean -> {
-            if(aBoolean){
+        addEventViewModel.getIsLoading().observe(activity, aBoolean -> {
+            if (aBoolean) {
                 shareItem.setEnabled(false);
                 closeIcon.setVisibility(View.GONE);
                 titleEditText.setEnabled(false);
-                priceEditText.setEnabled(false);
                 descriptionEditText.setEnabled(false);
-                facebookUrl.setEnabled(false);
-                phoneNumber.setEnabled(false);
-            }
-            else{
+                dateText.setEnabled(false);
+                about.setEnabled(false);
+                location.setEnabled(false);
+            } else {
                 shareItem.setEnabled(true);
                 closeIcon.setVisibility(View.VISIBLE);
                 titleEditText.setEnabled(true);
-                priceEditText.setEnabled(true);
                 descriptionEditText.setEnabled(true);
-                facebookUrl.setEnabled(true);
-                phoneNumber.setEnabled(true);
+                about.setEnabled(true);
+                dateText.setEnabled(true);
+                location.setEnabled(true);
             }
         });
 
-        toolbar.setNavigationOnClickListener(view ->{
+        toolbar.setNavigationOnClickListener(view -> {
                     Navigation.findNavController(rootView).navigateUp();
                     setHideSoftKeyboard(rootView);
-                    addItemViewModel.leave();
+                    addEventViewModel.leave();
                 }
         );
 
@@ -244,56 +238,31 @@ public class AddEventFragment extends Fragment {
 
 
     private HashMap<String, RequestBody> createItem() {
-        /*
-        title
-        description
-        price (format : nnnnn.dd)
-        phone (max:15 number)
-        facebook
-        image (file)
-        */
-        HashMap <String, RequestBody> item = new HashMap<>();
+        HashMap<String, RequestBody> item = new HashMap<>();
         item.put("title", RetrofitHelper.createPartFromString(titleEditText.getText().toString().trim()));
         item.put("description", RetrofitHelper.createPartFromString(descriptionEditText.getText().toString().trim()));
-        if (priceRadioGroup.getCheckedRadioButtonId() == R.id.price_item) {
-            item.put("price", RetrofitHelper.createPartFromString(priceEditText.getText().toString().trim()));
-        }
-        else{
-            item.put("price", RetrofitHelper.createPartFromString("0"));
-        }
-        item.put("phone", RetrofitHelper.createPartFromString(phoneNumber.getText().toString().trim()));
-        item.put("facebook", RetrofitHelper.createPartFromString(facebookUrl.getText().toString().trim()));
+        item.put("about", RetrofitHelper.createPartFromString(about.getText().toString().trim()));
+        item.put("date", RetrofitHelper.createPartFromString(String.valueOf(dateTime)));
+        item.put("location", RetrofitHelper.createPartFromString(location.getText().toString().trim()));
         return item;
     }
 
     private boolean checkEmptyCells(View rootView) {
-        TextInputEditText []requiredFields = {
+        TextInputEditText[] requiredFields = {
                 titleEditText,
-                priceEditText,
-                facebookUrl,
-                phoneNumber
+                dateText,
+                location,
+                about
         };
-        if(uri == null){
-            Snackbar.make(rootView, R.string.upload_image, Snackbar.LENGTH_LONG).show();
+        if (uri == null) {
+            Toast.makeText(getActivity(), R.string.upload_image, Toast.LENGTH_SHORT).show();
+            //Snackbar.make(rootView, R.string.upload_image, Snackbar.LENGTH_LONG).show();
             return false;
         }
-        for(int i=0; i<requiredFields.length; i++){
-            if(requiredFields[i].getText().toString().trim().length() ==0){
-                if(i == 1&& priceRadioGroup.getCheckedRadioButtonId() == R.id.price_item){
-                    requiredFields[i].setError(getString(R.string.required));
-                    return false;
-                }
-                else if(i ==1){
-                    continue;
-                }
-                requiredFields[i].setError(getString(R.string.required));
+        for (TextInputEditText requiredField : requiredFields) {
+            if (requiredField.getText().toString().trim().length() == 0) {
+                requiredField.setError(getString(R.string.required));
                 return false;
-            }
-            else if(i == 2 && requiredFields[i].getText().toString().trim().length() !=0){
-                if(URLUtil.isValidUrl(facebookUrl.getText().toString().trim())){
-                    requiredFields[i].setError(getString(R.string.validate_email));
-                    return false;
-                }
             }
         }
         return true;
@@ -301,14 +270,20 @@ public class AddEventFragment extends Fragment {
 
     private void selectImage(FragmentActivity activity) {
         if (PermissionsHelper.canReadExternalStorage(getContext())) {
-
             startActivityForResult(getImageIntent, GET_IMAGE_FROM_GALLERY);
+        } else {
+            if (shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE)) {
 
-        }
-        else{
-            requestPermissions(
-                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                    READ_EXTERNAL_STORAGE_ID);
+                new AlertDialog.Builder(requireActivity())
+                        .setTitle(R.string.permission_nedded)
+                        .setMessage(R.string.permission_reason)
+                        .setPositiveButton(android.R.string.ok, (dialog, which) -> requestPermissions(
+                                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 70))
+                        .setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss())
+                        .create().show();
+            } else {
+                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, READ_EXTERNAL_STORAGE_ID);
+            }
         }
     }
 
@@ -334,7 +309,7 @@ public class AddEventFragment extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if(requestCode == GET_IMAGE_FROM_GALLERY && resultCode == RESULT_OK){
+        if (requestCode == GET_IMAGE_FROM_GALLERY && resultCode == RESULT_OK) {
             if (data != null) {
                 uri = data.getData();
                 Picasso.get().load(uri)
@@ -349,9 +324,44 @@ public class AddEventFragment extends Fragment {
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
-        if(uri != null){
+        if (uri != null) {
             outState.putString(IMAGE_URI, uri.toString());
         }
+        if(dateTime != 0){
+            outState.putLong("dateTime", dateTime);
+        }
         super.onSaveInstanceState(outState);
+    }
+
+    private void createDialog() {
+        dateTimeDialog = SwitchDateTimeDialogFragment.newInstance(
+                getString(R.string.date_picker),
+                getString(android.R.string.ok),
+                getString(android.R.string.cancel)
+        );
+        dateTimeDialog.startAtCalendarView();
+        dateTimeDialog.set24HoursMode(false);
+        final DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm aa");
+        Calendar cal = new GregorianCalendar();
+        cal.get(Calendar.YEAR);
+        dateTimeDialog.setMinimumDateTime(new GregorianCalendar(cal.get(Calendar.YEAR)-1900
+                , cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH)).getTime());
+
+        dateTimeDialog.setOnButtonClickListener(
+                new SwitchDateTimeDialogFragment.OnButtonClickListener() {
+                    @Override
+                    public void onPositiveButtonClick(Date date) {
+                        dateTime = date.getTime();
+                        dateText.setText(df.format(date.getTime()));
+                        //((TextView)findViewById(R.id.textView)).setText(df.format(date.getTime()));
+                    }
+
+                    @Override
+                    public void onNegativeButtonClick(Date date) {
+                        dateTimeDialog.dismiss();
+                    }
+                });
+
+        dateTimeDialog.show(getActivity().getSupportFragmentManager(), "dialog_time");
     }
 }

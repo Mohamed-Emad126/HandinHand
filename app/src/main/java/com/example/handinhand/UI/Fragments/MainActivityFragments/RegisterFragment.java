@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -212,8 +213,17 @@ public class RegisterFragment extends Fragment {
 
                 }
                 else{
-                    requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                            READ_EXTERNAL_STORAGE_ID);
+                    if (shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                        new AlertDialog.Builder(requireActivity())
+                                .setTitle(R.string.permission_nedded)
+                                .setMessage(R.string.permission_reason)
+                                .setPositiveButton(android.R.string.ok, (dialog, which) -> requestPermissions(
+                                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 70))
+                                .setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss())
+                                .create().show();
+                    } else {
+                        requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, READ_EXTERNAL_STORAGE_ID);
+                    }
                 }
             }
 
@@ -300,8 +310,9 @@ public class RegisterFragment extends Fragment {
                                 ,Snackbar.LENGTH_LONG).show();*/
                     }
                     else{
-                        Snackbar.make(rootView, getString(R.string.undefined_error)
-                                ,Snackbar.LENGTH_LONG).show();
+                        /*Snackbar.make(rootView, getString(R.string.undefined_error)
+                                ,Snackbar.LENGTH_LONG).show();*/
+                        Toast.makeText(activity, getString(R.string.undefined_error), Toast.LENGTH_SHORT).show();
                     }
                 }
 

@@ -145,5 +145,6 @@ The platform will provide four major services: -
     <string name="add_event">Add Event</string>
     <string name="location_required">Location *(Required)</string>
     <string name="date">Date</string>
+    <string name="date_picker">Date Picker</string>
 
 </resources>
