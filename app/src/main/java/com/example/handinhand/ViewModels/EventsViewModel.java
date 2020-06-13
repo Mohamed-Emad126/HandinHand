@@ -97,7 +97,7 @@ public class EventsViewModel extends ViewModel {
         /*q.put("f_params[orderBy][field]", "price");
         q.put("f_params[orderBy][type]", "ASC");*/
 
-        Call<EventPaginationObject> events = eventsClient.getEvents(token, page, null);
+        Call<EventPaginationObject> events = eventsClient.getEvents(token, page);
         events.enqueue(new Callback<EventPaginationObject>() {
             @Override
             public void onResponse(Call<EventPaginationObject> call, Response<EventPaginationObject> response) {
@@ -204,8 +204,7 @@ public class EventsViewModel extends ViewModel {
                 data.setIs_interested(true);
                 data.setInterests(data.getInterests()+1);
             }
-            list.remove(position);
-            list.add(position, data);
+            list.set(position, data);
         }
         mList.postValue(list);
     }

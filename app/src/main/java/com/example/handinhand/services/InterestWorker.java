@@ -49,10 +49,10 @@ public class InterestWorker extends Worker {
         else if(type.equals("service")){
             isDone = requestService(id);
         }
-        Handler handler = new Handler(Looper.getMainLooper());
+        /*Handler handler = new Handler(Looper.getMainLooper());
             handler.postDelayed(() ->
                             Toast.makeText(context, R.string.done, Toast.LENGTH_SHORT).show(),
-                    0 );
+                    0 );*/
         return Result.success();
     }
 

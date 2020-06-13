@@ -80,7 +80,6 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemsViewHol
             notifyItemInserted(lastFinish);
             //notifyItemRangeInserted(lastFinish, newFinish);
         }*/
-
     }
 
     /////////////////////////////////////////////////////////////////
@@ -101,20 +100,19 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemsViewHol
 
         //TODO: add complete image url
         Glide.with(rootView)
-                .load("http://9523122526e2.ngrok.io/storage/items/" + itemsList.get(position).getImage())
+                .load("http://b3f6b52da5e8.ngrok.io/storage/items/" + itemsList.get(position).getImage())
                 .diskCacheStrategy(DiskCacheStrategy.DATA)
                 .placeholder(R.color.gray)
                 .into(((ItemsViewHolder)holder).itemImage);
-
     }
+
+
+
 
     @Override
     public int getItemCount() {
         return (itemsList==null)? 0 : itemsList.size();
     }
-
-
-
     /////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////
 

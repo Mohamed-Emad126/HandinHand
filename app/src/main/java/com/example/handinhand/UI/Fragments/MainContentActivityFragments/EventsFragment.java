@@ -80,6 +80,7 @@ public class EventsFragment extends Fragment {
         eventsAdapter = new EventsAdapter(rootView);
         FragmentActivity activity = getActivity();
         token = SharedPreferenceHelper.getToken(activity);
+        addFab = rootView.findViewById(R.id.events_fab);
 
 
         eventsViewModel = new ViewModelProvider(activity).get(EventsViewModel.class);
@@ -96,7 +97,6 @@ public class EventsFragment extends Fragment {
         initRecyclerView(rootView);
         eventsViewModel.getmResponse(page, token);
 
-        addFab = rootView.findViewById(R.id.events_fab);
         addFab.setOnClickListener(view -> {
             FragmentNavigator.Extras extra = null;
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -175,7 +175,7 @@ public class EventsFragment extends Fragment {
             errorPage.setVisibility(View.GONE);
             recyclerView.setVisibility(View.VISIBLE);
             eventsAdapter.setEventsList(data);
-            Toast.makeText(activity, String.valueOf(data.size()), Toast.LENGTH_SHORT).show();
+            //Toast.makeText(activity, String.valueOf(data.size()), Toast.LENGTH_SHORT).show();
         });
 
 
@@ -234,8 +234,9 @@ public class EventsFragment extends Fragment {
 
             @Override
             public void OnEventInterest(int position) {
-                interestEvent(position);
+                selectedItemId = eventsAdapter.getEvent(position).getId();
                 eventsViewModel.interestEvent(position);
+                interestEvent(selectedItemId);
             }
 
             @Override
@@ -319,11 +320,11 @@ public class EventsFragment extends Fragment {
                     int pastVisiblesItems = layoutManager.findFirstVisibleItemPosition();
 
                     if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
-                        Toast.makeText(getActivity(), "End", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getActivity(), "End", Toast.LENGTH_SHORT).show();
                         //show your loading view
                         // load content in background
-                        if (page != lastPage || (eventsViewModel.getIsLoading().getValue() != null &&
-                                eventsViewModel.getIsLoading().getValue())) {
+                        if (page != lastPage && (eventsViewModel.getIsLoading().getValue() != null &&
+                                !eventsViewModel.getIsLoading().getValue())) {
                             eventsViewModel.loadNextPage(page + 1, token);
                         }
                     }
@@ -337,10 +338,10 @@ public class EventsFragment extends Fragment {
         bundle.putString("id", String.valueOf(selectedItemId));
         bundle.putString("type", "event");
         Navigation.findNavController(rootView)
-                .navigate(R.id.action_itemsFragment_to_reportFragment, bundle);
+                .navigate(R.id.action_eventsFragment_to_reportFragment, bundle);
     }
 
-    private void interestEvent(int position){
+    private void interestEvent(int id){
         Constraints constraints = new Constraints.Builder()
                 .setRequiredNetworkType(NetworkType.CONNECTED)
                 .build();
@@ -355,7 +356,7 @@ public class EventsFragment extends Fragment {
                 .setInputData(data)
                 .build();
         WorkManager.getInstance(getActivity()).enqueue(deleteWorker);
-        eventsViewModel.interestEvent(eventsAdapter.getEvent(position).getId());
+        eventsViewModel.interestEvent(id);
     }
 
 }

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -108,16 +108,14 @@
             </androidx.cardview.widget.CardView>
 
 
-            <com.google.android.material.textfield.TextInputEditText
+            <TextView
                 android:id="@+id/add_event_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
                 android:background="@null"
                 android:hint="@string/date"
-                android:inputType="datetime"
                 android:maxLines="2"
-                android:enabled="false"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
                 android:textColor="@color/colorAccent"

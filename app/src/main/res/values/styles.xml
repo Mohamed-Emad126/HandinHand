@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
@@ -47,6 +47,14 @@
         <item name="android:windowBackground">@android:color/white</item>
         <item name="actionMenuTextColor">@color/colorAccent</item>
     </style>
+
+    <style name="pickerStyle" parent="Theme.SwitchDateTime">
+        <item name="colorPrimary">#29b6f6</item>
+        <item name="colorPrimaryDark">#03a9f4</item>
+        <item name="android:textColorPrimaryInverse">#3F51B5</item>
+        <item name="android:textColorSecondaryInverse">#FF5722</item>
+    </style>
+
 
 
 

@@ -72,11 +72,11 @@ The first step is create the fragments and define the relationship between them.
     <string name="report">Report</string>
     <string name="share">Share</string>
     <!--TODO: change the url-->
-    <string name="avatar_url">http://9523122526e2.ngrok.io/storage/avatars/</string>
-    <string name="items_url">http://9523122526e2.ngrok.io/items/</string>
-    <string name="events_url">http://9523122526e2.ngrok.io/events/</string>
-    <string name="items_image_url">http://9523122526e2.ngrok.io/storage/items/</string>
-    <string name="events_image_url">http://9523122526e2.ngrok.io/storage/events/</string>
+    <string name="avatar_url">http://b3f6b52da5e8.ngrok.io/storage/avatars/</string>
+    <string name="items_url">http://b3f6b52da5e8.ngrok.io/items/</string>
+    <string name="events_url">http://b3f6b52da5e8.ngrok.io/events/</string>
+    <string name="items_image_url">http://b3f6b52da5e8.ngrok.io/storage/items/</string>
+    <string name="events_image_url">http://b3f6b52da5e8.ngrok.io/storage/events/</string>
     <string name="update_successfully">Updated</string>
     <string name="edit_profile">Edit Profile</string>
     <string name="connection_error">No Network Connection</string>
@@ -146,5 +146,6 @@ The platform will provide four major services: -
     <string name="location_required">Location *(Required)</string>
     <string name="date">Date</string>
     <string name="date_picker">Date Picker</string>
+    <string name="date_required">Date is required</string>
 
 </resources>

@@ -22,7 +22,6 @@ import retrofit2.http.Part;
 import retrofit2.http.PartMap;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
-import retrofit2.http.QueryMap;
 
 public interface EventsClient {
 
@@ -38,8 +37,7 @@ public interface EventsClient {
     @GET("api/events")
     Call<EventPaginationObject> getEvents(
             @Header("Authorization") String token,
-            @Query("page") int page,
-            @QueryMap Map<String, String> Queries
+            @Query("page") int page
     );
 
     @FormUrlEncoded

@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -22,6 +23,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -71,7 +73,7 @@ public class AddEventFragment extends Fragment {
     private TextInputEditText descriptionEditText;
     private TextInputEditText about;
     private TextInputEditText location;
-    private TextInputEditText dateText;
+    private TextView dateText;
 
     private ImageView closeIcon;
     private ImageView itemImage;
@@ -242,7 +244,7 @@ public class AddEventFragment extends Fragment {
         item.put("title", RetrofitHelper.createPartFromString(titleEditText.getText().toString().trim()));
         item.put("description", RetrofitHelper.createPartFromString(descriptionEditText.getText().toString().trim()));
         item.put("about", RetrofitHelper.createPartFromString(about.getText().toString().trim()));
-        item.put("date", RetrofitHelper.createPartFromString(String.valueOf(dateTime)));
+        item.put("date", RetrofitHelper.createPartFromString(dateText.getText().toString().trim()));
         item.put("location", RetrofitHelper.createPartFromString(location.getText().toString().trim()));
         return item;
     }
@@ -250,10 +252,13 @@ public class AddEventFragment extends Fragment {
     private boolean checkEmptyCells(View rootView) {
         TextInputEditText[] requiredFields = {
                 titleEditText,
-                dateText,
                 location,
                 about
         };
+        if(dateText.getText().toString().equals("Date")){
+            Toast.makeText(getActivity(), R.string.date_required, Toast.LENGTH_SHORT).show();
+            return false;
+        }
         if (uri == null) {
             Toast.makeText(getActivity(), R.string.upload_image, Toast.LENGTH_SHORT).show();
             //Snackbar.make(rootView, R.string.upload_image, Snackbar.LENGTH_LONG).show();
@@ -339,14 +344,14 @@ public class AddEventFragment extends Fragment {
                 getString(android.R.string.ok),
                 getString(android.R.string.cancel)
         );
+        dateTimeDialog.setStyle(DialogFragment.STYLE_NORMAL, R.style.Theme_AppCompat);
+        dateTimeDialog.setAlertStyle(R.style.pickerStyle);
         dateTimeDialog.startAtCalendarView();
-        dateTimeDialog.set24HoursMode(false);
-        final DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm aa");
+        dateTimeDialog.set24HoursMode(true);
+        final DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Calendar cal = new GregorianCalendar();
-        cal.get(Calendar.YEAR);
         dateTimeDialog.setMinimumDateTime(new GregorianCalendar(cal.get(Calendar.YEAR)-1900
                 , cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH)).getTime());
-
         dateTimeDialog.setOnButtonClickListener(
                 new SwitchDateTimeDialogFragment.OnButtonClickListener() {
                     @Override
@@ -355,13 +360,11 @@ public class AddEventFragment extends Fragment {
                         dateText.setText(df.format(date.getTime()));
                         //((TextView)findViewById(R.id.textView)).setText(df.format(date.getTime()));
                     }
-
                     @Override
                     public void onNegativeButtonClick(Date date) {
                         dateTimeDialog.dismiss();
                     }
                 });
-
         dateTimeDialog.show(getActivity().getSupportFragmentManager(), "dialog_time");
     }
 }

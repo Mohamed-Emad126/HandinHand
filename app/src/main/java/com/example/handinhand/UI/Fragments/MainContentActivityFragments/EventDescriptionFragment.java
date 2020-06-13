@@ -111,7 +111,7 @@ public class EventDescriptionFragment extends Fragment {
                 .getId();
 
         sharedViewModel.getSelected().observe(activity, data -> {
-            eventId = description.getId();
+            eventId = data.getId();
             isInterested = data.getIs_interested();
             title.setText(data.getTitle());
             about.setText(data.getAbout());
@@ -182,7 +182,7 @@ public class EventDescriptionFragment extends Fragment {
             if(url != null) {
                 imagePreviewViewModel.setUrl(url);
                 Navigation.findNavController(rootView)
-                        .navigate(R.id.action_itemDescriptionFragment_to_imagePreviewFragment);
+                        .navigate(R.id.action_eventDescriptionFragment_to_imagePreviewFragment);
             }
         });
 
@@ -226,7 +226,7 @@ public class EventDescriptionFragment extends Fragment {
         bundle.putString("id", String.valueOf(eventId));
         bundle.putString("type", "event");
         Navigation.findNavController(rootView)
-                .navigate(R.id.action_itemDescriptionFragment_to_reportFragment, bundle);
+                .navigate(R.id.action_eventDescriptionFragment_to_reportFragment, bundle);
     }
 
     private void createDeleteDialog(FragmentActivity activity, View rootView) {
