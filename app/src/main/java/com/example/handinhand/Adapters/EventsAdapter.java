@@ -95,7 +95,7 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventsView
 
     @Override
     public void onBindViewHolder(@NonNull EventsAdapter.EventsViewHolder holder, int position) {
-        holder.eventTitle.setText(String.valueOf(eventsList.get(position).getId()));
+        holder.eventTitle.setText(String.valueOf(eventsList.get(position).getTitle()));
         holder.interests.setText(String.valueOf(eventsList.get(position).getInterests()));
         holder.bangView.setSelected(eventsList.get(position).getIs_interested());
 

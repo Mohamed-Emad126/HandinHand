@@ -44,15 +44,28 @@ public class DownloadImageWorker extends Worker {
         final boolean[] isSuccessful = {false};
 
         String url = inputData.getString("IMAGE_URL");
+        StringBuilder actualUrl = new StringBuilder();
+        for(int i=url.length()-1, x = 0; i>=0; i++){
+            actualUrl.append(url.charAt(i));
+            if(url.charAt(i) == '/'){
+                x++;
+            }
+            if(x == 3){
+                break;
+            }
+        }
         ImagesClient client = RetrofitApi
                 .getInstance()
                 .getImagesClient();
 
-        client.downloadImage(url).enqueue(new Callback<ResponseBody>() {
+        client.downloadImage(actualUrl.reverse().toString()).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if(response.isSuccessful()){
                     isSuccessful[0] = downloadImage(response.body(), mContext);
+                    new Handler(Looper.getMainLooper()).postDelayed(() ->
+                            Toast.makeText(mContext, R.string.saved, Toast.LENGTH_SHORT).show(),
+                            0);
                 }
                 else{
 

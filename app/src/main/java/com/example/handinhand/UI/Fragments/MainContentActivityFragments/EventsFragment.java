@@ -246,68 +246,6 @@ public class EventsFragment extends Fragment {
                 reportEvent(rootView);
             }
         });
-        /*itemsAdapter.setOnItemClickListener(new ItemsAdapter.OnItemClickListener() {
-            @Override
-            public void OnMenuClicked(int position, View view) {
-
-                selectedItemId = itemsAdapter.getItem(position).getId();
-                selectedItemPosition = position;
-
-                PopupMenu popup = new PopupMenu(rootView.getContext(), view);
-                if (itemsAdapter.getItem(position).getUser_id().equals(userId)) {
-                    popup.getMenuInflater().inflate(R.menu.out_menu, popup.getMenu());
-                } else {
-                    popup.getMenuInflater().inflate(R.menu.out_menu_not_mine, popup.getMenu());
-                }
-                popup.show();
-
-
-                popup.setOnMenuItemClickListener(item -> {
-
-                    if (item.getItemId() == R.id.report) {
-                        reportItem(rootView);
-                    } else if (item.getItemId() == R.id.share) {
-                        Intent sendIntent = new Intent();
-                        sendIntent.setAction(Intent.ACTION_SEND);
-                        //TODO: Change the text
-                        sendIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.items_url) +
-                                itemsAdapter.getItem(position).getId());
-                        sendIntent.setType("text/plain");
-
-                        Intent shareIntent = Intent.createChooser(sendIntent, null);
-                        startActivity(shareIntent);
-                    } else if (item.getItemId() == R.id.delete) {
-                        alertDialog.show();
-                    }
-                    popup.dismiss();
-
-                    return true;
-                });
-            }
-
-            @Override
-            public void OnItemClicked(int position, ImageView imageView) {
-                sharedItemViewModel.select(itemsAdapter.getItem(position));
-
-                FragmentNavigator.Extras extra = null;
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    imageView.setTransitionName("imageView");
-                    extra = new FragmentNavigator.Extras.Builder()
-                            .addSharedElement(imageView, "imageView")
-                            .build();
-                }
-                Bundle bundle = new Bundle();
-                bundle.putInt("position", position);
-
-                Navigation.findNavController(rootView).navigate(
-                        R.id.action_itemsFragment_to_itemDescriptionFragment,
-                        bundle,
-                        null,
-                        extra
-                );
-            }
-
-        });*/
 
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -320,9 +258,6 @@ public class EventsFragment extends Fragment {
                     int pastVisiblesItems = layoutManager.findFirstVisibleItemPosition();
 
                     if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
-                        //Toast.makeText(getActivity(), "End", Toast.LENGTH_SHORT).show();
-                        //show your loading view
-                        // load content in background
                         if (page != lastPage && (eventsViewModel.getIsLoading().getValue() != null &&
                                 !eventsViewModel.getIsLoading().getValue())) {
                             eventsViewModel.loadNextPage(page + 1, token);

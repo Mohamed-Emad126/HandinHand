@@ -49,6 +49,12 @@
         <action
             android:id="@+id/action_handmadesFragment_to_reportFragment"
             app:destination="@id/reportFragment" />
+        <action
+            android:id="@+id/action_handmadesFragment_to_productDescriptionFragment"
+            app:destination="@id/productDescriptionFragment" />
+        <action
+            android:id="@+id/action_handmadesFragment_to_addProductFragment"
+            app:destination="@id/addProductFragment" />
     </fragment>
     <fragment
         android:id="@+id/servicesFragment"
@@ -58,6 +64,12 @@
         <action
             android:id="@+id/action_servicesFragment_to_reportFragment"
             app:destination="@id/reportFragment" />
+        <action
+            android:id="@+id/action_servicesFragment_to_serviceDescriptionFragment"
+            app:destination="@id/serviceDescriptionFragment" />
+        <action
+            android:id="@+id/action_servicesFragment_to_addServiceFragment"
+            app:destination="@id/addServiceFragment" />
     </fragment>
     <fragment
         android:id="@+id/itemDescriptionFragment"
@@ -152,4 +164,35 @@
         android:name="com.example.handinhand.UI.Fragments.MainContentActivityFragments.AddEventFragment"
         android:label="fragment_add_event"
         tools:layout="@layout/fragment_add_event" />
+    <fragment
+        android:id="@+id/productDescriptionFragment"
+        android:name="com.example.handinhand.UI.Fragments.MainContentActivityFragments.ProductDescriptionFragment"
+        android:label="fragment_product_description"
+        tools:layout="@layout/fragment_product_description" >
+        <action
+            android:id="@+id/action_productDescriptionFragment_to_imagePreviewFragment"
+            app:destination="@id/imagePreviewFragment" />
+        <action
+            android:id="@+id/action_productDescriptionFragment_to_reportFragment"
+            app:destination="@id/reportFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/serviceDescriptionFragment"
+        android:name="com.example.handinhand.UI.Fragments.MainContentActivityFragments.ServiceDescriptionFragment"
+        android:label="fragment_service_description"
+        tools:layout="@layout/fragment_service_description" >
+        <action
+            android:id="@+id/action_serviceDescriptionFragment_to_reportFragment"
+            app:destination="@id/reportFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addProductFragment"
+        android:name="com.example.handinhand.UI.Fragments.MainContentActivityFragments.AddProductFragment"
+        android:label="fragment_add_product"
+        tools:layout="@layout/fragment_add_product" />
+    <fragment
+        android:id="@+id/addServiceFragment"
+        android:name="com.example.handinhand.UI.Fragments.MainContentActivityFragments.AddServiceFragment"
+        android:label="fragment_add_service"
+        tools:layout="@layout/fragment_add_service" />
 </navigation>

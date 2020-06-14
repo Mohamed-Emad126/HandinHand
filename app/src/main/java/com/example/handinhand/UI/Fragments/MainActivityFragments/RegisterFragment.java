@@ -216,9 +216,9 @@ public class RegisterFragment extends Fragment {
                     if (shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE)) {
                         new AlertDialog.Builder(requireActivity())
                                 .setTitle(R.string.permission_nedded)
-                                .setMessage(R.string.permission_reason)
+                                .setMessage(R.string.permission_reason2)
                                 .setPositiveButton(android.R.string.ok, (dialog, which) -> requestPermissions(
-                                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 70))
+                                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, READ_EXTERNAL_STORAGE_ID))
                                 .setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss())
                                 .create().show();
                     } else {

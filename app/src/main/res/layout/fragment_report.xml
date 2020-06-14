@@ -33,7 +33,6 @@
 
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/report_chip_group_fragment"
-                style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -45,6 +44,7 @@
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/spam_chip_fragment"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
@@ -55,6 +55,7 @@
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/inappropriate_chip_fragment"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"

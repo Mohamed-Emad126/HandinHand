@@ -12,10 +12,14 @@ import androidx.work.WorkerParameters;
 
 import com.example.handinhand.API.EventsClient;
 import com.example.handinhand.API.ItemsClient;
+import com.example.handinhand.API.ProductsClient;
 import com.example.handinhand.API.RetrofitApi;
+import com.example.handinhand.API.ServicesClient;
 import com.example.handinhand.Helpers.SharedPreferenceHelper;
 import com.example.handinhand.Models.EventInterestResponse;
 import com.example.handinhand.Models.ItemRequestResponse;
+import com.example.handinhand.Models.ProductRequestResponse;
+import com.example.handinhand.Models.ServiceInterestResponse;
 import com.example.handinhand.R;
 
 import retrofit2.Call;
@@ -25,6 +29,7 @@ import retrofit2.Response;
 public class InterestWorker extends Worker {
 
     private Context context;
+
     public InterestWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
         this.context = context;
@@ -36,57 +41,46 @@ public class InterestWorker extends Worker {
         Data inputData = getInputData();
         String type = inputData.getString("TYPE");
         String id = inputData.getString("ELEMENT_ID");
-        boolean isDone = false;
-        if(type.equals("item")){
-            isDone = requestItem(id);
+        if (type.equals("item")) {
+            requestItem(id);
+        } else if (type.equals("event")) {
+            requestEvent(id);
+        } else if (type.equals("product")) {
+            requestProduct(id);
+        } else if (type.equals("service")) {
+            requestService(id);
         }
-        else if(type.equals("event")){
-            isDone = requestEvent(id);
-        }
-        else if(type.equals("product")){
-            isDone = requestProduct(id);
-        }
-        else if(type.equals("service")){
-            isDone = requestService(id);
-        }
-        /*Handler handler = new Handler(Looper.getMainLooper());
-            handler.postDelayed(() ->
-                            Toast.makeText(context, R.string.done, Toast.LENGTH_SHORT).show(),
-                    0 );*/
         return Result.success();
     }
 
-    private boolean requestItem(String id){
-        final boolean[] status = {false};
+    private void requestItem(String id) {
         ItemsClient client = RetrofitApi.getInstance().getItemsClient();
         client.itemRequest(SharedPreferenceHelper.getToken(context), id).enqueue(new Callback<ItemRequestResponse>() {
             @Override
             public void onResponse(Call<ItemRequestResponse> call, Response<ItemRequestResponse> response) {
-                if(response.isSuccessful() && response.body()!= null){
-                    status[0] = true;
-                }
-                else {
-                    status[0] = false;
+                if (response.isSuccessful() && response.body() != null) {
+                    new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(context, R.string.done, Toast.LENGTH_SHORT).show();
+                        }
+                    }, 0);
                 }
             }
 
             @Override
             public void onFailure(Call<ItemRequestResponse> call, Throwable t) {
-                status[0] = false;
             }
         });
-        return status[0];
     }
 
-    private boolean requestEvent(String id){
-        final boolean[] status = {false};
+    private void requestEvent(String id) {
         EventsClient eventsClient = RetrofitApi.getInstance().getEventsClient();
         eventsClient.interestEvent(SharedPreferenceHelper.getToken(context), id)
                 .enqueue(new Callback<EventInterestResponse>() {
                     @Override
                     public void onResponse(Call<EventInterestResponse> call, Response<EventInterestResponse> response) {
-                        if(response.isSuccessful() && response.body()!= null){
-                            status[0] = true;
+                        if (response.isSuccessful() && response.body() != null) {
                             new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
@@ -94,28 +88,50 @@ public class InterestWorker extends Worker {
                                 }
                             }, 0);
                         }
-                        else {
-                            status[0] = false;
-                        }
                     }
 
                     @Override
                     public void onFailure(Call<EventInterestResponse> call, Throwable t) {
-                        status[0] = false;
                     }
                 });
-        return status[0];
     }
 
-    private boolean requestProduct(String id){
-        final boolean[] status = {false};
+    private void requestProduct(String id) {
+        ProductsClient productsClient = RetrofitApi.getInstance().getProductsClient();
+        productsClient.productRequest(SharedPreferenceHelper.getToken(context), id)
+                .enqueue(new Callback<ProductRequestResponse>() {
+                    @Override
+                    public void onResponse(Call<ProductRequestResponse> call, Response<ProductRequestResponse> response) {
+                        if (response.isSuccessful() && response.body() != null) {
+                            new Handler(Looper.getMainLooper()).postDelayed(() -> Toast.makeText(context, R.string.done, Toast.LENGTH_SHORT).show(), 0);
+                        }
+                    }
 
-        return status[0];
+                    @Override
+                    public void onFailure(Call<ProductRequestResponse> call, Throwable t) {
+                    }
+                });
     }
 
-    private boolean requestService(String id){
-        final boolean[] status = {false};
+    private void requestService(String id) {
+        ServicesClient servicesClient = RetrofitApi.getInstance().getServicesClient();
+        servicesClient.interestService(SharedPreferenceHelper.getToken(context), id)
+                .enqueue(new Callback<ServiceInterestResponse>() {
+                    @Override
+                    public void onResponse(Call<ServiceInterestResponse> call, Response<ServiceInterestResponse> response) {
+                        if (response.isSuccessful() && response.body() != null) {
+                            new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(context, R.string.done, Toast.LENGTH_SHORT).show();
+                                }
+                            }, 0);
+                        }
+                    }
 
-        return status[0];
+                    @Override
+                    public void onFailure(Call<ServiceInterestResponse> call, Throwable t) {
+                    }
+                });
     }
 }

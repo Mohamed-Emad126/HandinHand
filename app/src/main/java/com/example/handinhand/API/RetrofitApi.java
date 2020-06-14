@@ -20,6 +20,7 @@ public class RetrofitApi {
     private static EventsClient eventsClient = null;
     private static ImagesClient imagesClient = null;
     private static ServicesClient servicesClient = null;
+    private static ProductsClient productsClient = null;
 
 
     public static RetrofitApi getInstance() {
@@ -58,6 +59,13 @@ public class RetrofitApi {
             imagesClient = retrofit.create(ImagesClient.class);
         }
         return imagesClient;
+    }
+
+    public ProductsClient getProductsClient() {
+        if(productsClient == null){
+            productsClient = retrofit.create(ProductsClient.class);
+        }
+        return productsClient;
     }
 
     public EventsClient getEventsClient() {

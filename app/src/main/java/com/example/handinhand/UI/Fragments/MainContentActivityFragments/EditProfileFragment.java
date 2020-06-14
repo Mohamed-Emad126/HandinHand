@@ -50,7 +50,7 @@ public class EditProfileFragment extends Fragment {
 
 
     private static final int GET_IMAGE_FROM_GALLERY = 3;
-    private static final int READ_EXTERNAL_STORAGE_ID = 1;
+    private static final int READ_EXTERNAL_STORAGE_ID = 55;
     private static final String IMAGE_URI = "URI";
     private Toolbar toolbar;
     private CircleImageView userImage;
@@ -363,8 +363,17 @@ public class EditProfileFragment extends Fragment {
 
         }
         else{
-            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                    READ_EXTERNAL_STORAGE_ID);
+            if (shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                new AlertDialog.Builder(requireActivity())
+                        .setTitle(R.string.permission_nedded)
+                        .setMessage(R.string.permission_reason2)
+                        .setPositiveButton(android.R.string.ok, (dialog, which) -> requestPermissions(
+                                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, READ_EXTERNAL_STORAGE_ID))
+                        .setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss())
+                        .create().show();
+            } else {
+                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, READ_EXTERNAL_STORAGE_ID);
+            }
         }
     }
 

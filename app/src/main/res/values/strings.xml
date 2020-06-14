@@ -76,6 +76,7 @@ The first step is create the fragments and define the relationship between them.
     <string name="items_url">http://b3f6b52da5e8.ngrok.io/items/</string>
     <string name="events_url">http://b3f6b52da5e8.ngrok.io/events/</string>
     <string name="items_image_url">http://b3f6b52da5e8.ngrok.io/storage/items/</string>
+    <string name="products_image_url">http://b3f6b52da5e8.ngrok.io/storage/products/</string>
     <string name="events_image_url">http://b3f6b52da5e8.ngrok.io/storage/events/</string>
     <string name="update_successfully">Updated</string>
     <string name="edit_profile">Edit Profile</string>
@@ -109,6 +110,8 @@ The first step is create the fragments and define the relationship between them.
     <string name="already_reported">this Item was already reported</string>
     <string name="permission_nedded">Permission Required</string>
     <string name="permission_reason">this permission is required to save image in your phone</string>
+    <string name="permission_reason2">this permission is required so you can upload image from your phone</string>
+    <string name="permission_reason3">this permission is required so you can call the required number directly</string>
     <string name="granted">Permission granted</string>
     <string name="denied">Permission denied</string>
     <string name="saved">Saved</string>

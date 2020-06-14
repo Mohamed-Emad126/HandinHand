@@ -1,6 +1,5 @@
 package com.example.handinhand.UI.Fragments.MainContentActivityFragments;
 
-
 import android.Manifest;
 import android.app.AlertDialog;
 import android.content.ClipData;
@@ -45,17 +44,15 @@ import com.example.handinhand.R;
 import com.example.handinhand.Utils.NetworkUtils;
 import com.example.handinhand.ViewModels.ImagePreviewViewModel;
 import com.example.handinhand.ViewModels.ProfileViewModel;
-import com.example.handinhand.ViewModels.SharedItemViewModel;
+import com.example.handinhand.ViewModels.SharedProductViewModel;
 import com.example.handinhand.services.DeleteWorker;
 import com.example.handinhand.services.InterestWorker;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.button.MaterialButton;
 
+public class ProductDescriptionFragment extends Fragment {
 
-public class ItemDescriptionFragment extends Fragment {
-
-
-    private ImageView itemImage;
+    private ImageView productImage;
     private TextView description;
     private TextView price;
     private TextView facebook;
@@ -63,7 +60,7 @@ public class ItemDescriptionFragment extends Fragment {
     private CollapsingToolbarLayout titleToolbarLayout;
     private MaterialButton bookButton;
 
-    private SharedItemViewModel sharedItemViewModel;
+    private SharedProductViewModel sharedProductViewModel;
     private ImagePreviewViewModel imagePreviewViewModel;
     private ProfileViewModel profileViewModel;
     private Toolbar toolbar;
@@ -73,12 +70,12 @@ public class ItemDescriptionFragment extends Fragment {
     private String url = null;
     String id;
     int itemId;
-    String userId;
+    int userId;
     int position;
     private AlertDialog alertDialog;
     private Intent intent;
 
-    public ItemDescriptionFragment() {
+    public ProductDescriptionFragment() {
         // Required empty public constructor
     }
 
@@ -98,7 +95,7 @@ public class ItemDescriptionFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_item_description, container,
+        View rootView = inflater.inflate(R.layout.fragment_product_description, container,
                 false);
 
         FragmentActivity requireActivity = requireActivity();
@@ -106,19 +103,19 @@ public class ItemDescriptionFragment extends Fragment {
         createDeleteDialog(requireActivity, rootView);
         position = getArguments().getInt("position");
 
-        itemImage = rootView.findViewById(R.id.item_image);
-        titleToolbarLayout = rootView.findViewById(R.id.collapse_item_description);
-        price = rootView.findViewById(R.id.item_description_price);
-        description = rootView.findViewById(R.id.item_description_description);
-        facebook = rootView.findViewById(R.id.item_description_facebook);
-        phoneNum = rootView.findViewById(R.id.item_description_phoneNum);
-        bookButton = rootView.findViewById(R.id.item_description_book);
+        productImage = rootView.findViewById(R.id.product_image);
+        titleToolbarLayout = rootView.findViewById(R.id.collapse_product_description);
+        price = rootView.findViewById(R.id.product_description_price);
+        description = rootView.findViewById(R.id.product_description_description);
+        facebook = rootView.findViewById(R.id.product_description_facebook);
+        phoneNum = rootView.findViewById(R.id.product_description_phoneNum);
+        bookButton = rootView.findViewById(R.id.product_description_book);
         clipboardManager = (ClipboardManager) requireActivity.getSystemService(Context.CLIPBOARD_SERVICE);
 
-        sharedItemViewModel = new ViewModelProvider(requireActivity).get(SharedItemViewModel.class);
+        sharedProductViewModel = new ViewModelProvider(requireActivity).get(SharedProductViewModel.class);
         imagePreviewViewModel = new ViewModelProvider(requireActivity).get(ImagePreviewViewModel.class);
         profileViewModel = new ViewModelProvider(requireActivity).get(ProfileViewModel.class);
-        toolbar = rootView.findViewById(R.id.item_description_toolbar);
+        toolbar = rootView.findViewById(R.id.product_description_toolbar);
         setUpToolBar(rootView);
 
         id = profileViewModel.getProfile(SharedPreferenceHelper.getToken(requireActivity))
@@ -127,9 +124,9 @@ public class ItemDescriptionFragment extends Fragment {
                 .getUser()
                 .getId();
 
-        sharedItemViewModel.getSelected().observe(getViewLifecycleOwner(), data -> {
+        sharedProductViewModel.getSelected().observe(getViewLifecycleOwner(), data -> {
             Glide.with(rootView)
-                    .load(getString(R.string.items_image_url) + data.getImage())
+                    .load(getString(R.string.products_image_url) + data.getImage())
                     .listener(new RequestListener<Drawable>() {
                         @Override
                         public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
@@ -138,13 +135,13 @@ public class ItemDescriptionFragment extends Fragment {
 
                         @Override
                         public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                            url = getString(R.string.items_image_url) + data.getImage();
+                            url = getString(R.string.products_image_url) + data.getImage();
                             return false;
                         }
                     })
                     .diskCacheStrategy(DiskCacheStrategy.DATA)
                     .placeholder(R.color.gray)
-                    .into(itemImage);
+                    .into(productImage);
             itemId = data.getId();
             userId = data.getUser_id();
             description.setText(data.getDescription());
@@ -157,26 +154,20 @@ public class ItemDescriptionFragment extends Fragment {
                             : data.getPrice()
             );
 
-            if(data.getUser_id().equals(id)){
+            if(data.getUser_id()== Integer.parseInt(id)){
                 toolbar.inflateMenu(R.menu.out_menu);
             }
             else{
                 toolbar.inflateMenu(R.menu.out_menu_not_mine);
             }
 
-            if(data.getIs_requested()){
-                bookButton.setEnabled(false);
-                bookButton.setText(R.string.already_requested);
-                bookButton.setBackgroundColor(getResources().getColor(R.color.highlight));
-            }
-
         });
 
-        itemImage.setOnClickListener(view -> {
+        productImage.setOnClickListener(view -> {
             if(url != null) {
                 imagePreviewViewModel.setUrl(url);
                 Navigation.findNavController(rootView)
-                        .navigate(R.id.action_itemDescriptionFragment_to_imagePreviewFragment);
+                        .navigate(R.id.action_productDescriptionFragment_to_imagePreviewFragment);
             }
         });
 
@@ -190,6 +181,13 @@ public class ItemDescriptionFragment extends Fragment {
         facebook.setOnClickListener(view -> {
             Uri webPage = Uri.parse(facebook.getText().toString());
             Intent intent = new Intent(Intent.ACTION_VIEW, webPage);
+            if (intent.resolveActivity(requireActivity.getPackageManager()) != null) {
+                startActivity(intent);
+            }
+        });
+        phoneNum.setOnClickListener(view -> {
+            intent = new Intent(Intent.ACTION_DIAL);
+            intent.setData(Uri.parse("tel:" + phoneNum.getText()));
             if(ContextCompat.checkSelfPermission(requireActivity(),
                     Manifest.permission.CALL_PHONE)
                     != PackageManager.PERMISSION_GRANTED){
@@ -201,20 +199,13 @@ public class ItemDescriptionFragment extends Fragment {
                 }
             }
         });
-        phoneNum.setOnClickListener(view -> {
-            intent = new Intent(Intent.ACTION_DIAL);
-            intent.setData(Uri.parse("tel:" + phoneNum.getText()));
-            if (intent.resolveActivity(activity.getPackageManager()) != null) {
-                startActivity(intent);
-            }
-        });
 
         bookButton.setOnClickListener(view -> {
             Constraints constraints = new Constraints.Builder()
                     .setRequiredNetworkType(NetworkType.CONNECTED)
                     .build();
             Data data = new Data.Builder()
-                    .putString("TYPE", "item")
+                    .putString("TYPE", "product")
                     .putString("ELEMENT_ID", String.valueOf(itemId))
                     .build();
 
@@ -229,7 +220,6 @@ public class ItemDescriptionFragment extends Fragment {
             else{
                 WorkManager.getInstance(requireActivity).enqueue(interestWorker);
                 Toast.makeText(activity, getString(R.string.requested), Toast.LENGTH_SHORT).show();
-                sharedItemViewModel.setRequestAt(position);
                 Navigation.findNavController(rootView).popBackStack();
             }
         });
@@ -272,9 +262,9 @@ public class ItemDescriptionFragment extends Fragment {
     private void reportItem(View rootView) {
         Bundle bundle = new Bundle();
         bundle.putString("id", String.valueOf(itemId));
-        bundle.putString("type", "item");
+        bundle.putString("type", "product");
         Navigation.findNavController(rootView)
-                .navigate(R.id.action_itemDescriptionFragment_to_reportFragment, bundle);
+                .navigate(R.id.action_productDescriptionFragment_to_reportFragment, bundle);
     }
 
     private void createDeleteDialog(FragmentActivity activity, View rootView) {
@@ -290,7 +280,7 @@ public class ItemDescriptionFragment extends Fragment {
                             .setRequiredNetworkType(NetworkType.CONNECTED)
                             .build();
                     Data data = new Data.Builder()
-                            .putString("TYPE", "item")
+                            .putString("TYPE", "product")
                             .putString("ELEMENT_ID", String.valueOf(itemId))
                             .build();
 
@@ -300,7 +290,7 @@ public class ItemDescriptionFragment extends Fragment {
                             .setInputData(data)
                             .build();
                     WorkManager.getInstance(requireActivity()).enqueue(deleteWorker);
-                    sharedItemViewModel.deleteAt(position);
+                    sharedProductViewModel.deleteAt(position);
                     alertDialog.dismiss();
                     Navigation.findNavController(rootView).navigateUp();
                 });
@@ -315,31 +305,31 @@ public class ItemDescriptionFragment extends Fragment {
 
     private void requestPhoneCallPermission() {
 
-        if (shouldShowRequestPermissionRationale(Manifest.permission.CALL_PHONE)) {
-            new AlertDialog.Builder(requireActivity())
-                    .setTitle(R.string.permission_nedded)
-                    .setMessage(R.string.permission_reason3)
-                    .setPositiveButton(android.R.string.ok, (dialog, which) -> requestPermissions(
-                            new String[]{Manifest.permission.CALL_PHONE}, 1722))
-                    .setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss())
-                    .create().show();
-        } else {
-            requestPermissions(new String[]{Manifest.permission.CALL_PHONE}, 1722);
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
-        if (requestCode == 1722) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
-                    startActivity(intent);
-                }
-                Toast.makeText(requireActivity(), R.string.granted, Toast.LENGTH_SHORT).show();
+            if (shouldShowRequestPermissionRationale(Manifest.permission.CALL_PHONE)) {
+                new AlertDialog.Builder(requireActivity())
+                        .setTitle(R.string.permission_nedded)
+                        .setMessage(R.string.permission_reason3)
+                        .setPositiveButton(android.R.string.ok, (dialog, which) -> requestPermissions(
+                                new String[]{Manifest.permission.CALL_PHONE}, 1222))
+                        .setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss())
+                        .create().show();
             } else {
-                Toast.makeText(requireActivity(), R.string.denied, Toast.LENGTH_SHORT).show();
+                requestPermissions(new String[]{Manifest.permission.CALL_PHONE}, 1222);
             }
         }
-    }
+
+        @Override
+        public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                               @NonNull int[] grantResults) {
+            if (requestCode == 1222) {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
+                        startActivity(intent);
+                    }
+                    Toast.makeText(requireActivity(), R.string.granted, Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(requireActivity(), R.string.denied, Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
 }

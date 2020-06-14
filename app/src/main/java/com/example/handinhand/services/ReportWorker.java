@@ -12,10 +12,14 @@ import androidx.work.WorkerParameters;
 
 import com.example.handinhand.API.EventsClient;
 import com.example.handinhand.API.ItemsClient;
+import com.example.handinhand.API.ProductsClient;
 import com.example.handinhand.API.RetrofitApi;
+import com.example.handinhand.API.ServicesClient;
 import com.example.handinhand.Helpers.SharedPreferenceHelper;
 import com.example.handinhand.Models.EventReportResponse;
+import com.example.handinhand.Models.ProductReportResponse;
 import com.example.handinhand.Models.ReportResponse;
+import com.example.handinhand.Models.ServiceReportResponse;
 import com.example.handinhand.R;
 
 import java.util.HashMap;
@@ -41,18 +45,17 @@ public class ReportWorker extends Worker {
         String reason = inputData.getString("REASON");
         Map<String, String> mp = new HashMap<>();
         mp.put("reason", reason);
-        boolean isDone = false;
         if(type.equals("item")){
-            isDone = reportItem(id, mp);
+            reportItem(id, mp);
         }
         else if(type.equals("event")){
-            isDone = reportEvent(id, mp);
+            reportEvent(id, mp);
         }
         else if(type.equals("product")){
-            isDone = reportProduct(id, mp);
+            reportProduct(id, mp);
         }
         else if(type.equals("service")){
-            isDone = reportService(id, mp);
+            reportService(id, mp);
         }
         Handler handler = new Handler(Looper.getMainLooper());
         handler.postDelayed(() ->
@@ -62,37 +65,36 @@ public class ReportWorker extends Worker {
         return Result.success();
     }
 
-    private boolean reportItem(String id, Map<String, String> reason){
-        final boolean[] status = {false};
+    private void reportItem(String id, Map<String, String> reason){
         ItemsClient client = RetrofitApi.getInstance().getItemsClient();
         client.reportItem(SharedPreferenceHelper.getToken(context), id, reason).enqueue(new Callback<ReportResponse>() {
             @Override
             public void onResponse(Call<ReportResponse> call, Response<ReportResponse> response) {
                 if(response.isSuccessful() && response.body()!= null){
-                    status[0] = true;
+                    new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(context, R.string.deleted, Toast.LENGTH_SHORT).show();
+                        }
+                    }, 0);
                 }
                 else {
-                    status[0] = false;
                 }
             }
 
             @Override
             public void onFailure(Call<ReportResponse> call, Throwable t) {
-                status[0] = false;
             }
         });
-        return status[0];
     }
 
-    private boolean reportEvent(String id, Map<String, String> reason){
-        final boolean[] status = {false};
+    private void reportEvent(String id, Map<String, String> reason){
         EventsClient eventsClient = RetrofitApi.getInstance().getEventsClient();
         eventsClient.reportEvent(SharedPreferenceHelper.getToken(context), id, reason)
                 .enqueue(new Callback<EventReportResponse>() {
                     @Override
                     public void onResponse(Call<EventReportResponse> call, Response<EventReportResponse> response) {
                         if(response.isSuccessful() && response.body()!= null){
-                            status[0] = true;
                             new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
@@ -100,28 +102,55 @@ public class ReportWorker extends Worker {
                                 }
                             }, 0);
                         }
-                        else {
-                            status[0] = false;
-                        }
                     }
 
                     @Override
                     public void onFailure(Call<EventReportResponse> call, Throwable t) {
-                        status[0] = false;
                     }
                 });
-        return status[0];
     }
 
-    private boolean reportProduct(String id, Map<String, String> reason){
-        final boolean[] status = {false};
+    private void reportProduct(String id, Map<String, String> reason){
+        ProductsClient productsClient = RetrofitApi.getInstance().getProductsClient();
+        productsClient.reportProduct(SharedPreferenceHelper.getToken(context), id, reason)
+                .enqueue(new Callback<ProductReportResponse>() {
+                    @Override
+                    public void onResponse(Call<ProductReportResponse> call, Response<ProductReportResponse> response) {
+                        if(response.isSuccessful() && response.body()!= null){
+                            new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(context, R.string.deleted, Toast.LENGTH_SHORT).show();
+                                }
+                            }, 0);
+                        }
+                    }
 
-        return status[0];
+                    @Override
+                    public void onFailure(Call<ProductReportResponse> call, Throwable t) {
+                    }
+                });
     }
 
-    private boolean reportService(String id, Map<String, String> reason){
-        final boolean[] status = {false};
+    private void reportService(String id, Map<String, String> reason){
+        ServicesClient servicesClient = RetrofitApi.getInstance().getServicesClient();
+        servicesClient.reportService(SharedPreferenceHelper.getToken(context), id, reason)
+                .enqueue(new Callback<ServiceReportResponse>() {
+                    @Override
+                    public void onResponse(Call<ServiceReportResponse> call, Response<ServiceReportResponse> response) {
+                        if(response.isSuccessful() && response.body()!= null){
+                            new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(context, R.string.deleted, Toast.LENGTH_SHORT).show();
+                                }
+                            }, 0);
+                        }
+                    }
 
-        return status[0];
+                    @Override
+                    public void onFailure(Call<ServiceReportResponse> call, Throwable t) {
+                    }
+                });
     }
 }

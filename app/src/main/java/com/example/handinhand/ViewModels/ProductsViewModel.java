@@ -4,28 +4,26 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.handinhand.API.ItemsClient;
+import com.example.handinhand.API.ProductsClient;
 import com.example.handinhand.API.RetrofitApi;
-import com.example.handinhand.Models.ItemsPaginationObject;
+import com.example.handinhand.Models.ProductPaginationObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ItemsViewModel extends ViewModel {
-    private MutableLiveData<ItemsPaginationObject> mResponse;
+public class ProductsViewModel extends ViewModel {
+    private MutableLiveData<ProductPaginationObject> mResponse;
     private MutableLiveData<Integer> page = new MutableLiveData<>();
     private MutableLiveData<Integer> lastPage = new MutableLiveData<>();
     private MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
     private MutableLiveData<Boolean> isFirstLoading = new MutableLiveData<>();
     private MutableLiveData<Boolean> isFirstError = new MutableLiveData<>();
     private MutableLiveData<Boolean> isError = new MutableLiveData<>();
-    private MutableLiveData<List<ItemsPaginationObject.Items.Data>> mList;
+    private MutableLiveData<List<ProductPaginationObject.Data>> mList;
     private MutableLiveData<Boolean> sharedError = new MutableLiveData<>();
 
 
@@ -54,7 +52,7 @@ public class ItemsViewModel extends ViewModel {
         lastPage.postValue(lstPge);
     }
 
-    public LiveData<List<ItemsPaginationObject.Items.Data>> getmList() {
+    public LiveData<List<ProductPaginationObject.Data>> getmList() {
         return mList;
     }
 
@@ -78,8 +76,8 @@ public class ItemsViewModel extends ViewModel {
         return isFirstError;
     }
 
-    public LiveData<ItemsPaginationObject> getmResponse(int page, String token) {
-        if(mResponse == null){
+    public LiveData<ProductPaginationObject> getmResponse(int page, String token) {
+        if (mResponse == null) {
             isFirstLoading.postValue(true);
             isFirstError.postValue(false);
             mResponse = new MutableLiveData<>();
@@ -90,62 +88,55 @@ public class ItemsViewModel extends ViewModel {
     }
 
     private void getListOfItems(int page, String token) {
-        ItemsClient client = RetrofitApi.getInstance().getItemsClient();
+        ProductsClient client = RetrofitApi.getInstance().getProductsClient();
         isLoading.postValue(true);
-        Map<String, String> q = new HashMap<>();
-        q.put("f_params[orderBy][field]", "price");
-        q.put("f_params[orderBy][type]", "ASC");
 
-        Call<ItemsPaginationObject> call = client.getItems(token, page, q);
-        call.enqueue(new Callback<ItemsPaginationObject>() {
+        Call<ProductPaginationObject> call = client.getProducts(token, page);
+        call.enqueue(new Callback<ProductPaginationObject>() {
             @Override
-            public void onResponse(Call<ItemsPaginationObject> call,
-                                   Response<ItemsPaginationObject> response) {
+            public void onResponse(Call<ProductPaginationObject> call,
+                                   Response<ProductPaginationObject> response) {
                 isLoading.postValue(false);
-                if(response.isSuccessful()){
-                    if(response.body() != null && response.body().getStatus()){
+                if (response.isSuccessful()) {
+                    if (response.body() != null && response.body().getStatus()) {
                         isFirstLoading.postValue(false);
                         isError.postValue(false);
                         isFirstError.postValue(false);
                         mResponse.postValue(response.body());
 
-                        List<ItemsPaginationObject.Items.Data> list = mList.getValue();
-                        if(list == null){
+                        List<ProductPaginationObject.Data> list = mList.getValue();
+                        if (list == null) {
                             list = new ArrayList<>();
                         }
 
-                        setPage(response.body().getItems().getCurrent_page());
-                        setLastPage(response.body().getItems().getLast_page());
+                        setPage(response.body().getProducts().getCurrent_page());
+                        setLastPage(response.body().getProducts().getLast_page());
 
-                        if(page ==1){
+                        if (page == 1) {
                             list.clear();
                         }
-                        list.addAll(response.body().getItems().getData());
+                        list.addAll(response.body().getProducts().getData());
                         mList.postValue(list);
-                    }
-                    else{
-                        if(isFirstLoading.getValue() != null && isFirstLoading.getValue()){
+                    } else {
+                        if (isFirstLoading.getValue() != null && isFirstLoading.getValue()) {
                             isFirstError.postValue(true);
                             isError.postValue(false);
                             isFirstLoading.postValue(false);
                             isLoading.postValue(false);
-                        }
-                        else {
+                        } else {
                             isFirstLoading.postValue(false);
                             isFirstError.postValue(false);
                             isError.postValue(true);
                             isLoading.postValue(false);
                         }
                     }
-                }
-                else{
-                    if(isFirstLoading.getValue() != null && isFirstLoading.getValue()){
+                } else {
+                    if (isFirstLoading.getValue() != null && isFirstLoading.getValue()) {
                         isFirstError.postValue(true);
                         isError.postValue(false);
                         isFirstLoading.postValue(false);
                         isLoading.postValue(false);
-                    }
-                    else {
+                    } else {
                         isFirstLoading.postValue(false);
                         isFirstError.postValue(false);
                         isError.postValue(true);
@@ -155,14 +146,13 @@ public class ItemsViewModel extends ViewModel {
             }
 
             @Override
-            public void onFailure(Call<ItemsPaginationObject> call, Throwable t) {
-                if(isFirstLoading.getValue() != null && isFirstLoading.getValue()){
+            public void onFailure(Call<ProductPaginationObject> call, Throwable t) {
+                if (isFirstLoading.getValue() != null && isFirstLoading.getValue()) {
                     isFirstError.postValue(true);
                     isError.postValue(false);
                     isFirstLoading.postValue(false);
                     isLoading.postValue(false);
-                }
-                else{
+                } else {
                     isFirstLoading.postValue(false);
                     isFirstError.postValue(false);
                     isError.postValue(true);
@@ -174,33 +164,22 @@ public class ItemsViewModel extends ViewModel {
 
     }
 
-    public void refresh(String token){
+    public void refresh(String token) {
         isError.postValue(false);
         isFirstLoading.postValue(true);
         isFirstError.postValue(false);
         getListOfItems(1, token);
     }
 
-    public void deleteItem(int position){
-        List<ItemsPaginationObject.Items.Data> list = mList.getValue();
-        if(list != null) {
+    public void deleteItem(int position) {
+        List<ProductPaginationObject.Data> list = mList.getValue();
+        if (list != null) {
             list.remove(position);
         }
         mList.postValue(list);
     }
 
-    public void loadNextPage(int page, String token){
+    public void loadNextPage(int page, String token) {
         getListOfItems(page, token);
-    }
-
-    public void requestItem(int position) {
-        List<ItemsPaginationObject.Items.Data> list = mList.getValue();
-        if(list != null && list.size() >0) {
-            ItemsPaginationObject.Items.Data data = list.get(position);
-            data.setIs_requested(true);
-            list.remove(position);
-            list.add(position, data);
-        }
-        mList.postValue(list);
     }
 }
