@@ -38,6 +38,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:layout_centerHorizontal="true"
+                    android:background="@android:color/transparent"
                     android:layout_gravity="center|bottom"
                     android:visibility="gone"
                     android:indeterminate="true" />

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/add_product_coordinator"
@@ -11,8 +10,8 @@
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/add_product_appbar"
         android:layout_width="match_parent"
-        app:elevation="0dp"
-        android:layout_height="?actionBarSize">
+        android:layout_height="?actionBarSize"
+        app:elevation="0dp">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/add_product_toolbar"
@@ -21,7 +20,7 @@
             android:theme="@style/Widget.AppCompat.PopupMenu.Overflow"
             app:menu="@menu/add_menu"
             app:navigationIcon="@drawable/ic_close"
-            app:title="@string/add_item" />
+            app:title="@string/add_product" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -72,8 +71,8 @@
                 android:layout_height="wrap_content"
                 android:autoLink="all"
                 android:background="@null"
-                android:inputType="numberDecimal"
                 android:hint="@string/price"
+                android:inputType="numberDecimal"
                 android:paddingStart="16dp"
                 android:paddingTop="24dp"
                 android:paddingEnd="16dp"
@@ -87,8 +86,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:layout_margin="16dp"
-                app:cardElevation="0dp"
                 app:cardCornerRadius="8dp"
+                app:cardElevation="0dp"
                 app:layout_constraintBottom_toTopOf="@id/add_product_Facebook"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -96,19 +95,18 @@
 
                 <ImageView
                     android:id="@+id/add_product_image"
-                    android:scaleType="centerCrop"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_uploading"
-                    />
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_uploading" />
+
                 <ImageView
                     android:id="@+id/close_icon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end|top"
                     android:src="@drawable/ic_close"
-                    android:visibility="gone"
-                    />
+                    android:visibility="gone" />
 
             </androidx.cardview.widget.CardView>
 
@@ -117,14 +115,14 @@
                 android:id="@+id/add_product_Facebook"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
                 android:background="@null"
                 android:hint="@string/facebook_account"
-                android:layout_marginTop="24dp"
+                android:inputType="textUri"
+                android:maxLines="2"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
                 android:textColor="@color/colorAccent"
-                android:inputType="textUri"
-                android:maxLines="2"
                 app:layout_constraintBottom_toTopOf="@id/add_product_phone_number"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -134,14 +132,14 @@
                 android:id="@+id/add_product_phone_number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
                 android:background="@null"
                 android:hint="@string/phone_number"
                 android:inputType="phone"
-                android:maxLines="2"
                 android:maxLength="15"
+                android:maxLines="2"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
-                android:layout_marginTop="24dp"
                 android:textColor="@color/colorAccent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

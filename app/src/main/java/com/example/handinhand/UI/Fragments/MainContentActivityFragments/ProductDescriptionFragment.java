@@ -245,7 +245,7 @@ public class ProductDescriptionFragment extends Fragment {
                 Intent sendIntent = new Intent();
                 sendIntent.setAction(Intent.ACTION_SEND);
                 //TODO: Change the text
-                sendIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.items_url)+
+                sendIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.products_url)+
                         String.valueOf(itemId));
                 sendIntent.setType("text/plain");
 

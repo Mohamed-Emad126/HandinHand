@@ -162,16 +162,6 @@ public class EventDescriptionFragment extends Fragment {
             }
             else{
                 WorkManager.getInstance(activity).enqueue(interestWorker);
-                /*if(isInterested) {
-                    interests.setText(Integer.valueOf(interests.getText().toString()) - 1);
-                    interestFab.setSelected(false);
-                    isInterested = false;
-                }
-                else{
-                    interests.setText(Integer.valueOf(interests.getText().toString()) + 1);
-                    interestFab.setSelected(true);
-                    isInterested = true;
-                }*/
                 sharedViewModel.interestSelected();
                 sharedViewModel.setInterestAt(position);
                 //Navigation.findNavController(rootView).popBackStack();

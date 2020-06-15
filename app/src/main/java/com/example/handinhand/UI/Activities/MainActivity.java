@@ -1,7 +1,6 @@
 package com.example.handinhand.UI.Activities;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 
@@ -16,15 +15,14 @@ import androidx.navigation.NavDestination;
 import com.example.handinhand.Helpers.SharedPreferenceHelper;
 import com.example.handinhand.R;
 import com.example.handinhand.ViewModels.MainActivityViewModel;
-import com.ldoublem.loadingviewlib.view.LVNews;
 
 public class MainActivity extends AppCompatActivity
-implements NavController.OnDestinationChangedListener {
+        implements NavController.OnDestinationChangedListener {
 
-    private LVNews loadingView;
     private ConstraintLayout fullLoadingView;
     private View navHostFragment;
     private MainActivityViewModel model;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,7 +30,7 @@ implements NavController.OnDestinationChangedListener {
 
         //SharedPreferenceHelper.removeToken(this);
 
-        if(SharedPreferenceHelper.getToken(this).length() >0){
+        if (SharedPreferenceHelper.getToken(this).length() > 0) {
             startActivity(new Intent(this, MainContentActivity.class));
             finish();
         }
@@ -42,23 +40,18 @@ implements NavController.OnDestinationChangedListener {
 */
         setContentView(R.layout.activity_main);
 
-
-        loadingView = findViewById(R.id.loading_view);
         fullLoadingView = findViewById(R.id.full_loading_view);
         navHostFragment = findViewById(R.id.nav_host_fragment);
-        loadingView.setViewColor(Color.rgb(255, 0, 0));
-        loadingView.startAnim(1000);
 
         model = new ViewModelProvider(this).get(MainActivityViewModel.class);
 
         model.getIsLoading()
                 .observe(this, aBoolean -> {
-                    if(aBoolean){
+                    if (aBoolean) {
                         fullLoadingView.setVisibility(View.VISIBLE);
                         navHostFragment.clearFocus();
                         navHostFragment.setVisibility(View.GONE);
-                    }
-                    else{
+                    } else {
                         fullLoadingView.setVisibility(View.GONE);
                         navHostFragment.setVisibility(View.VISIBLE);
                     }
@@ -67,10 +60,9 @@ implements NavController.OnDestinationChangedListener {
 
     @Override
     public void onBackPressed() {
-        if(model.getIsLoading().getValue()!= null && model.getIsLoading().getValue()){
+        if (model.getIsLoading().getValue() != null && model.getIsLoading().getValue()) {
             model.leave();
-        }
-        else{
+        } else {
             super.onBackPressed();
         }
     }

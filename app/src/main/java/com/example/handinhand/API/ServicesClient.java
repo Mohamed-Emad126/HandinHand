@@ -20,7 +20,6 @@ import retrofit2.http.POST;
 import retrofit2.http.PartMap;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
-import retrofit2.http.QueryMap;
 
 public interface ServicesClient {
     @Multipart
@@ -34,8 +33,7 @@ public interface ServicesClient {
     @GET("api/services")
     Call<ServicePaginationObject> getService(
             @Header("Authorization") String token,
-            @Query("page") int page,
-            @QueryMap Map<String, String> Queries
+            @Query("page") int page
     );
 
     @FormUrlEncoded

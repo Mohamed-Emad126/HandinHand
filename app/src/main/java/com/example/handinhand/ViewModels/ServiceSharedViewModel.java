@@ -4,20 +4,20 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.handinhand.Models.EventPaginationObject;
+import com.example.handinhand.Models.ServicePaginationObject;
 
-public class EventSharedViewModel extends ViewModel {
-    private final MutableLiveData<EventPaginationObject.Data> selected = new MutableLiveData<>();
+public class ServiceSharedViewModel extends ViewModel {
+    private final MutableLiveData<ServicePaginationObject.Data> selected = new MutableLiveData<>();
     private final MutableLiveData<Integer> deleteAt = new MutableLiveData<>();
     private final MutableLiveData<Integer> interestAt = new MutableLiveData<>();
 
 
-    public void select(EventPaginationObject.Data item) {
+    public void select(ServicePaginationObject.Data item) {
         selected.setValue(item);
     }
 
     public void interestSelected(){
-        EventPaginationObject.Data value = selected.getValue();
+        ServicePaginationObject.Data value = selected.getValue();
         if(value != null && value.getIs_interested()){
             value.setInterests(value.getInterests() -1);
             value.setIs_interested(false);
@@ -29,7 +29,7 @@ public class EventSharedViewModel extends ViewModel {
         selected.postValue(value);
     }
 
-    public LiveData<EventPaginationObject.Data> getSelected() {
+    public LiveData<ServicePaginationObject.Data> getSelected() {
         return selected;
     }
 
@@ -48,5 +48,4 @@ public class EventSharedViewModel extends ViewModel {
     public LiveData<Integer> getInterestAt() {
         return interestAt;
     }
-
 }

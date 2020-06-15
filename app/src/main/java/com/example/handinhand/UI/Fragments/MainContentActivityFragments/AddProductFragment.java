@@ -164,7 +164,7 @@ public class AddProductFragment extends Fragment {
                                     RetrofitHelper.prepareFilePart(activity, "image", uri)
                             ).observe(activity, addItemResponse -> {
                                 if (addItemResponse.getStatus()) {
-                                    Toast.makeText(activity, R.string.item_added, Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(activity, R.string.product_added, Toast.LENGTH_SHORT).show();
                                     setHideSoftKeyboard(rootView);
                                     Navigation.findNavController(rootView).navigateUp();
                                     addProductViewModel.leave();

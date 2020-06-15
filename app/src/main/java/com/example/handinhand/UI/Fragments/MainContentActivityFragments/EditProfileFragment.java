@@ -4,7 +4,6 @@ package com.example.handinhand.UI.Fragments.MainContentActivityFragments;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -36,8 +35,6 @@ import com.example.handinhand.ViewModels.ProfileViewModel;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import com.ldoublem.loadingviewlib.view.LVNews;
-import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
 
@@ -55,7 +52,6 @@ public class EditProfileFragment extends Fragment {
     private Toolbar toolbar;
     private CircleImageView userImage;
     private ConstraintLayout fullLoadingView;
-    private LVNews loadingView;
 
     private TextInputEditText firstName;
     private TextInputLayout firstNameLayout;
@@ -98,9 +94,6 @@ public class EditProfileFragment extends Fragment {
         saveMenuItem = toolbar.getMenu().getItem(0);
 
         fullLoadingView = rootView.findViewById(R.id.full_loading_view);
-        loadingView = rootView.findViewById(R.id.loading_view);
-        loadingView.setViewColor(Color.rgb(255, 0, 0));
-        loadingView.startAnim(1000);
 
         getImageIntent = new Intent(Intent.ACTION_PICK,
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -165,14 +158,22 @@ public class EditProfileFragment extends Fragment {
                 userImage = rootView.findViewById(R.id.edit_profile_image);
                 if(user.getInfo()
                         .getGender().contains("male")){
-                    Picasso.get().load(R.drawable.male_avatar)
+                    /*Picasso.get().load(R.drawable.male_avatar)
+                            .placeholder(R.drawable.male_avatar)
+                            .into(userImage);*/
+                    Glide.with(rootView).load(R.drawable.male_avatar)
+                            .diskCacheStrategy(DiskCacheStrategy.DATA)
                             .placeholder(R.drawable.male_avatar)
                             .into(userImage);
                 }
                 else{
-                    Picasso.get().load(R.drawable.female_avatar)
+                    Glide.with(rootView).load(R.drawable.female_avatar)
+                            .diskCacheStrategy(DiskCacheStrategy.DATA)
                             .placeholder(R.drawable.female_avatar)
                             .into(userImage);
+                    /*Picasso.get().load(R.drawable.female_avatar)
+                            .placeholder(R.drawable.female_avatar)
+                            .into(userImage);*/
                 }
             }
         });

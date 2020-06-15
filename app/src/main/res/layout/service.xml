@@ -1,15 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:maxHeight="100dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_margin="8dp"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:id="@+id/service_material_card"
+    app:rippleColor="@color/ccPrimary"
+    app:cardElevation="2dp"
+    app:cardCornerRadius="6dp"
+    app:cardBackgroundColor="@color/colorPrimaryDark"
+    android:maxHeight="150dp">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="8dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:padding="8dp">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -23,22 +30,22 @@
                 android:id="@+id/service_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/textColorPrimary"
-                android:textStyle="bold"
-                android:textSize="20sp"
                 android:maxLength="20"
-                tools:text="Test"
-                />
+                android:textColor="@color/textColorPrimary"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                tools:text="Test" />
+
             <TextView
                 android:id="@+id/service_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:maxLength="100"
+                android:maxHeight="100dp"
                 android:paddingTop="8dp"
                 android:textColor="@color/ccPrimary"
                 android:textSize="16sp"
-                android:maxLength="100"
-                tools:text="Test"
-                />
+                tools:text="Test" />
 
         </LinearLayout>
 
@@ -54,8 +61,8 @@
                 android:layout_width="18dp"
                 android:layout_height="18dp"
                 android:layout_gravity="center"
-                android:src="@drawable/star_icon"/>
+                android:src="@drawable/star_icon" />
         </xyz.hanks.library.bang.SmallBangView>
 
     </RelativeLayout>
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>

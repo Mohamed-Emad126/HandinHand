@@ -176,7 +176,7 @@ public class AddEventFragment extends Fragment {
                                     RetrofitHelper.prepareFilePart(activity, "image", uri)
                             ).observe(activity, addEventResponse  -> {
                                 if (addEventResponse.getStatus()) {
-                                    Toast.makeText(activity, R.string.item_added, Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(activity, R.string.event_added, Toast.LENGTH_SHORT).show();
                                     setHideSoftKeyboard(rootView);
                                     Navigation.findNavController(rootView).navigateUp();
                                     addEventViewModel.leave();
