@@ -98,7 +98,7 @@ public class HandmadesFragment extends Fragment {
         initRecyclerView(rootView);
         productsViewModel.getmResponse(page, token);
 
-        addFab = rootView.findViewById(R.id.items_fab);
+        addFab = rootView.findViewById(R.id.products_fab);
         addFab.show();
         addFab.setOnClickListener(view -> {
             FragmentNavigator.Extras extra = null;
@@ -296,7 +296,7 @@ public class HandmadesFragment extends Fragment {
     private void reportItem(View rootView) {
         Bundle bundle = new Bundle();
         bundle.putString("id", String.valueOf(selectedItemId));
-        bundle.putString("type", "item");
+        bundle.putString("type", "product");
         Navigation.findNavController(rootView)
                 .navigate(R.id.action_handmadesFragment_to_reportFragment, bundle);
     }

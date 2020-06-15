@@ -61,8 +61,7 @@
                 android:layout_width="18dp"
                 android:layout_height="18dp"
                 android:layout_gravity="center"
-                android:src="@drawable/star_icon" />
+                android:src="@drawable/ic_star_dark" />
         </xyz.hanks.library.bang.SmallBangView>
-
     </RelativeLayout>
 </com.google.android.material.card.MaterialCardView>

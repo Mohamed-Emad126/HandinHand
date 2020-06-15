@@ -277,7 +277,7 @@ public class ServicesFragment extends Fragment {
                 .setInputData(data)
                 .build();
         WorkManager.getInstance(getActivity()).enqueue(deleteWorker);
-        servicesViewModel.interestService(id);
+        //servicesViewModel.interestService(id);
     }
 
 }

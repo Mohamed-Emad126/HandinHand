@@ -172,9 +172,9 @@
                 app:hintEnabled="true"
                 app:hintTextColor="@android:color/black"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toTopOf="service_goal_layout"
+                app:layout_constraintBottom_toTopOf="@id/service_goal_layout"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/add_service_radio_group"
+                app:layout_constraintTop_toBottomOf="@id/add_service_radio_group"
                 app:prefixText="EP"
                 app:prefixTextColor="@color/colorAccent">
 

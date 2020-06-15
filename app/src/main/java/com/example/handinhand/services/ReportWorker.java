@@ -57,10 +57,6 @@ public class ReportWorker extends Worker {
         else if(type.equals("service")){
             reportService(id, mp);
         }
-        Handler handler = new Handler(Looper.getMainLooper());
-        handler.postDelayed(() ->
-                        Toast.makeText(context, R.string.Reported, Toast.LENGTH_SHORT).show(),
-                0 );
 
         return Result.success();
     }
@@ -74,7 +70,7 @@ public class ReportWorker extends Worker {
                     new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(context, R.string.deleted, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, R.string.Reported, Toast.LENGTH_SHORT).show();
                         }
                     }, 0);
                 }
@@ -98,7 +94,7 @@ public class ReportWorker extends Worker {
                             new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                    Toast.makeText(context, R.string.deleted, Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(context, R.string.Reported, Toast.LENGTH_SHORT).show();
                                 }
                             }, 0);
                         }
@@ -120,7 +116,7 @@ public class ReportWorker extends Worker {
                             new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                    Toast.makeText(context, R.string.deleted, Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(context, R.string.Reported, Toast.LENGTH_SHORT).show();
                                 }
                             }, 0);
                         }
@@ -142,7 +138,7 @@ public class ReportWorker extends Worker {
                             new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                    Toast.makeText(context, R.string.deleted, Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(context, R.string.Reported, Toast.LENGTH_SHORT).show();
                                 }
                             }, 0);
                         }

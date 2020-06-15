@@ -8,9 +8,8 @@ import com.example.handinhand.API.RetrofitApi;
 import com.example.handinhand.API.ServicesClient;
 import com.example.handinhand.Models.AddServiceResponse;
 
-import java.util.HashMap;
+import java.util.Map;
 
-import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -28,7 +27,7 @@ public class AddServiceViewModel extends ViewModel {
         return isError;
     }
 
-    public LiveData<AddServiceResponse> getmResponse(String token, HashMap<String, RequestBody> serviceInfo) {
+    public LiveData<AddServiceResponse> getmResponse(String token, Map<String, String> serviceInfo) {
         if (mResponse == null) {
             isLoading.postValue(true);
             mResponse = new MutableLiveData<>();
@@ -39,11 +38,11 @@ public class AddServiceViewModel extends ViewModel {
         }
     }
 
-    private void addItem(String token, HashMap<String, RequestBody> serviceInfo) {
+    private void addItem(String token, Map<String, String> serviceInfo) {
         ServicesClient servicesClient = RetrofitApi.getInstance().getServicesClient();
-        Call<AddServiceResponse> addItemResponseCall = servicesClient.addService(token, serviceInfo);
+        Call<AddServiceResponse> addServiceResponseCall = servicesClient.addService(token, serviceInfo);
 
-        addItemResponseCall.enqueue(new Callback<AddServiceResponse>() {
+        addServiceResponseCall.enqueue(new Callback<AddServiceResponse>() {
             @Override
             public void onResponse(Call<AddServiceResponse> call, Response<AddServiceResponse> response) {
                 isLoading.postValue(false);

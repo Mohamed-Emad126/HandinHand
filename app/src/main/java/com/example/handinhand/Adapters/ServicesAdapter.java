@@ -44,20 +44,6 @@ public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.Servic
         return servicesList.get(position);
     }
 
-    public void interestService(int position) {
-        ServicePaginationObject.Data data = servicesList.get(position);
-        if (data.getIs_interested()) {
-            data.setIs_interested(false);
-            data.setInterests(data.getInterests() - 1);
-        } else {
-            data.setIs_interested(true);
-            data.setInterests(data.getInterests() + 1);
-        }
-        servicesList.remove(position);
-        servicesList.set(position, data);
-        notifyItemChanged(position);
-    }
-
     public interface OnServiceClickListener {
 
         /**
@@ -127,8 +113,8 @@ public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.Servic
             });
 
             bangView.setOnClickListener(view -> {
-                serviceClickListener.OnServiceInterest(getAdapterPosition());
                 bangView.likeAnimation();
+                serviceClickListener.OnServiceInterest(getAdapterPosition());
             });
 
             cardView.setOnLongClickListener(view -> {

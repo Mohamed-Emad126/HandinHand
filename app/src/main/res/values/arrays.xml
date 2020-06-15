@@ -3,6 +3,10 @@
     <string-array name="edit_profile_dialog_choices">
         <item>Remove image</item>
         <item>Pick new image</item>
+    </string-array>
 
+    <string-array name="choice_items" >
+        <item>English</item>
+        <item>عربي</item>
     </string-array>
 </resources>

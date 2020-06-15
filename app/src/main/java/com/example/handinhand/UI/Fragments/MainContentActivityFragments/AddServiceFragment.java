@@ -22,7 +22,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.transition.TransitionInflater;
 
-import com.example.handinhand.Helpers.RetrofitHelper;
 import com.example.handinhand.Helpers.SharedPreferenceHelper;
 import com.example.handinhand.R;
 import com.example.handinhand.Utils.NetworkUtils;
@@ -33,8 +32,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.HashMap;
-
-import okhttp3.RequestBody;
+import java.util.Map;
 
 
 public class AddServiceFragment extends Fragment {
@@ -82,7 +80,7 @@ public class AddServiceFragment extends Fragment {
         addserviceViewModel = new ViewModelProvider(activity).get(AddServiceViewModel.class);
         profileViewModel = new ViewModelProvider(activity).get(ProfileViewModel.class);
         Toolbar toolbar = rootView.findViewById(R.id.add_service_toolbar);
-        priceRadioGroup = rootView.findViewById(R.id.add_service_radio_group_title);
+        priceRadioGroup = rootView.findViewById(R.id.add_service_radio_group);
         priceLayout = rootView.findViewById(R.id.add_service_price_layout);
         priceEditText = rootView.findViewById(R.id.add_service_price);
         titleEditText = rootView.findViewById(R.id.service_title_input);
@@ -108,33 +106,27 @@ public class AddServiceFragment extends Fragment {
         toolbar.setOnMenuItemClickListener(item -> {
             if (item.getItemId() == R.id.action_share) {
                 if (checkEmptyCells()) {
-                    HashMap<String, RequestBody> serviceInfo = createservice();
-                    if (profileViewModel.getProfile(SharedPreferenceHelper.getToken(activity))
-                            .getValue() != null
-                            && profileViewModel.getProfile(SharedPreferenceHelper.getToken(activity))
-                            .getValue().getStatus()) {
-                        if (NetworkUtils.getConnectivityStatus(activity)
-                                == NetworkUtils.TYPE_NOT_CONNECTED) {
-                            Snackbar.make(rootView, getString(R.string.connection_error),
-                                    Snackbar.LENGTH_LONG).show();
-                        } else {
-                            addserviceViewModel.getmResponse(
-                                    SharedPreferenceHelper.getToken(activity),
-                                    serviceInfo
-                            ).observe(activity, addserviceResponse -> {
-                                if (addserviceResponse.getStatus()) {
-                                    Toast.makeText(activity, R.string.service_added, Toast.LENGTH_SHORT).show();
-                                    setHideSoftKeyboard(rootView);
-                                    Navigation.findNavController(rootView).navigateUp();
-                                    addserviceViewModel.leave();
-                                } else {
-                                    Toast.makeText(activity, getString(R.string.something_wrong), Toast.LENGTH_SHORT).show();
-                                }
+                    Map<String, String> serviceInfo = createService();
 
-                            });
-                        }
+                    if (NetworkUtils.getConnectivityStatus(activity)
+                            == NetworkUtils.TYPE_NOT_CONNECTED) {
+                        Snackbar.make(rootView, getString(R.string.connection_error),
+                                Snackbar.LENGTH_LONG).show();
                     } else {
-                        Toast.makeText(activity, getString(R.string.something_wrong), Toast.LENGTH_SHORT).show();
+                        addserviceViewModel.getmResponse(
+                                SharedPreferenceHelper.getToken(activity),
+                                serviceInfo
+                        ).observe(activity, addServiceResponse -> {
+                            if (addServiceResponse.getStatus()) {
+                                Toast.makeText(activity, R.string.service_added, Toast.LENGTH_SHORT).show();
+                                setHideSoftKeyboard(rootView);
+                                Navigation.findNavController(rootView).navigateUp();
+                                addserviceViewModel.leave();
+                            } else {
+                                Toast.makeText(activity, getString(R.string.something_wrong), Toast.LENGTH_SHORT).show();
+                            }
+
+                        });
                     }
                 }
             }
@@ -268,17 +260,17 @@ public class AddServiceFragment extends Fragment {
     }
 
 
-    private HashMap<String, RequestBody> createservice() {
-        HashMap<String, RequestBody> service = new HashMap<>();
-        service.put("title", RetrofitHelper.createPartFromString(titleEditText.getText().toString().trim()));
-        service.put("description", RetrofitHelper.createPartFromString(descriptionEditText.getText().toString().trim()));
+    private Map<String, String> createService() {
+        Map<String, String> service = new HashMap<>();
+        service.put("title", titleEditText.getText().toString().trim());
+        service.put("description", descriptionEditText.getText().toString().trim());
         if (priceRadioGroup.getCheckedRadioButtonId() == R.id.price_service) {
-            service.put("price", RetrofitHelper.createPartFromString(priceEditText.getText().toString().trim()));
+            service.put("price", priceEditText.getText().toString().trim());
         } else {
-            service.put("price", RetrofitHelper.createPartFromString("0"));
+            service.put("price", "0");
         }
-        service.put("goal", RetrofitHelper.createPartFromString(goal.getText().toString().trim()));
-        service.put("target", RetrofitHelper.createPartFromString(target.getText().toString().trim()));
+        service.put("goal", goal.getText().toString().trim());
+        service.put("target", target.getText().toString().trim());
         return service;
     }
 
@@ -299,11 +291,11 @@ public class AddServiceFragment extends Fragment {
         };
         for (int i = 0; i < requiredFields.length; i++) {
             if (requiredFields[i].getText() != null && requiredFields[i].getText().toString().trim().length() == 0) {
-                if (i == 1 && priceRadioGroup.getCheckedRadioButtonId() == R.id.price_service) {
+                if (i == 2 && priceRadioGroup.getCheckedRadioButtonId() == R.id.price_service) {
                     requiredFieldsLayout[i].setErrorEnabled(true);
                     requiredFieldsLayout[i].setError(getString(R.string.required));
                     return false;
-                } else if (i == 1) {
+                } else if (i == 2) {
                     continue;
                 }
                 requiredFieldsLayout[i].setError(getString(R.string.required));

@@ -100,7 +100,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemsViewHol
 
         //TODO: add complete image url
         Glide.with(rootView)
-                .load("http://b3f6b52da5e8.ngrok.io/storage/items/" + itemsList.get(position).getImage())
+                .load("http://cc7637924d19.ngrok.io/storage/items/" + itemsList.get(position).getImage())
                 .diskCacheStrategy(DiskCacheStrategy.DATA)
                 .placeholder(R.color.gray)
                 .into(((ItemsViewHolder)holder).itemImage);

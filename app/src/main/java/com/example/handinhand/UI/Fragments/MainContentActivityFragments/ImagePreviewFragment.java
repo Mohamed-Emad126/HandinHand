@@ -42,6 +42,7 @@ public class ImagePreviewFragment extends Fragment {
     }
     private ImagePreviewViewModel model;
     private String url = null;
+    OneTimeWorkRequest downloadWorkRequest;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -76,6 +77,7 @@ public class ImagePreviewFragment extends Fragment {
                         })
                         .placeholder(R.drawable.ic_image_placeholder)
                         .into(photoView);
+                url = s;
 
             }
         });
@@ -92,19 +94,19 @@ public class ImagePreviewFragment extends Fragment {
             }
         });
 
-        Constraints constraints = new Constraints.Builder()
-                .setRequiredNetworkType(NetworkType.CONNECTED)
-                .build();
-        Data data = new Data.Builder()
-                .putString("IMAGE_URL", url).build();
-
-        OneTimeWorkRequest uploadWorkRequest = new OneTimeWorkRequest
-                .Builder(DownloadImageWorker.class)
-                .setConstraints(constraints)
-                .setInputData(data)
-                .build();
-
         downloadButton.setOnClickListener(view -> {
+
+            Constraints constraints = new Constraints.Builder()
+                    .setRequiredNetworkType(NetworkType.CONNECTED)
+                    .build();
+            Data data = new Data.Builder()
+                    .putString("IMAGE_URL", url).build();
+
+            downloadWorkRequest = new OneTimeWorkRequest
+                    .Builder(DownloadImageWorker.class)
+                    .setConstraints(constraints)
+                    .setInputData(data)
+                    .build();
 
             if(ContextCompat.checkSelfPermission(requireActivity(),
                     Manifest.permission.CALL_PHONE)
@@ -112,7 +114,7 @@ public class ImagePreviewFragment extends Fragment {
                 requestWriteToDiskPermission();
             }
             else{
-                WorkManager.getInstance(activity).enqueue(uploadWorkRequest);
+                WorkManager.getInstance(activity).enqueue(downloadWorkRequest);
             }
 
         });
@@ -140,6 +142,7 @@ public class ImagePreviewFragment extends Fragment {
                                            @NonNull int[] grantResults) {
         if (requestCode == 70) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                WorkManager.getInstance(getActivity()).enqueue(downloadWorkRequest);
                 Toast.makeText(requireActivity(), R.string.granted, Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(requireActivity(), R.string.denied, Toast.LENGTH_SHORT).show();

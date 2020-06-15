@@ -6,6 +6,13 @@
     android:background="@android:color/background_dark"
     tools:context=".UI.Fragments.MainContentActivityFragments.ImagePreviewFragment">
 
+    <com.github.chrisbanes.photoview.PhotoView
+        android:id="@+id/image_preview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerInside"
+        android:layout_gravity="center"
+        />
     <ImageButton
         android:id="@+id/back_button_in_image_preview"
         android:layout_width="wrap_content"
@@ -23,13 +30,5 @@
         android:layout_marginBottom="24dp"
         android:background="@drawable/circle"
         />
-    <com.github.chrisbanes.photoview.PhotoView
-        android:id="@+id/image_preview"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="centerInside"
-        android:layout_gravity="center"
-        />
-
 
 </FrameLayout>

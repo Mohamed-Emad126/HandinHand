@@ -85,6 +85,8 @@ public class EventDescriptionFragment extends Fragment {
                              Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_event_description,
                 container, false);
+        FragmentActivity activity = requireActivity();
+        sharedViewModel = new ViewModelProvider(activity).get(EventSharedViewModel.class);
         position = getArguments().getInt("position");
 
         toolbar = rootView.findViewById(R.id.event_toolbar);
@@ -96,11 +98,9 @@ public class EventDescriptionFragment extends Fragment {
         description = rootView.findViewById(R.id.event_description);
         location = rootView.findViewById(R.id.event_location);
         interests = rootView.findViewById(R.id.event_interests);
-        FragmentActivity activity = getActivity();
         createDeleteDialog(activity, rootView);
         setUpToolBar(rootView);
 
-        sharedViewModel = new ViewModelProvider(activity).get(EventSharedViewModel.class);
         imagePreviewViewModel = new ViewModelProvider(activity).get(ImagePreviewViewModel.class);
 
         profileViewModel = new ViewModelProvider(activity).get(ProfileViewModel.class);
@@ -111,32 +111,34 @@ public class EventDescriptionFragment extends Fragment {
                 .getId();
 
         sharedViewModel.getSelected().observe(activity, data -> {
-            eventId = data.getId();
-            isInterested = data.getIs_interested();
-            title.setText(data.getTitle());
-            about.setText(data.getAbout());
-            description.setText(data.getDescription());
-            location.setText(data.getLocation());
-            userId = data.getUser_id();
-            interests.setText(String.valueOf(data.getInterests()));
-            interestFab.setSelected(data.getIs_interested());
-            Glide.with(rootView)
-                    .load(getString(R.string.events_image_url) + data.getImage())
-                    .listener(new RequestListener<Drawable>() {
-                        @Override
-                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                            return false;
-                        }
+            if(isAdded()){
+                eventId = data.getId();
+                isInterested = data.getIs_interested();
+                title.setText(data.getTitle());
+                about.setText(data.getAbout());
+                description.setText(data.getDescription());
+                location.setText(data.getLocation());
+                userId = data.getUser_id();
+                interests.setText(String.valueOf(data.getInterests()));
+                interestFab.setSelected(data.getIs_interested());
+                Glide.with(rootView)
+                        .load(getString(R.string.events_image_url) + data.getImage())
+                        .listener(new RequestListener<Drawable>() {
+                            @Override
+                            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                                return false;
+                            }
 
-                        @Override
-                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                            url = getString(R.string.events_image_url) + data.getImage();
-                            return false;
-                        }
-                    })
-                    .diskCacheStrategy(DiskCacheStrategy.DATA)
-                    .placeholder(R.drawable.ic_image_placeholder)
-                    .into(kenBurnsView);
+                            @Override
+                            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                                url = getString(R.string.events_image_url) + data.getImage();
+                                return false;
+                            }
+                        })
+                        .diskCacheStrategy(DiskCacheStrategy.DATA)
+                        .placeholder(R.drawable.ic_image_placeholder)
+                        .into(kenBurnsView);
+            }
         });
 
         refreshLayout.setOnRefreshListener(() ->
@@ -175,8 +177,6 @@ public class EventDescriptionFragment extends Fragment {
                         .navigate(R.id.action_eventDescriptionFragment_to_imagePreviewFragment);
             }
         });
-
-
 
         return rootView;
     }

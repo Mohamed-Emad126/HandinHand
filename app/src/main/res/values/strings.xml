@@ -72,14 +72,14 @@ The first step is create the fragments and define the relationship between them.
     <string name="report">Report</string>
     <string name="share">Share</string>
     <!--TODO: change the url-->
-    <string name="avatar_url">http://b3f6b52da5e8.ngrok.io/storage/avatars/</string>
-    <string name="items_url">http://b3f6b52da5e8.ngrok.io/items/</string>
-    <string name="events_url">http://b3f6b52da5e8.ngrok.io/events/</string>
-    <string name="services_url">http://b3f6b52da5e8.ngrok.io/services/</string>
-    <string name="products_url">http://b3f6b52da5e8.ngrok.io/products/</string>
-    <string name="items_image_url">http://b3f6b52da5e8.ngrok.io/storage/items/</string>
-    <string name="products_image_url">http://b3f6b52da5e8.ngrok.io/storage/products/</string>
-    <string name="events_image_url">http://b3f6b52da5e8.ngrok.io/storage/events/</string>
+    <string name="avatar_url">http://cc7637924d19.ngrok.io/storage/avatars/</string>
+    <string name="items_url">http://cc7637924d19.ngrok.io/items/</string>
+    <string name="events_url">http://cc7637924d19.ngrok.io/events/</string>
+    <string name="services_url">http://cc7637924d19.ngrok.io/services/</string>
+    <string name="products_url">http://cc7637924d19.ngrok.io/products/</string>
+    <string name="items_image_url">http://cc7637924d19.ngrok.io/storage/items/</string>
+    <string name="products_image_url">http://cc7637924d19.ngrok.io/storage/products/</string>
+    <string name="events_image_url">http://cc7637924d19.ngrok.io/storage/events/</string>
     <string name="update_successfully">Updated</string>
     <string name="edit_profile">Edit Profile</string>
     <string name="connection_error">No Network Connection</string>
@@ -161,5 +161,8 @@ The platform will provide four major services: -
     <string name="current_interest">Current interests</string>
     <string name="add_service">Add Service</string>
     <string name="helper_service">you will be notified when your service reach this goal</string>
+    <string name="language">Language</string>
+    <string name="ask_for_verification">Ask for verification</string>
+    <string name="more_settings">More Settings</string>
 
 </resources>

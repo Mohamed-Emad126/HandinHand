@@ -161,7 +161,7 @@ public class ServiceDescriptionFragment extends Fragment {
         bundle.putString("id", String.valueOf(serviceId));
         bundle.putString("type", "service");
         Navigation.findNavController(rootView)
-                .navigate(R.id.action_servicesFragment_to_reportFragment, bundle);
+                .navigate(R.id.action_serviceDescriptionFragment_to_reportFragment, bundle);
     }
 
     private void createDeleteDialog(FragmentActivity activity, View rootView) {

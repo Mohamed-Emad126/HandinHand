@@ -45,7 +45,7 @@ public class DownloadImageWorker extends Worker {
 
         String url = inputData.getString("IMAGE_URL");
         StringBuilder actualUrl = new StringBuilder();
-        for(int i=url.length()-1, x = 0; i>=0; i++){
+        for(int i=url.length()-1, x = 0; i>=0; --i){
             actualUrl.append(url.charAt(i));
             if(url.charAt(i) == '/'){
                 x++;
@@ -62,33 +62,26 @@ public class DownloadImageWorker extends Worker {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if(response.isSuccessful()){
-                    isSuccessful[0] = downloadImage(response.body(), mContext);
+                    downloadImage(response.body(), mContext);
                     new Handler(Looper.getMainLooper()).postDelayed(() ->
                             Toast.makeText(mContext, R.string.saved, Toast.LENGTH_SHORT).show(),
                             0);
                 }
                 else{
-
+                    new Handler(Looper.getMainLooper()).postDelayed(() ->
+                                    Toast.makeText(mContext, R.string.something_wrong, Toast.LENGTH_SHORT).show(),
+                            0);
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                isSuccessful[0] = true;
+                new Handler(Looper.getMainLooper()).postDelayed(() ->
+                                Toast.makeText(mContext, R.string.something_wrong, Toast.LENGTH_SHORT).show(),
+                        0);
             }
         });
 
-        Handler handler = new Handler(Looper.getMainLooper());
-        if(isSuccessful[0]){
-            handler.postDelayed(() ->
-                        Toast.makeText(mContext, R.string.saved, Toast.LENGTH_SHORT).show(),
-                        0 );
-        }
-        else{
-            handler.postDelayed(() ->
-                            Toast.makeText(mContext, R.string.save_error, Toast.LENGTH_SHORT).show(),
-                    0 );
-        }
         return Result.success();
     }
 
@@ -96,8 +89,10 @@ public class DownloadImageWorker extends Worker {
         String root = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).toString();
         File myDir = new File(root + "/HandInHand");
         boolean mkdirs = myDir.mkdirs();
-        if(!mkdirs){
-            return false;
+        if(!myDir.exists()){
+            if(!mkdirs){
+                return false;
+            }
         }
 
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());

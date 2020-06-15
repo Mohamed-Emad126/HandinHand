@@ -30,14 +30,9 @@ public class ReportFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_report, container, false);
         MaterialButton cancel = rootView.findViewById(R.id.button_report_cancel);
         MaterialButton report = rootView.findViewById(R.id.report_button);
-        String reason = "";
         ChipGroup group = rootView.findViewById(R.id.report_chip_group_fragment);
-        if(group.getCheckedChipId() == R.id.spam_chip_fragment){
-            reason = "spam";
-        }
-        else{
-            reason = "inappropriate";
-        }
+
+
 
         String id = getArguments().getString("id");
         String type = getArguments().getString("type");
@@ -46,21 +41,30 @@ public class ReportFragment extends Fragment {
             Navigation.findNavController(rootView).navigateUp();
         });
 
-        Constraints constraints = new Constraints.Builder()
-                .setRequiredNetworkType(NetworkType.CONNECTED)
-                .build();
-        Data data = new Data.Builder()
-                .putString("TYPE", type)
-                .putString("ELEMENT_ID", id)
-                .putString("REASON", reason)
-                .build();
 
-        OneTimeWorkRequest reportWorker = new OneTimeWorkRequest
-                .Builder(ReportWorker.class)
-                .setConstraints(constraints)
-                .setInputData(data)
-                .build();
         report.setOnClickListener(view -> {
+            String reason ="";
+            if(group.getCheckedChipId() == R.id.spam_chip_fragment){
+                reason = "spam";
+            }
+            else{
+                reason = "inappropriate";
+            }
+            Constraints constraints = new Constraints.Builder()
+                    .setRequiredNetworkType(NetworkType.CONNECTED)
+                    .build();
+            Data data = new Data.Builder()
+                    .putString("TYPE", type)
+                    .putString("ELEMENT_ID", id)
+                    .putString("REASON", reason)
+                    .build();
+
+            OneTimeWorkRequest reportWorker = new OneTimeWorkRequest
+                    .Builder(ReportWorker.class)
+                    .setConstraints(constraints)
+                    .setInputData(data)
+                    .build();
+
             if(NetworkUtils.getConnectivityStatus(getActivity()) == NetworkUtils.TYPE_NOT_CONNECTED){
                 Toast.makeText(getActivity(), getString(R.string.connection_error), Toast.LENGTH_SHORT).show();
             }

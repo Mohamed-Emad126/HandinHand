@@ -291,7 +291,7 @@ public class EventsFragment extends Fragment {
                 .setInputData(data)
                 .build();
         WorkManager.getInstance(getActivity()).enqueue(deleteWorker);
-        eventsViewModel.interestEvent(id);
+        //eventsViewModel.interestEvent(id);
     }
 
 }

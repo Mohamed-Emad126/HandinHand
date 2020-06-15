@@ -101,7 +101,7 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventsView
 
         //TODO: add complete image url
         Glide.with(rootView)
-                .load("http://b3f6b52da5e8.ngrok.io/storage/events/" +
+                .load("http://cc7637924d19.ngrok.io/storage/events/" +
                         eventsList.get(position).getImage())
                 .placeholder(R.drawable.ic_photo)
                 .into((holder).eventImage);
@@ -140,8 +140,8 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventsView
             });
 
             bangView.setOnClickListener(view -> {
-                eventClickListener.OnEventInterest(getAdapterPosition());
                 bangView.likeAnimation();
+                eventClickListener.OnEventInterest(getAdapterPosition());
             });
 
             cardView.setOnLongClickListener(view -> {
