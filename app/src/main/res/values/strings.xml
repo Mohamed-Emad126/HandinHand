@@ -28,7 +28,6 @@
     <string name="required">Required Cell</string>
     <string name="items">Items</string>
     <string name="handmades">Handmades</string>
-    <string name="services">Services</string>
     <string name="events">Events</string>
     <string name="notifications">Notifications</string>
     <string name="filter">Filter</string>
@@ -164,5 +163,7 @@ The platform will provide four major services: -
     <string name="language">Language</string>
     <string name="ask_for_verification">Ask for verification</string>
     <string name="more_settings">More Settings</string>
+    <string name="services">Services</string>
+    <string name="deal">Deal</string>
 
 </resources>
