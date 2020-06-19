@@ -165,5 +165,7 @@ The platform will provide four major services: -
     <string name="more_settings">More Settings</string>
     <string name="services">Services</string>
     <string name="deal">Deal</string>
+    <string name="interesters">Interesters</string>
+    <string name="deal_message">The student below want to deal with you to get your item.\n please, provide information about place or how you can meet with him/her in the university.</string>
 
 </resources>

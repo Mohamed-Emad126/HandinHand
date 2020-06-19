@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".UI.Fragments.MainContentActivityFragments.ServiceInterestersFragment">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbar_layout_service"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/interesters_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            android:fitsSystemWindows="true"
+            app:layout_collapseMode="pin"
+            app:navigationIcon="@drawable/ic_arrow_back"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:subtitleTextColor="@color/textColorPrimary"
+            app:title="@string/interesters"
+            app:titleTextColor="@color/textColorPrimary" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/interesters_swipe_refresh_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <RelativeLayout
+                android:id="@+id/relative_interesters"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"
+                android:layout_gravity="center">
+
+
+                <TextView
+                    android:id="@+id/service_name_interesters"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentEnd="true"
+                    android:gravity="center"
+                    android:layout_marginTop="16dp"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:text="@string/app_name"
+                    android:textColor="@color/textColorPrimary" />
+
+                <TextView
+                    android:id="@+id/service_description_interesters"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentEnd="true"
+                    android:gravity="center"
+                    android:layout_margin="16dp"
+                    android:layout_below="@id/service_name_interesters"
+                    android:text="@string/app_name"
+                    android:textColor="@color/textColorPrimary" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/interesters_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_margin="16dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_below="@id/service_description_interesters"
+                    android:background="@color/place_holder_color"
+                    android:clipToPadding="false"
+                    android:overScrollMode="never"
+                    android:paddingBottom="50dp"/>
+            </RelativeLayout>
+
+            <include layout="@layout/loading_layout" />
+
+            <include layout="@layout/layout_error" />
+
+        </FrameLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

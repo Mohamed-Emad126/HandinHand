@@ -2,6 +2,7 @@ package com.example.handinhand.API;
 
 import com.example.handinhand.Models.AddServiceResponse;
 import com.example.handinhand.Models.DeleteServiceResponse;
+import com.example.handinhand.Models.ServiceDescription;
 import com.example.handinhand.Models.ServiceInterestResponse;
 import com.example.handinhand.Models.ServicePaginationObject;
 import com.example.handinhand.Models.ServiceReportResponse;
@@ -32,6 +33,12 @@ public interface ServicesClient {
     Call<ServicePaginationObject> getService(
             @Header("Authorization") String token,
             @Query("page") int page
+    );
+
+    @GET("api/services/{service_id}")
+    Call<ServiceDescription> getServiceWithId(
+            @Header("Authorization") String token,
+            @Path("service_id") int id
     );
 
     @FormUrlEncoded

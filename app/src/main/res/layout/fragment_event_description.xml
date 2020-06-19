@@ -25,7 +25,6 @@
             app:subtitleTextColor="@color/textColorPrimary"
             app:titleTextColor="@color/textColorPrimary" />
 
-
     </com.google.android.material.appbar.AppBarLayout>
 
 

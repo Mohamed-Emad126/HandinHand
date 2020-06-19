@@ -25,7 +25,23 @@
         android:id="@+id/notificationsFragment"
         android:name="com.example.handinhand.UI.Fragments.MainContentActivityFragments.NotificationsFragment"
         android:label="fragment_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        tools:layout="@layout/fragment_notifications" >
+        <action
+            android:id="@+id/action_notificationsFragment_to_dealFragment"
+            app:destination="@id/dealFragment" />
+        <action
+            android:id="@+id/action_notificationsFragment_to_eventInterestersFragment"
+            app:destination="@id/eventInterestersFragment" />
+        <action
+            android:id="@+id/action_notificationsFragment_to_serviceInterestersFragment"
+            app:destination="@id/serviceInterestersFragment" />
+        <action
+            android:id="@+id/action_notificationsFragment_to_dealCompletedFragment"
+            app:destination="@id/dealCompletedFragment" />
+        <action
+            android:id="@+id/action_notificationsFragment_to_acceptDealFragment"
+            app:destination="@id/acceptDealFragment" />
+    </fragment>
     <fragment
         android:id="@+id/eventsFragment"
         android:name="com.example.handinhand.UI.Fragments.MainContentActivityFragments.EventsFragment"
@@ -195,4 +211,29 @@
         android:name="com.example.handinhand.UI.Fragments.MainContentActivityFragments.AddServiceFragment"
         android:label="fragment_add_service"
         tools:layout="@layout/fragment_add_service" />
+    <fragment
+        android:id="@+id/dealFragment"
+        android:name="com.example.handinhand.UI.Fragments.MainContentActivityFragments.DealFragment"
+        android:label="fragment_deal"
+        tools:layout="@layout/fragment_deal" />
+    <fragment
+        android:id="@+id/eventInterestersFragment"
+        android:name="com.example.handinhand.UI.Fragments.MainContentActivityFragments.EventInterestersFragment"
+        android:label="fragment_event_interesters"
+        tools:layout="@layout/fragment_event_interesters" />
+    <fragment
+        android:id="@+id/serviceInterestersFragment"
+        android:name="com.example.handinhand.UI.Fragments.MainContentActivityFragments.ServiceInterestersFragment"
+        android:label="fragment_service_interesters"
+        tools:layout="@layout/fragment_service_interesters" />
+    <fragment
+        android:id="@+id/acceptDealFragment"
+        android:name="com.example.handinhand.UI.Fragments.MainContentActivityFragments.AcceptDealFragment"
+        android:label="fragment_accept_deal"
+        tools:layout="@layout/fragment_accept_deal" />
+    <fragment
+        android:id="@+id/dealCompletedFragment"
+        android:name="com.example.handinhand.UI.Fragments.MainContentActivityFragments.DealCompletedFragment"
+        android:label="fragment_deal_completed"
+        tools:layout="@layout/fragment_deal_completed" />
 </navigation>

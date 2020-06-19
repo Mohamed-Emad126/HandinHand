@@ -2,6 +2,7 @@ package com.example.handinhand.API;
 
 import com.example.handinhand.Models.AddEventResponse;
 import com.example.handinhand.Models.DeleteEventResponse;
+import com.example.handinhand.Models.EventDescription;
 import com.example.handinhand.Models.EventInterestResponse;
 import com.example.handinhand.Models.EventPaginationObject;
 import com.example.handinhand.Models.EventReportResponse;
@@ -38,6 +39,12 @@ public interface EventsClient {
     Call<EventPaginationObject> getEvents(
             @Header("Authorization") String token,
             @Query("page") int page
+    );
+
+    @GET("api/events/{event_id}")
+    Call<EventDescription> getEventWithId(
+            @Header("Authorization") String token,
+            @Path("event_id") int id
     );
 
     @FormUrlEncoded

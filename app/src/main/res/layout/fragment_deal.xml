@@ -1,14 +1,199 @@
-<?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".UI.Fragments.MainContentActivityFragments.DealFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbar_layout_deal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/deal_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            android:fitsSystemWindows="true"
+            app:layout_collapseMode="pin"
+            app:navigationIcon="@drawable/ic_arrow_back"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:subtitleTextColor="@color/textColorPrimary"
+            app:title="@string/deal"
+            app:titleTextColor="@color/textColorPrimary" />
+
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
-</FrameLayout>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="16dp">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/crd"
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_margin="10dp"
+                    app:cardBackgroundColor="@color/textColorPrimary"
+                    app:cardCornerRadius="8dp"
+                    app:cardElevation="4dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/item_image"
+                            android:layout_width="match_parent"
+                            android:layout_height="100dp"
+                            android:layout_gravity="center"
+                            android:scaleType="centerInside"
+                            android:src="@drawable/ic_logo_hand_in" />
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <TextView
+                    android:id="@+id/item_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/app_name"
+                    android:textColor="@color/textColorPrimary"
+                    app:layout_constraintTop_toBottomOf="@id/crd"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:paddingStart="16dp"
+                    android:paddingTop="16dp"
+                    android:paddingEnd="16dp"
+                    android:text="@string/deal_message"
+                    android:textColor="@color/textColorPrimary"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/item_name" />
+
+                <LinearLayout
+                    android:id="@+id/linearLayout2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingStart="20dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView2">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center_horizontal"
+                        android:gravity="center"
+                        app:cardBackgroundColor="@color/textColorPrimary"
+                        app:cardCornerRadius="8dp"
+                        app:cardElevation="2dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:id="@+id/buyer_image_deal"
+                                android:layout_width="match_parent"
+                                android:layout_height="100dp"
+                                android:layout_gravity="center"
+                                android:scaleType="centerInside"
+                                android:src="@drawable/ic_logo_hand_in" />
+
+                        </LinearLayout>
+
+                    </androidx.cardview.widget.CardView>
+
+                    <TextView
+                        android:id="@+id/user_nme"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="10dp"
+                        android:gravity="center_vertical"
+                        android:text="-------------"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/deal_details_layout"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/details"
+                    android:theme="@style/cursorColor"
+                    app:boxBackgroundColor="@color/colorPrimary"
+                    app:boxStrokeColor="@android:color/black"
+                    app:boxStrokeErrorColor="@android:color/holo_orange_dark"
+                    app:boxStrokeWidth="1dp"
+                    app:errorTextColor="@android:color/holo_orange_dark"
+                    app:hintAnimationEnabled="true"
+                    app:hintEnabled="true"
+                    android:layout_margin="16dp"
+                    app:hintTextColor="@android:color/black"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/deal_details_input"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:fontFamily="sans-serif-light"
+                        android:inputType="text|textCapWords"
+                        android:maxLines="1"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/button_deal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/deal"
+                    android:layout_marginTop="16dp"
+                    app:backgroundTint="@color/textColorPrimary"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/deal_details_layout"
+                    app:rippleColor="@color/colorPrimary" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </FrameLayout>
+    </ScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

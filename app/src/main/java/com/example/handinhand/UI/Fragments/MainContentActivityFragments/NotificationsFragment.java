@@ -1,6 +1,7 @@
 package com.example.handinhand.UI.Fragments.MainContentActivityFragments;
 
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,8 +29,10 @@ import androidx.work.WorkManager;
 import com.example.handinhand.Adapters.NotificationAdapter;
 import com.example.handinhand.Helpers.SharedPreferenceHelper;
 import com.example.handinhand.R;
+import com.example.handinhand.ViewModels.EventSharedViewModel;
 import com.example.handinhand.ViewModels.NotificationViewModel;
 import com.example.handinhand.ViewModels.ProfileViewModel;
+import com.example.handinhand.ViewModels.ServiceSharedViewModel;
 import com.example.handinhand.services.InterestWorker;
 import com.google.android.material.button.MaterialButton;
 
@@ -38,6 +41,10 @@ import com.google.android.material.button.MaterialButton;
  */
 public class NotificationsFragment extends Fragment {
 
+
+    private Dialog dialog;
+    private EventSharedViewModel eventSharedViewModel;
+    private ServiceSharedViewModel serviceSharedViewModel;
 
     public NotificationsFragment() { }
 
@@ -72,9 +79,13 @@ public class NotificationsFragment extends Fragment {
         notificationAdapter = new NotificationAdapter();
         FragmentActivity activity = getActivity();
         token = SharedPreferenceHelper.getToken(activity);
+        createProgressDialog();
 
 
         notificationViewModel = new ViewModelProvider(activity).get(NotificationViewModel.class);
+        eventSharedViewModel = new ViewModelProvider(activity).get(EventSharedViewModel.class);
+        serviceSharedViewModel = new ViewModelProvider(activity).get(ServiceSharedViewModel.class);
+
         ProfileViewModel user = new ViewModelProvider(activity).get(ProfileViewModel.class);
         user.getProfile(SharedPreferenceHelper.getToken(requireContext())).observe(requireActivity(),
                 profile -> {
@@ -169,16 +180,37 @@ public class NotificationsFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         recyclerView.setSaveEnabled(true);
 
-        notificationAdapter.setOnNotificationClickListener(new NotificationAdapter.OnNotificationClickListener() {
-            @Override
-            public void OnNotificationClicked(int position) {
-                //TODO
-                Bundle bundle = new Bundle();
-                bundle.putInt("position", position);
+        notificationAdapter.setOnNotificationClickListener(position -> {
+            //TODO
+            Bundle bundle = new Bundle();
+            bundle.putInt("ID", position);
+            int n =notificationAdapter.getNotification(position).getUrl().length();
+            StringBuilder notId = new StringBuilder();
+            for(int i =n-1; i>=0; --i){
+                if(notificationAdapter.getNotification(position).getUrl().charAt(i) == '/'){
+                    break;
+                }
+                notId.append(notificationAdapter.getNotification(position).getUrl().charAt(i));
+            }
+            int integerId = Integer.parseInt(notId.toString());
+            bundle.putInt("ID", integerId);
+            if(notificationAdapter.getNotification(position).getUrl().contains("events")){
                 Navigation.findNavController(rootView).navigate(
-                        R.id.action_servicesFragment_to_serviceDescriptionFragment,
+                        R.id.action_notificationsFragment_to_eventInterestersFragment,
                         bundle
                 );
+            }
+            else if(notificationAdapter.getNotification(position).getUrl().contains("services")){
+                Navigation.findNavController(rootView).navigate(
+                        R.id.action_notificationsFragment_to_serviceInterestersFragment,
+                        bundle
+                );
+            }
+            else{
+                /*Navigation.findNavController(rootView).navigate(
+                        R.id.action_notificationsFragment_to_dealFragment,
+                        bundle
+                );*/
             }
         });
 
@@ -201,6 +233,13 @@ public class NotificationsFragment extends Fragment {
                 }
             }
         });
+    }
+
+    private void createProgressDialog(){
+        dialog = new Dialog(getActivity());
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        dialog.setContentView(R.layout.progress_dialog);
+        dialog.setCanceledOnTouchOutside(false);
     }
 
     private void reportService(View rootView) {
