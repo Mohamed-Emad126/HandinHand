@@ -166,6 +166,20 @@ The platform will provide four major services: -
     <string name="services">Services</string>
     <string name="deal">Deal</string>
     <string name="interesters">Interesters</string>
-    <string name="deal_message">The student below want to deal with you to get your item.\n please, provide information about place or how you can meet with him/her in the university.</string>
+    <string name="deal_message">The student below want to deal with you to get your item.\n Accept the deal and provide information about place or how you can meet with him/her in the university.\n or decline the deal.</string>
+    <string name="deal_handmade_message">The student below want to deal with you to get your handmade.\n Accept the deal and provide information about place or how you can meet with him/her in the university.\n or decline the deal.</string>
+    <string name="Accepted">accepted</string>
+    <string name="declined">Declined</string>
+    <string name="decline">Decline</string>
+    <string name="close_item">Close Item</string>
+    <string name="message_to_close">You can close the item if there\'s no response of the buyer or the item is not available any more.</string>
+    <string name="the_buyer_response">the buyer response:</string>
+    <string name="you_have_successfully_send_the_details_of_the_deal_to">You have successfully send the details of the deal to:</string>
+    <string name="owner_details">Owner Details:</string>
+    <string name="dealt_with">You have successfully dealt with:</string>
+    <string name="you_have_booked_the_item_above_from">You have booked the item above from:</string>
+    <string name="you_have_booked_the_product_above_from">You have booked the item above from:</string>
+    <string name="the_owner_provided">The owner provided you with a details of how you can get the item and meet with her/him:</string>
+    <string name="Accept">Accept</string>
 
 </resources>

@@ -89,6 +89,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                 mRandom.nextInt(256),
                 mRandom.nextInt(256));
         ((GradientDrawable) holder.notificationIcon.getBackground()).setColor(color);
+        holder.linearLayout.setBackgroundColor(Color.parseColor("#1100363D"));
     }
 
     @Override

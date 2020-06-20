@@ -28,19 +28,39 @@
         tools:layout="@layout/fragment_notifications" >
         <action
             android:id="@+id/action_notificationsFragment_to_dealFragment"
-            app:destination="@id/dealFragment" />
+            app:destination="@id/dealFragment"
+            app:enterAnim="@anim/anim_slide_in_right"
+            app:exitAnim="@anim/anim_slide_out_left"
+            app:popEnterAnim="@anim/anim_slide_in_left"
+            app:popExitAnim="@anim/anim_slide_out_right"/>
         <action
             android:id="@+id/action_notificationsFragment_to_eventInterestersFragment"
-            app:destination="@id/eventInterestersFragment" />
+            app:destination="@id/eventInterestersFragment"
+            app:enterAnim="@anim/anim_slide_in_right"
+            app:exitAnim="@anim/anim_slide_out_left"
+            app:popEnterAnim="@anim/anim_slide_in_left"
+            app:popExitAnim="@anim/anim_slide_out_right"/>
         <action
             android:id="@+id/action_notificationsFragment_to_serviceInterestersFragment"
-            app:destination="@id/serviceInterestersFragment" />
+            app:destination="@id/serviceInterestersFragment"
+            app:enterAnim="@anim/anim_slide_in_right"
+            app:exitAnim="@anim/anim_slide_out_left"
+            app:popEnterAnim="@anim/anim_slide_in_left"
+            app:popExitAnim="@anim/anim_slide_out_right"/>
         <action
             android:id="@+id/action_notificationsFragment_to_dealCompletedFragment"
-            app:destination="@id/dealCompletedFragment" />
+            app:destination="@id/dealCompletedFragment"
+            app:enterAnim="@anim/anim_slide_in_right"
+            app:exitAnim="@anim/anim_slide_out_left"
+            app:popEnterAnim="@anim/anim_slide_in_left"
+            app:popExitAnim="@anim/anim_slide_out_right"/>
         <action
             android:id="@+id/action_notificationsFragment_to_acceptDealFragment"
-            app:destination="@id/acceptDealFragment" />
+            app:destination="@id/acceptDealFragment"
+            app:enterAnim="@anim/anim_slide_in_right"
+            app:exitAnim="@anim/anim_slide_out_left"
+            app:popEnterAnim="@anim/anim_slide_in_left"
+            app:popExitAnim="@anim/anim_slide_out_right"/>
     </fragment>
     <fragment
         android:id="@+id/eventsFragment"
@@ -49,7 +69,11 @@
         tools:layout="@layout/fragment_events" >
         <action
             android:id="@+id/action_eventsFragment_to_reportFragment"
-            app:destination="@id/reportFragment" />
+            app:destination="@id/reportFragment"
+            app:enterAnim="@anim/anim_slide_in_right"
+            app:exitAnim="@anim/anim_slide_out_left"
+            app:popEnterAnim="@anim/anim_slide_in_left"
+            app:popExitAnim="@anim/anim_slide_out_right"/>
         <action
             android:id="@+id/action_eventsFragment_to_eventDescriptionFragment"
             app:destination="@id/eventDescriptionFragment" />
@@ -64,7 +88,11 @@
         tools:layout="@layout/fragment_handmades" >
         <action
             android:id="@+id/action_handmadesFragment_to_reportFragment"
-            app:destination="@id/reportFragment" />
+            app:destination="@id/reportFragment"
+            app:enterAnim="@anim/anim_slide_in_right"
+            app:exitAnim="@anim/anim_slide_out_left"
+            app:popEnterAnim="@anim/anim_slide_in_left"
+            app:popExitAnim="@anim/anim_slide_out_right"/>
         <action
             android:id="@+id/action_handmadesFragment_to_productDescriptionFragment"
             app:destination="@id/productDescriptionFragment" />
@@ -82,7 +110,11 @@
             app:destination="@id/reportFragment" />
         <action
             android:id="@+id/action_servicesFragment_to_serviceDescriptionFragment"
-            app:destination="@id/serviceDescriptionFragment" />
+            app:destination="@id/serviceDescriptionFragment"
+            app:enterAnim="@anim/anim_slide_in_right"
+            app:exitAnim="@anim/anim_slide_out_left"
+            app:popEnterAnim="@anim/anim_slide_in_left"
+            app:popExitAnim="@anim/anim_slide_out_right"/>
         <action
             android:id="@+id/action_servicesFragment_to_addServiceFragment"
             app:destination="@id/addServiceFragment" />
@@ -97,7 +129,11 @@
             app:destination="@id/imagePreviewFragment" />
         <action
             android:id="@+id/action_itemDescriptionFragment_to_reportFragment"
-            app:destination="@id/reportFragment" />
+            app:destination="@id/reportFragment"
+            app:enterAnim="@anim/anim_slide_in_right"
+            app:exitAnim="@anim/anim_slide_out_left"
+            app:popEnterAnim="@anim/anim_slide_in_left"
+            app:popExitAnim="@anim/anim_slide_out_right"/>
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
@@ -150,7 +186,11 @@
         tools:layout="@layout/fragment_event_description" >
         <action
             android:id="@+id/action_eventDescriptionFragment_to_reportFragment"
-            app:destination="@id/reportFragment" />
+            app:destination="@id/reportFragment"
+            app:enterAnim="@anim/anim_slide_in_right"
+            app:exitAnim="@anim/anim_slide_out_left"
+            app:popEnterAnim="@anim/anim_slide_in_left"
+            app:popExitAnim="@anim/anim_slide_out_right"/>
         <action
             android:id="@+id/action_eventDescriptionFragment_to_imagePreviewFragment"
             app:destination="@id/imagePreviewFragment" />
@@ -187,10 +227,18 @@
         tools:layout="@layout/fragment_product_description" >
         <action
             android:id="@+id/action_productDescriptionFragment_to_imagePreviewFragment"
-            app:destination="@id/imagePreviewFragment" />
+            app:destination="@id/imagePreviewFragment"
+            app:enterAnim="@anim/anim_slide_in_right"
+            app:exitAnim="@anim/anim_slide_out_left"
+            app:popEnterAnim="@anim/anim_slide_in_left"
+            app:popExitAnim="@anim/anim_slide_out_right"/>
         <action
             android:id="@+id/action_productDescriptionFragment_to_reportFragment"
-            app:destination="@id/reportFragment" />
+            app:destination="@id/reportFragment"
+            app:enterAnim="@anim/anim_slide_in_right"
+            app:exitAnim="@anim/anim_slide_out_left"
+            app:popEnterAnim="@anim/anim_slide_in_left"
+            app:popExitAnim="@anim/anim_slide_out_right"/>
     </fragment>
     <fragment
         android:id="@+id/serviceDescriptionFragment"
@@ -199,7 +247,11 @@
         tools:layout="@layout/fragment_service_description" >
         <action
             android:id="@+id/action_serviceDescriptionFragment_to_reportFragment"
-            app:destination="@id/reportFragment" />
+            app:destination="@id/reportFragment"
+            app:enterAnim="@anim/anim_slide_in_right"
+            app:exitAnim="@anim/anim_slide_out_left"
+            app:popEnterAnim="@anim/anim_slide_in_left"
+            app:popExitAnim="@anim/anim_slide_out_right"/>
     </fragment>
     <fragment
         android:id="@+id/addProductFragment"

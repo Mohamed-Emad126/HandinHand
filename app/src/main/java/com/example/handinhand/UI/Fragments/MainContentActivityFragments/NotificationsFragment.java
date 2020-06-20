@@ -29,11 +29,13 @@ import androidx.work.WorkManager;
 import com.example.handinhand.Adapters.NotificationAdapter;
 import com.example.handinhand.Helpers.SharedPreferenceHelper;
 import com.example.handinhand.R;
+import com.example.handinhand.ViewModels.DealViewModel;
 import com.example.handinhand.ViewModels.EventSharedViewModel;
 import com.example.handinhand.ViewModels.NotificationViewModel;
 import com.example.handinhand.ViewModels.ProfileViewModel;
 import com.example.handinhand.ViewModels.ServiceSharedViewModel;
-import com.example.handinhand.services.InterestWorker;
+import com.example.handinhand.ViewModels.SharedDealViewModel;
+import com.example.handinhand.services.DealWorker;
 import com.google.android.material.button.MaterialButton;
 
 /**
@@ -57,13 +59,14 @@ public class NotificationsFragment extends Fragment {
 
     private NotificationAdapter notificationAdapter;
     private NotificationViewModel notificationViewModel;
+    private DealViewModel dealViewModel;
+    private SharedDealViewModel sharedDealViewModel;
     private String token;
 
     int page = 0;
     int lastPage = 0;
     private String userId;
     private int selectedItemId;
-    private int selectedItemPosition;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -83,6 +86,8 @@ public class NotificationsFragment extends Fragment {
 
 
         notificationViewModel = new ViewModelProvider(activity).get(NotificationViewModel.class);
+        dealViewModel = new ViewModelProvider(activity).get(DealViewModel.class);
+        sharedDealViewModel = new ViewModelProvider(activity).get(SharedDealViewModel.class);
         eventSharedViewModel = new ViewModelProvider(activity).get(EventSharedViewModel.class);
         serviceSharedViewModel = new ViewModelProvider(activity).get(ServiceSharedViewModel.class);
 
@@ -156,7 +161,6 @@ public class NotificationsFragment extends Fragment {
             errorPage.setVisibility(View.GONE);
             recyclerView.setVisibility(View.VISIBLE);
             notificationAdapter.setNotificationsList(data);
-            //Toast.makeText(activity, String.valueOf(data.size()), Toast.LENGTH_SHORT).show();
         });
 
 
@@ -164,6 +168,58 @@ public class NotificationsFragment extends Fragment {
             if (aBoolean) {
                 Toast.makeText(activity, getString(R.string.something_wrong), Toast.LENGTH_SHORT).show();
                 notificationViewModel.setSharedError(false);
+            }
+        });
+
+        dealViewModel.getDeal().observe(activity, deal -> {
+            sharedDealViewModel.select(deal);
+            if(deal.getShow_deal().getOwner_id() == Integer.parseInt(userId)){
+                if(deal.getShow_deal().getOwner_status() == 0){
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("ID", selectedItemId);
+                    Navigation.findNavController(rootView).navigate(
+                            R.id.action_notificationsFragment_to_dealFragment,
+                            bundle
+                    );
+                }
+                else{
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("ID", selectedItemId);
+                    Navigation.findNavController(rootView).navigate(
+                            R.id.action_notificationsFragment_to_dealCompletedFragment,
+                            bundle
+                    );
+                }
+            }
+            else{
+                if(deal.getShow_deal().getBuyer_status() == 0){
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("ID", selectedItemId);
+                    Navigation.findNavController(rootView).navigate(
+                            R.id.action_notificationsFragment_to_acceptDealFragment,
+                            bundle
+                    );
+                }
+                else{
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("ID", selectedItemId);
+                    Navigation.findNavController(rootView).navigate(
+                            R.id.action_notificationsFragment_to_dealCompletedFragment,
+                            bundle
+                    );
+                }
+            }
+        });
+        dealViewModel.getIsLoading().observe(activity, aBoolean -> {
+            if(aBoolean){
+                dialog.show();
+            }
+        });
+
+        dealViewModel.getIsError().observe(activity, aBoolean -> {
+            if(aBoolean){
+                dialog.dismiss();
+                Toast.makeText(activity, getString(R.string.something_wrong), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -181,9 +237,6 @@ public class NotificationsFragment extends Fragment {
         recyclerView.setSaveEnabled(true);
 
         notificationAdapter.setOnNotificationClickListener(position -> {
-            //TODO
-            Bundle bundle = new Bundle();
-            bundle.putInt("ID", position);
             int n =notificationAdapter.getNotification(position).getUrl().length();
             StringBuilder notId = new StringBuilder();
             for(int i =n-1; i>=0; --i){
@@ -192,8 +245,12 @@ public class NotificationsFragment extends Fragment {
                 }
                 notId.append(notificationAdapter.getNotification(position).getUrl().charAt(i));
             }
+            notId.reverse();
             int integerId = Integer.parseInt(notId.toString());
+            selectedItemId = integerId;
+            Bundle bundle = new Bundle();
             bundle.putInt("ID", integerId);
+            readNotification(String.valueOf(notificationAdapter.getNotification(position).getId()));
             if(notificationAdapter.getNotification(position).getUrl().contains("events")){
                 Navigation.findNavController(rootView).navigate(
                         R.id.action_notificationsFragment_to_eventInterestersFragment,
@@ -207,10 +264,7 @@ public class NotificationsFragment extends Fragment {
                 );
             }
             else{
-                /*Navigation.findNavController(rootView).navigate(
-                        R.id.action_notificationsFragment_to_dealFragment,
-                        bundle
-                );*/
+                dealViewModel.getDeal(SharedPreferenceHelper.getToken(getActivity()), integerId);
             }
         });
 
@@ -235,37 +289,27 @@ public class NotificationsFragment extends Fragment {
         });
     }
 
+    private void readNotification(String integerId) {
+        Constraints constraints = new Constraints.Builder()
+                .setRequiredNetworkType(NetworkType.CONNECTED)
+                .build();
+        Data data = new Data.Builder()
+                .putString("ELEMENT_ID", integerId)
+                .build();
+
+        OneTimeWorkRequest read = new OneTimeWorkRequest
+                .Builder(DealWorker.class)
+                .setConstraints(constraints)
+                .setInputData(data)
+                .build();
+        WorkManager.getInstance(getActivity()).enqueue(read);
+    }
+
     private void createProgressDialog(){
         dialog = new Dialog(getActivity());
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         dialog.setContentView(R.layout.progress_dialog);
         dialog.setCanceledOnTouchOutside(false);
-    }
-
-    private void reportService(View rootView) {
-        Bundle bundle = new Bundle();
-        bundle.putString("id", String.valueOf(selectedItemId));
-        bundle.putString("type", "service");
-        Navigation.findNavController(rootView)
-                .navigate(R.id.action_servicesFragment_to_reportFragment, bundle);
-    }
-
-    private void interestService(int id) {
-        Constraints constraints = new Constraints.Builder()
-                .setRequiredNetworkType(NetworkType.CONNECTED)
-                .build();
-        Data data = new Data.Builder()
-                .putString("TYPE", "service")
-                .putString("ELEMENT_ID", String.valueOf(selectedItemId))
-                .build();
-
-        OneTimeWorkRequest deleteWorker = new OneTimeWorkRequest
-                .Builder(InterestWorker.class)
-                .setConstraints(constraints)
-                .setInputData(data)
-                .build();
-        WorkManager.getInstance(getActivity()).enqueue(deleteWorker);
-        //servicesViewModel.interestService(id);
     }
 
 

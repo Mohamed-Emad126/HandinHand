@@ -38,6 +38,7 @@ public class Deal {
         private String created_at;
         private int is_closed;
         private int buyer_status;
+        private String details;
         private int owner_status;
         private int deal_id;
         private String deal_type;
@@ -99,6 +100,14 @@ public class Deal {
 
         public void setBuyer_status(int buyer_status) {
             this.buyer_status = buyer_status;
+        }
+
+        public String getDetails() {
+            return details;
+        }
+
+        public void setDetails(String details) {
+            this.details = details;
         }
 
         public int getOwner_status() {
