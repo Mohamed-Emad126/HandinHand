@@ -71,6 +71,7 @@ The first step is create the fragments and define the relationship between them.
     <string name="report">Report</string>
     <string name="share">Share</string>
     <!--TODO: change the url-->
+    <string name="change_password_url">http://cc7637924d19.ngrok.io/password/reset/</string>
     <string name="avatar_url">http://cc7637924d19.ngrok.io/storage/avatars/</string>
     <string name="items_url">http://cc7637924d19.ngrok.io/items/</string>
     <string name="events_url">http://cc7637924d19.ngrok.io/events/</string>
@@ -181,5 +182,14 @@ The platform will provide four major services: -
     <string name="you_have_booked_the_product_above_from">You have booked the item above from:</string>
     <string name="the_owner_provided">The owner provided you with a details of how you can get the item and meet with her/him:</string>
     <string name="Accept">Accept</string>
+    <string name="canceled">Canceled</string>
+    <string name="change_password">Change password</string>
+    <string name="verify_email">Verify Email</string>
+    <string name="verified_account">Verified Account</string>
+    <string name="verified_email">Verified Email</string>
+    <string name="tell_us_why_you_want_to_verify_your_account">Tell us why you want to verify your account?</string>
+    <string name="complete_the_required_cell">Please complete the required cell</string>
+    <string name="verification_send">Verification request was sent</string>
+    <string name="check_mailbox">Check your mailbox</string>
 
 </resources>

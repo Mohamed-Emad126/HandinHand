@@ -13,6 +13,11 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
+import androidx.work.Constraints;
+import androidx.work.Data;
+import androidx.work.NetworkType;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkManager;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -21,6 +26,7 @@ import com.example.handinhand.R;
 import com.example.handinhand.Utils.NetworkUtils;
 import com.example.handinhand.ViewModels.ProfileViewModel;
 import com.example.handinhand.ViewModels.SharedDealViewModel;
+import com.example.handinhand.services.DealWorker;
 import com.google.android.material.button.MaterialButton;
 
 public class DealCompletedFragment extends Fragment {
@@ -35,7 +41,7 @@ public class DealCompletedFragment extends Fragment {
     private TextView buyerResponseStatus;
     private TextView messageToClose;
     private MaterialButton close;
-    private String id;
+    private int id = -1;
     private SharedDealViewModel sharedDealViewModel;
     private String userId;
 
@@ -61,7 +67,6 @@ public class DealCompletedFragment extends Fragment {
         sharedDealViewModel = new ViewModelProvider(activity).get(SharedDealViewModel.class);
 
         toolbar.setNavigationOnClickListener(view -> Navigation.findNavController(rootView).navigateUp());
-        id = String.valueOf(getArguments().getInt("ID"));
         ProfileViewModel user = new ViewModelProvider(activity).get(ProfileViewModel.class);
         user.getProfile(SharedPreferenceHelper.getToken(requireContext())).observe(requireActivity(),
                 profile -> {
@@ -71,12 +76,15 @@ public class DealCompletedFragment extends Fragment {
 
         sharedDealViewModel.getSelected().observe(activity, deal -> {
             if(isAdded()){
+                id = deal.getShow_deal().getData().getId();
                 if(deal.getShow_deal().getDeal_type().equals("products")){
                     Glide.with(rootView)
                             .load(getString(R.string.products_image_url) + deal.getShow_deal().getData().getImage())
                             .diskCacheStrategy(DiskCacheStrategy.DATA)
                             .placeholder(R.drawable.ic_image_placeholder)
                             .into(itemImage);
+                    close.setVisibility(View.GONE);
+                    messageToClose.setVisibility(View.GONE);
                 }
                 else{
                     Glide.with(rootView)
@@ -133,7 +141,7 @@ public class DealCompletedFragment extends Fragment {
                 Toast.makeText(activity, getString(R.string.connection_error), Toast.LENGTH_SHORT).show();
             }
             else{
-                //closeItem(id);
+                closeItem(String.valueOf(id));
                 Navigation.findNavController(rootView).navigateUp();
             }
         });
@@ -142,15 +150,13 @@ public class DealCompletedFragment extends Fragment {
         return rootView;
     }
 
-    //TODO: close Item
-    /*private void closeItem(String id) {
+    private void closeItem(String id) {
         Constraints constraints = new Constraints.Builder()
                 .setRequiredNetworkType(NetworkType.CONNECTED)
                 .build();
         Data data = new Data.Builder()
-                .putString("TYPE", "ACCEPT")
+                .putString("TYPE", "CANCEL")
                 .putString("ELEMENT_ID", id)
-                .putString("DETAILS", details.getText().toString())
                 .build();
 
         OneTimeWorkRequest decline = new OneTimeWorkRequest
@@ -159,5 +165,5 @@ public class DealCompletedFragment extends Fragment {
                 .setInputData(data)
                 .build();
         WorkManager.getInstance(getActivity()).enqueue(decline);
-    }*/
+    }
 }

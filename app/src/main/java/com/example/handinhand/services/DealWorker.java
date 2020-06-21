@@ -13,6 +13,7 @@ import com.example.handinhand.API.DealClient;
 import com.example.handinhand.API.NotificationClient;
 import com.example.handinhand.API.RetrofitApi;
 import com.example.handinhand.Helpers.SharedPreferenceHelper;
+import com.example.handinhand.Models.CancelItemResponse;
 import com.example.handinhand.Models.DealResponse;
 import com.example.handinhand.Models.SpecificNotification;
 import com.example.handinhand.R;
@@ -48,10 +49,44 @@ public class DealWorker extends Worker {
             String details = getInputData().getString("DETAILS");
             responseDeal(id, details);
         }
+        else if(type.equals("CANCEL")){
+            cancelItem(id);
+        }
         else{
             readNotification(id);
         }
         return Result.success();
+    }
+
+    private void cancelItem(String id) {
+        DealClient cancelItem = RetrofitApi.getInstance().getDealClient();
+        Map<String, String> mp = new HashMap<>();
+        mp.put("_method", "PATCH");
+        Call<CancelItemResponse> responseCall = cancelItem.cancelItem(SharedPreferenceHelper.getToken(context), id, mp);
+        responseCall.enqueue(new Callback<CancelItemResponse>() {
+            @Override
+            public void onResponse(Call<CancelItemResponse> call, Response<CancelItemResponse> response) {
+                if(response.isSuccessful() && response.body() != null){
+                    if(response.body().getStatus()){
+                        new Handler(Looper.getMainLooper()).postDelayed(() ->
+                                        Toast.makeText(context, R.string.canceled, Toast.LENGTH_SHORT).show(),
+                                0);
+                    }
+                }
+                else{
+                    new Handler(Looper.getMainLooper()).postDelayed(() ->
+                                    Toast.makeText(context, R.string.something_wrong, Toast.LENGTH_SHORT).show(),
+                            0);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CancelItemResponse> call, Throwable t) {
+                new Handler(Looper.getMainLooper()).postDelayed(() ->
+                                Toast.makeText(context, R.string.something_wrong, Toast.LENGTH_SHORT).show(),
+                        0);
+            }
+        });
     }
 
     private void readNotification(String id) {

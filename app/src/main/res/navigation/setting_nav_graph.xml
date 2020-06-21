@@ -9,5 +9,18 @@
         android:id="@+id/settingsFragment"
         android:name="com.example.handinhand.UI.Fragments.SettingsActivityFragments.SettingsFragment"
         android:label="fragment_settings"
-        tools:layout="@layout/fragment_settings" />
+        tools:layout="@layout/fragment_settings" >
+        <action
+            android:id="@+id/action_settingsFragment_to_askForVerificationFragment"
+            app:destination="@id/askForVerificationFragment"
+            app:enterAnim="@anim/anim_slide_in_right"
+            app:exitAnim="@anim/anim_slide_out_left"
+            app:popEnterAnim="@anim/anim_slide_in_left"
+            app:popExitAnim="@anim/anim_slide_out_right"/>
+    </fragment>
+    <fragment
+        android:id="@+id/askForVerificationFragment"
+        android:name="com.example.handinhand.UI.Fragments.SettingsActivityFragments.AskForVerificationFragment"
+        android:label="fragment_ask_for_verification"
+        tools:layout="@layout/fragment_ask_for_verification" />
 </navigation>

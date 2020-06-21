@@ -1,5 +1,6 @@
 package com.example.handinhand.API;
 
+import com.example.handinhand.Models.CancelItemResponse;
 import com.example.handinhand.Models.Deal;
 import com.example.handinhand.Models.DealResponse;
 
@@ -48,12 +49,12 @@ public interface DealClient {
             @FieldMap Map<String, String> response
     );
 
-    /*//api/items/{item id}/cancel
-    @POST("api/items/{deal_id}/cancel")
-    Call<> buyerResponse(
+    //api/items/{item id}/cancel
+    @POST("api/items/{item_id}/cancel")
+    Call<CancelItemResponse> cancelItem(
             @Header("Authorization") String token,
-            @Path("deal_id") int dealId,
+            @Path("item_id") String dealId,
             @FieldMap Map<String, String> response
-    );*/
+    );
 
 }
