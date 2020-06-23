@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -20,7 +20,7 @@
             android:theme="@style/Widget.AppCompat.PopupMenu.Overflow"
             app:menu="@menu/add_menu"
             app:navigationIcon="@drawable/ic_close"
-            app:title="@string/add_item" />
+            app:title="@string/ask_for_verification" />
 
     </com.google.android.material.appbar.AppBarLayout>
 

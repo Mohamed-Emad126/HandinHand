@@ -6,7 +6,7 @@ import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -89,7 +89,12 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                 mRandom.nextInt(256),
                 mRandom.nextInt(256));
         ((GradientDrawable) holder.notificationIcon.getBackground()).setColor(color);
-        holder.linearLayout.setBackgroundColor(Color.parseColor("#1100363D"));
+        if(notificationsList.get(position).getIs_read() == 0){
+            holder.linearLayout.setBackgroundColor(Color.parseColor("#0A00363D"));
+        }
+        else{
+            holder.linearLayout.setBackgroundColor(Color.parseColor("#ffffff"));
+        }
     }
 
     @Override
@@ -107,7 +112,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         TextView notificationType;
         TextView notificationDescription;
         TextView notificationTime;
-        LinearLayout linearLayout;
+        RelativeLayout linearLayout;
 
         public NotificationsViewHolder(@NonNull View itemView) {
             super(itemView);

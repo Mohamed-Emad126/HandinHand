@@ -98,13 +98,19 @@ public class ServiceInterestersFragment extends Fragment {
                 refreshLayout.setRefreshing(true);
                 errorPage.setVisibility(View.GONE);
             }
+            else{
+                fullLoadingView.setVisibility(View.GONE);
+                relativeLayout.setVisibility(View.VISIBLE);
+                refreshLayout.setRefreshing(false);
+                errorPage.setVisibility(View.GONE);
+            }
         });
 
         viewModel.getEvent(token, id).observe(activity, serviceDescription -> {
             if(serviceDescription.getStatus()){
                 fullLoadingView.setVisibility(View.GONE);
                 relativeLayout.setVisibility(View.VISIBLE);
-                refreshLayout.setRefreshing(true);
+                refreshLayout.setRefreshing(false);
                 errorPage.setVisibility(View.GONE);
                 serviceName.setText(serviceDescription.getService().getTitle());
                 serviceDescriptionText.setText(serviceDescription.getService().getDescription());

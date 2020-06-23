@@ -134,7 +134,6 @@ public class DealFragment extends Fragment {
             }
         });
 
-
         return rootView;
     }
 

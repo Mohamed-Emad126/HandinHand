@@ -38,18 +38,18 @@ public class DealWorker extends Worker {
     public Result doWork() {
         String type = getInputData().getString("TYPE");
         String id = getInputData().getString("ELEMENT_ID");
-        if(type.equals("ACCEPT")){
+        if(type!= null && type.equals("ACCEPT")){
             String details = getInputData().getString("DETAILS");
             acceptDeal(id, details);
         }
-        else if(type.equals("DECLINE")){
+        else if(type!= null && type.equals("DECLINE")){
             declineDeal(id);
         }
-        else if(type.equals("RESPONSE")){
+        else if(type!= null && type.equals("RESPONSE")){
             String details = getInputData().getString("DETAILS");
             responseDeal(id, details);
         }
-        else if(type.equals("CANCEL")){
+        else if(type!= null && type.equals("CANCEL")){
             cancelItem(id);
         }
         else{

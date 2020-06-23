@@ -102,21 +102,29 @@ public class EventInterestersFragment extends Fragment {
                 refreshLayout.setRefreshing(true);
                 errorPage.setVisibility(View.GONE);
             }
-        });
-
-        viewModel.getEvent(token, id).observe(activity, eventDescription -> {
-            if(eventDescription.getStatus()){
+            else{
                 fullLoadingView.setVisibility(View.GONE);
                 relativeLayout.setVisibility(View.VISIBLE);
-                refreshLayout.setRefreshing(true);
+                refreshLayout.setRefreshing(false);
                 errorPage.setVisibility(View.GONE);
-                Glide.with(rootView)
-                        .load(getString(R.string.events_image_url) + eventDescription.getEvent().getImage())
-                        .diskCacheStrategy(DiskCacheStrategy.DATA)
-                        .placeholder(R.drawable.ic_image_placeholder)
-                        .into(eventImage);
-                eventName.setText(eventDescription.getEvent().getTitle());
-                adapter.setEventsList(eventDescription.getEvent().getInteresters());
+            }
+        });
+
+        viewModel.getEvent(token, id).observe(getViewLifecycleOwner(), eventDescription -> {
+            if(eventDescription != null && eventDescription.getStatus()){
+                if(isAdded()){
+                    fullLoadingView.setVisibility(View.GONE);
+                    relativeLayout.setVisibility(View.VISIBLE);
+                    refreshLayout.setRefreshing(false);
+                    errorPage.setVisibility(View.GONE);
+                    Glide.with(rootView)
+                            .load(getString(R.string.events_image_url) + eventDescription.getEvent().getImage())
+                            .diskCacheStrategy(DiskCacheStrategy.DATA)
+                            .placeholder(R.drawable.ic_image_placeholder)
+                            .into(eventImage);
+                    eventName.setText(eventDescription.getEvent().getTitle());
+                    adapter.setEventsList(eventDescription.getEvent().getInteresters());
+                }
             }
         });
 

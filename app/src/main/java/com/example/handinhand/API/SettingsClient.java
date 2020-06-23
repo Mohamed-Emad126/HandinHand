@@ -23,7 +23,7 @@ public interface SettingsClient {
     );
 
     @Multipart
-    @POST("api/items")
+    @POST("api/validations")
     Call<AskForVerificationResponse> askForTrustedAccount(
             @Header("Authorization") String token,
             @PartMap Map<String, RequestBody> item,

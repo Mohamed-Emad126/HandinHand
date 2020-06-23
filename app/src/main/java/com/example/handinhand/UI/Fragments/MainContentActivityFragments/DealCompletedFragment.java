@@ -95,29 +95,44 @@ public class DealCompletedFragment extends Fragment {
                 }
                 itemName.setText(deal.getShow_deal().getData().getTitle());
                 if(deal.getShow_deal().getOwner().getId() == Integer.parseInt(userId)){
-                    if(deal.getShow_deal().getIs_closed() >=0){
-                        close.setVisibility(View.GONE);
-                        messageToClose.setVisibility(View.GONE);
+                    if(deal.getShow_deal().getIs_closed() >0){
+                        //close.setVisibility(View.GONE);
+                        close.setBackgroundColor(getResources().getColor(R.color.gray));
+                        close.setText(getString(R.string.closed));
+                        close.setEnabled(false);
+                        //messageToClose.setVisibility(View.GONE);
+                        messageToClose.setText(getString(R.string.was_closed));
                     }
                     Glide.with(rootView)
                             .load(getString(R.string.avatar_url) + deal.getShow_deal().getBuyer().getAvatar())
                             .diskCacheStrategy(DiskCacheStrategy.DATA)
                             .placeholder(R.drawable.ic_image_placeholder)
                             .into(buyerImage);
+                    if(deal.getShow_deal().getOwner_status() == 0){
+                        messageTextView.setText(getString(R.string.you_have_declined));
+                    }
                     buyerName.setText(String.format("%s %s",
                             deal.getShow_deal().getBuyer().getFirst_name(),
                             deal.getShow_deal().getBuyer().getLast_name()));
-                    String s = deal.getShow_deal().getBuyer_status() >= 0 ? "ACCEPTED" : "DECLINED";
-                    buyerResponseStatus.setText(s);
-                    if(s.equals("ACCEPTED")){
-                        buyerResponseStatus.setTextColor(getResources().getColor(android.R.color.holo_green_dark));
+                    if(deal.getShow_deal().getBuyer_status() == -1){
+                        buyerResponseStatus.setText(getString(R.string.not_respo));
+                    }
+                    else if(deal.getShow_deal().getBuyer_status() == 0){
+                        buyerResponseStatus.setText(getString(R.string.declined).toUpperCase());
+                        buyerResponseStatus.setTextColor(getResources().getColor(android.R.color.holo_red_dark));
                     }
                     else{
-                        buyerResponseStatus.setTextColor(getResources().getColor(android.R.color.holo_red_dark));
+                        buyerResponseStatus.setText(getString(R.string.accepted));
+                        buyerResponseStatus.setTextColor(getResources().getColor(android.R.color.holo_green_dark));
                     }
                 }
                 else{
-                    messageTextView.setText(R.string.dealt_with);
+                    if(deal.getShow_deal().getBuyer_status() == 0){
+                        messageTextView.setText(getString(R.string.decline_dealt_with));
+                    }
+                    else{
+                        messageTextView.setText(getString(R.string.dealt_with));
+                    }
                     buyerResponse.setText(R.string.owner_details);
                     close.setVisibility(View.GONE);
                     messageToClose.setVisibility(View.GONE);
@@ -130,8 +145,14 @@ public class DealCompletedFragment extends Fragment {
                             deal.getShow_deal().getOwner().getFirst_name(),
                             deal.getShow_deal().getOwner().getLast_name()));
                     String s = deal.getShow_deal().getDetails();
-                    buyerResponseStatus.setText(s);
-                    buyerResponseStatus.setTextColor(getResources().getColor(android.R.color.holo_green_dark));
+                    if(deal.getShow_deal().getOwner_status() == 0){
+                        buyerResponseStatus.setText(getString(R.string.decline_to_deal));
+                        buyerResponseStatus.setTextColor(getResources().getColor(android.R.color.holo_red_dark));
+                    }
+                    else{
+                        buyerResponseStatus.setText(s);
+                        buyerResponseStatus.setTextColor(getResources().getColor(android.R.color.holo_green_dark));
+                    }
                 }
             }
         });

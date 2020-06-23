@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".UI.Fragments.SettingsActivityFragments.SettingsFragment">
 
@@ -27,45 +27,45 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@drawable/state"
-        android:padding="16dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_margin="16dp">
+
         <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:text="@string/language"
-            android:gravity="start|center"
-            android:textStyle="bold"
-            android:textColor="@android:color/black"
             android:layout_weight="1"
+            android:gravity="start|center"
+            android:text="@string/language"
+            android:textColor="@android:color/black"
             android:textSize="16sp"
-            />
+            android:textStyle="bold" />
+
         <TextView
             android:id="@+id/lang_text"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:gravity="end|center"
             android:layout_weight="1"
-            />
+            android:gravity="end|center" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/verification"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:padding="16dp"
         android:background="@drawable/state"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_margin="16dp">
+
         <TextView
             android:id="@+id/askForVerificationText"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:text="@string/ask_for_verification"
-            android:gravity="start|center"
-            android:textStyle="bold"
-            android:textColor="@android:color/black"
             android:layout_weight="1"
+            android:gravity="start|center"
+            android:text="@string/ask_for_verification"
+            android:textColor="@android:color/black"
             android:textSize="16sp"
-            />
+            android:textStyle="bold" />
     </LinearLayout>
 
     <LinearLayout
@@ -73,19 +73,19 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@drawable/state"
-        android:padding="16dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_margin="16dp">
+
         <TextView
             android:id="@+id/verify_email_text"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:text="@string/verify_email"
-            android:gravity="start|center"
-            android:textStyle="bold"
-            android:textColor="@android:color/black"
             android:layout_weight="1"
+            android:gravity="start|center"
+            android:text="@string/verify_email"
+            android:textColor="@android:color/black"
             android:textSize="16sp"
-            />
+            android:textStyle="bold" />
     </LinearLayout>
 
     <LinearLayout
@@ -93,18 +93,18 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@drawable/state"
-        android:padding="16dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_margin="16dp">
+
         <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:text="@string/change_password"
-            android:gravity="start|center"
-            android:textStyle="bold"
-            android:textColor="@android:color/black"
             android:layout_weight="1"
+            android:gravity="start|center"
+            android:text="@string/change_password"
+            android:textColor="@android:color/black"
             android:textSize="16sp"
-            />
+            android:textStyle="bold" />
     </LinearLayout>
 
 </LinearLayout>

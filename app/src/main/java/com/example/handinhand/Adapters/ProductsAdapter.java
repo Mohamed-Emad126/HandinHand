@@ -84,7 +84,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.Produc
 
         //TODO: add complete image url
         Glide.with(rootView)
-                .load("http://cc7637924d19.ngrok.io/storage/products/" + productsList.get(position).getImage())
+                .load("http://86819c25b434.ngrok.io/storage/products/" + productsList.get(position).getImage())
                 .diskCacheStrategy(DiskCacheStrategy.DATA)
                 .placeholder(R.color.gray)
                 .into(((ProductsAdapter.ProductsViewHolder) holder).productImage);

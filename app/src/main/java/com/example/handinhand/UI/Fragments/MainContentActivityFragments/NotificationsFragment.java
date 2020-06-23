@@ -71,7 +71,7 @@ public class NotificationsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_services, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_notifications, container, false);
         fullLoadingView = rootView.findViewById(R.id.full_loading_view);
         errorPage = rootView.findViewById(R.id.error_page);
         refreshLayout = rootView.findViewById(R.id.notifications_swipe_refresh_layout);
@@ -140,7 +140,7 @@ public class NotificationsFragment extends Fragment {
             page = integer;
             if (page == lastPage) {
                 loading.setVisibility(View.GONE);
-                Toast.makeText(activity, R.string.end_of_list, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(activity, R.string.end_of_list, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -174,7 +174,7 @@ public class NotificationsFragment extends Fragment {
         dealViewModel.getDeal().observe(activity, deal -> {
             sharedDealViewModel.select(deal);
             if(deal.getShow_deal().getOwner_id() == Integer.parseInt(userId)){
-                if(deal.getShow_deal().getOwner_status() == 0){
+                if(deal.getShow_deal().getOwner_status() == -1){
                     Bundle bundle = new Bundle();
                     bundle.putInt("ID", selectedItemId);
                     Navigation.findNavController(rootView).navigate(
@@ -192,7 +192,7 @@ public class NotificationsFragment extends Fragment {
                 }
             }
             else{
-                if(deal.getShow_deal().getBuyer_status() == 0){
+                if(deal.getShow_deal().getBuyer_status() == -1){
                     Bundle bundle = new Bundle();
                     bundle.putInt("ID", selectedItemId);
                     Navigation.findNavController(rootView).navigate(
@@ -213,6 +213,9 @@ public class NotificationsFragment extends Fragment {
         dealViewModel.getIsLoading().observe(activity, aBoolean -> {
             if(aBoolean){
                 dialog.show();
+            }
+            else {
+                dialog.dismiss();
             }
         });
 

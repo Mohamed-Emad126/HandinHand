@@ -43,9 +43,7 @@ public class SettingsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_settings, container, false);
         Toolbar toolbar = rootView.findViewById(R.id.settings_toolbar);
-        toolbar.setNavigationOnClickListener(view -> {
-            Navigation.findNavController(rootView).popBackStack();
-        });
+        toolbar.setNavigationOnClickListener(view -> getActivity().finish());
         askForVerification = rootView.findViewById(R.id.verification);
         askForVerificationText = rootView.findViewById(R.id.askForVerificationText);
         changePassword = rootView.findViewById(R.id.more_settings);

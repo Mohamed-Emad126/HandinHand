@@ -101,7 +101,7 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventsView
 
         //TODO: add complete image url
         Glide.with(rootView)
-                .load("http://cc7637924d19.ngrok.io/storage/events/" +
+                .load("http://86819c25b434.ngrok.io/storage/events/" +
                         eventsList.get(position).getImage())
                 .placeholder(R.drawable.ic_photo)
                 .into((holder).eventImage);

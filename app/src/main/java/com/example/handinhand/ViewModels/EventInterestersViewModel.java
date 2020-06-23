@@ -16,7 +16,7 @@ public class EventInterestersViewModel extends ViewModel {
     MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
     MutableLiveData<Boolean> isError = new MutableLiveData<>();
     MutableLiveData<Boolean> isFirstLoading = new MutableLiveData<>();
-    MutableLiveData<EventDescription> event;
+    MutableLiveData<EventDescription> event = new MutableLiveData<>();
 
     public LiveData<Boolean> getIsLoading() {
         return isLoading;
@@ -31,11 +31,8 @@ public class EventInterestersViewModel extends ViewModel {
     }
 
     public LiveData<EventDescription> getEvent(String token, int id) {
-        if(event == null){
-            isFirstLoading.postValue(true);
-            event = new MutableLiveData<>();
-            loadEvent(token, id);
-        }
+        isFirstLoading.postValue(true);
+        loadEvent(token, id);
         return event;
     }
 

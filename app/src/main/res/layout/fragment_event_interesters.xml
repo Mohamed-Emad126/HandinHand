@@ -91,7 +91,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_below="@id/event_name_interesters"
-                    android:background="@color/place_holder_color"
+                    android:background="@color/colorPrimaryDark"
                     android:clipToPadding="false"
                     android:overScrollMode="never"
                     android:paddingBottom="50dp"/>

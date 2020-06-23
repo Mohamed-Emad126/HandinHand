@@ -55,7 +55,7 @@ public class InterestersAdapter extends RecyclerView.Adapter<InterestersAdapter.
 
         //TODO: add complete image url
         Glide.with(rootView)
-                .load(R.string.avatar_url +
+                .load("http://86819c25b434.ngrok.io/storage/avatars/" +
                         interesters.get(position).getAvatar())
                 .placeholder(R.drawable.ic_photo)
                 .into((holder).userImage);

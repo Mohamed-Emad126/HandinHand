@@ -82,7 +82,8 @@ public class SettingsViewModel extends ViewModel {
         SettingsClient settingsClient = RetrofitApi.getInstance().getSettingsClient();
         settingsClient.verifyEmail(token).enqueue(new Callback<EmailVerificationResponse>() {
             @Override
-            public void onResponse(Call<EmailVerificationResponse> call, Response<EmailVerificationResponse> response) {
+            public void onResponse(Call<EmailVerificationResponse> call,
+                                   Response<EmailVerificationResponse> response) {
                 isLoading.postValue(false);
                 if(response.isSuccessful() &&
                         response.body() != null &&

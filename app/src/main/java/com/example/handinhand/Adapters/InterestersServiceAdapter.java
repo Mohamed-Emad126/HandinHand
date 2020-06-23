@@ -49,13 +49,13 @@ public class InterestersServiceAdapter  extends RecyclerView.Adapter<Interesters
     @Override
     public void onBindViewHolder(@NonNull InterestersServiceAdapter.InterestersViewHolder holder, int position) {
         holder.eventUserName.setText(
-                interesters.get(position).getFirst_name() + " "+
-                        interesters.get(position).getLast_name()
+                String.format("%s %s", interesters.get(position).getFirst_name(),
+                        interesters.get(position).getLast_name())
         );
 
         //TODO: add complete image url
         Glide.with(rootView)
-                .load(R.string.avatar_url +
+                .load("http://86819c25b434.ngrok.io/storage/avatars/" +
                         interesters.get(position).getAvatar())
                 .placeholder(R.drawable.ic_photo)
                 .into((holder).userImage);

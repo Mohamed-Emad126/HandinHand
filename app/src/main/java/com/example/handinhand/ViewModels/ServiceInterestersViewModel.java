@@ -16,7 +16,7 @@ public class ServiceInterestersViewModel extends ViewModel {
     MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
     MutableLiveData<Boolean> isError = new MutableLiveData<>();
     MutableLiveData<Boolean> isFirstLoading = new MutableLiveData<>();
-    MutableLiveData<ServiceDescription> event;
+    MutableLiveData<ServiceDescription> event = new MutableLiveData<>();
 
     public LiveData<Boolean> getIsLoading() {
         return isLoading;
@@ -31,11 +31,8 @@ public class ServiceInterestersViewModel extends ViewModel {
     }
 
     public LiveData<ServiceDescription> getEvent(String token, int id) {
-        if (event == null) {
             isFirstLoading.postValue(true);
-            event = new MutableLiveData<>();
             loadEvent(token, id);
-        }
         return event;
     }
 
@@ -64,6 +61,7 @@ public class ServiceInterestersViewModel extends ViewModel {
             @Override
             public void onFailure(Call<ServiceDescription> call, Throwable t) {
                 isError.postValue(true);
+                isFirstLoading.postValue(false);
                 isLoading.postValue(false);
             }
         });

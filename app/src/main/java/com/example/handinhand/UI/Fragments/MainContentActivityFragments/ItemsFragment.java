@@ -160,7 +160,7 @@ public class ItemsFragment extends Fragment {
             page = integer;
             if (page == lastPage) {
                 loading.setVisibility(View.GONE);
-                Toast.makeText(activity, R.string.end_of_list, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(activity, R.string.end_of_list, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -181,7 +181,7 @@ public class ItemsFragment extends Fragment {
             errorPage.setVisibility(View.GONE);
             recyclerView.setVisibility(View.VISIBLE);
             itemsAdapter.setItemsList(data);
-            Toast.makeText(activity, String.valueOf(data.size()), Toast.LENGTH_SHORT).show();
+            //Toast.makeText(activity, String.valueOf(data.size()), Toast.LENGTH_SHORT).show();
         });
 
 
