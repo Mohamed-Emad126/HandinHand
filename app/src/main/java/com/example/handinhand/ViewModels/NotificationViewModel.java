@@ -25,7 +25,15 @@ public class NotificationViewModel extends ViewModel {
     private MutableLiveData<Boolean> isError = new MutableLiveData<>();
     private MutableLiveData<List<NotificationResponse.Data>> mList;
     private MutableLiveData<Boolean> sharedError = new MutableLiveData<>();
+    private MutableLiveData<Boolean> newNotification = new MutableLiveData<>();
 
+    public LiveData<Boolean> getNewNotification() {
+        return newNotification;
+    }
+
+    public void setNewNotification(Boolean newNotification) {
+        this.newNotification.postValue(newNotification);
+    }
 
     public LiveData<Boolean> getSharedError() {
         return sharedError;

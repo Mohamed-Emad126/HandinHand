@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDestination;
@@ -25,10 +26,16 @@ import com.example.handinhand.Helpers.SharedPreferenceHelper;
 import com.example.handinhand.Models.Profile;
 import com.example.handinhand.R;
 import com.example.handinhand.Utils.NetworkUtils;
+import com.example.handinhand.ViewModels.NotificationViewModel;
 import com.example.handinhand.ViewModels.ProfileViewModel;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
+import com.pusher.client.Pusher;
+import com.pusher.client.PusherOptions;
+import com.pusher.client.channel.Channel;
+import com.pusher.client.channel.PusherEvent;
+import com.pusher.client.channel.SubscriptionEventListener;
 
 import java.util.Arrays;
 import java.util.List;
@@ -40,16 +47,14 @@ public class MainContentActivity extends AppCompatActivity
         implements NavController.OnDestinationChangedListener {
 
 
-    private NavController navController;
     private BottomNavigationView bottomNavigation;
     private DrawerLayout drawerLayout;
-    private NavigationView navigationView;
     private CircleImageView userImageInToolbar;
-    private Toolbar toolbar;
     private AppBarLayout appBarLayout;
-    private ProfileViewModel model;
     private TextView userName;
     private ImageView userImageHeader;
+    private Pusher pusher;
+    private NotificationViewModel notificationViewModel;
 
 
     @Override
@@ -62,13 +67,16 @@ public class MainContentActivity extends AppCompatActivity
 
         bottomNavigation = findViewById(R.id.main_content_bottom_navigation);
         drawerLayout = findViewById(R.id.drawer_layout);
-        navigationView = findViewById(R.id.main_Content_nav_view);
+        NavigationView navigationView = findViewById(R.id.main_Content_nav_view);
         userImageInToolbar = findViewById(R.id.toolbar_user_image);
-        toolbar= findViewById(R.id.main_Content_toolbar);
+        Toolbar toolbar = findViewById(R.id.main_Content_toolbar);
         appBarLayout = findViewById(R.id.main_Content_appbar);
         userName = navigationView.getHeaderView(0).findViewById(R.id.user_name_header);
         userImageHeader = navigationView.getHeaderView(0).findViewById(R.id.user_image_header);
-        model = new ViewModelProvider(this).get(ProfileViewModel.class);
+        ProfileViewModel model = new ViewModelProvider(this).get(ProfileViewModel.class);
+        notificationViewModel = new ViewModelProvider(this).get(NotificationViewModel.class);
+
+        initPusher();
 
         if(NetworkUtils.getConnectivityStatus(this) == 0){
             Toast.makeText(this, getString(R.string.connection_error), Toast.LENGTH_SHORT).show();
@@ -79,6 +87,7 @@ public class MainContentActivity extends AppCompatActivity
                         if(profile != null &&
                                 profile.getStatus() &&
                                 profile.getDetails().getUser() != null){
+                            startPusher(profile.getDetails().getUser().getId());
 
                             Profile.User user = profile.getDetails().getUser();
 
@@ -139,8 +148,17 @@ public class MainContentActivity extends AppCompatActivity
                     });
         }
 
+        notificationViewModel.getNewNotification().observe(this, aBoolean -> {
+            if(aBoolean){
+                bottomNavigation.getOrCreateBadge(R.id.notificationsFragment);
+            }
+            else{
+                bottomNavigation.removeBadge(R.id.notificationsFragment);
+            }
+        });
 
-        navController = Navigation.findNavController(this,
+
+        NavController navController = Navigation.findNavController(this,
                 R.id.main_content_nav_host_fragment);
 
 
@@ -158,17 +176,20 @@ public class MainContentActivity extends AppCompatActivity
                 drawerLayout.openDrawer(GravityCompat.START)
         );
 
-        /*navigationView.setNavigationItemSelectedListener(item -> {
-            if(item.getItemId() == R.id.logout){
-                SharedPreferenceHelper.removeToken(MainContentActivity.this);
-                startActivity(new Intent(MainContentActivity.this, MainActivity.class));
-                finish();
-            }
-            return true;
-        });*/
+    }
 
+    private void initPusher() {
+        PusherOptions options = new PusherOptions();
+        options.setCluster("eu");
+        pusher = new Pusher("4970d5ea2182736d2d20", options);
+    }
 
+    private void startPusher(String id) {
+        Channel channel = pusher.subscribe("user-"+id);
 
+        channel.bind("NotificationWasPushed", event ->
+                notificationViewModel.setNewNotification(true)
+        );
     }
 
 

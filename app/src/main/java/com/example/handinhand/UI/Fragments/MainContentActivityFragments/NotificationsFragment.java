@@ -2,6 +2,10 @@ package com.example.handinhand.UI.Fragments.MainContentActivityFragments;
 
 
 import android.app.Dialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,10 +18,12 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.LinearSmoothScroller;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.work.Constraints;
@@ -38,15 +44,13 @@ import com.example.handinhand.ViewModels.SharedDealViewModel;
 import com.example.handinhand.services.DealWorker;
 import com.google.android.material.button.MaterialButton;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class NotificationsFragment extends Fragment {
 
 
     private Dialog dialog;
     private EventSharedViewModel eventSharedViewModel;
     private ServiceSharedViewModel serviceSharedViewModel;
+    private LinearLayoutManager layoutManager;
 
     public NotificationsFragment() { }
 
@@ -55,6 +59,7 @@ public class NotificationsFragment extends Fragment {
     private ConstraintLayout fullLoadingView;
     private SwipeRefreshLayout refreshLayout;
     private ProgressBar loading;
+    private BroadcastReceiver receiver;
 
 
     private NotificationAdapter notificationAdapter;
@@ -98,6 +103,8 @@ public class NotificationsFragment extends Fragment {
                 });
 
         initRecyclerView(rootView);
+        toUpdateNotificationTime();
+
         notificationViewModel.getmResponse(page, token);
 
         reload.setOnClickListener(view ->
@@ -171,6 +178,22 @@ public class NotificationsFragment extends Fragment {
             }
         });
 
+        notificationViewModel.getNewNotification().observe(activity, aBoolean -> {
+            if(aBoolean &&
+                    notificationViewModel.getIsLoading().getValue() != null &&
+                    notificationViewModel.getIsLoading().getValue()){
+                RecyclerView.SmoothScroller smoothScroller = new LinearSmoothScroller(activity) {
+                    @Override protected int getVerticalSnapPreference() {
+                        return LinearSmoothScroller.SNAP_TO_START;
+                    }
+                };
+                smoothScroller.setTargetPosition(0);
+                layoutManager.startSmoothScroll(smoothScroller);
+                notificationViewModel.refresh(SharedPreferenceHelper.getToken(activity));
+                notificationViewModel.setNewNotification(false);
+            }
+        });
+
         dealViewModel.getDeal().observe(activity, deal -> {
             sharedDealViewModel.select(deal);
             if(deal.getShow_deal().getOwner_id() == Integer.parseInt(userId)){
@@ -229,8 +252,34 @@ public class NotificationsFragment extends Fragment {
         return rootView;
     }
 
+    private void toUpdateNotificationTime() {
+        receiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                notificationAdapter.updateTime();
+            }
+        };
+    }
+
+    @Override
+    public void onResume() {
+        if(getContext()!= null){
+            final IntentFilter filter = new IntentFilter(Intent.ACTION_TIME_TICK);
+            getContext().registerReceiver(receiver, filter);
+        }
+        super.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        if(getContext()!= null){
+            getContext().unregisterReceiver(receiver);
+        }
+        super.onPause();
+    }
+
     private void initRecyclerView(View rootView) {
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setSaveEnabled(true);
         recyclerView.setAdapter(notificationAdapter);

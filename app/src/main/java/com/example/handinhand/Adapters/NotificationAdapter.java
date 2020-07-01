@@ -36,6 +36,10 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         }
     }
 
+    public void updateTime(){
+        notifyDataSetChanged();
+    }
+
     public List<NotificationResponse.Data> getNotificationsList() {
         return notificationsList;
     }
@@ -68,7 +72,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
     @Override
     public void onBindViewHolder(@NonNull NotificationAdapter.NotificationsViewHolder holder, int position) {
-        holder.notificationIcon.setText(notificationsList.get(position).getBody().substring(0, 1));
+        holder.notificationIcon.setText(notificationsList.get(position).getBody().substring(0, 1).toUpperCase());
         if (notificationsList.get(position).getUrl().contains("services")) {
             holder.notificationType.setText(R.string.services);
         } else if (notificationsList.get(position).getUrl().contains("events")) {
@@ -93,7 +97,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             holder.linearLayout.setBackgroundColor(Color.parseColor("#0A00363D"));
         }
         else{
-            holder.linearLayout.setBackgroundColor(Color.parseColor("#ffffff"));
+            holder.linearLayout.setBackgroundColor(Color.parseColor("#DEE5E6"));
         }
     }
 
