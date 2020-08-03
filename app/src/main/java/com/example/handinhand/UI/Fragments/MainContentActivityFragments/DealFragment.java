@@ -63,7 +63,9 @@ public class DealFragment extends Fragment {
         FragmentActivity activity = getActivity();
         sharedDealViewModel = new ViewModelProvider(activity).get(SharedDealViewModel.class);
 
-        toolbar.setNavigationOnClickListener(view -> Navigation.findNavController(rootView).navigateUp());
+        toolbar.setNavigationOnClickListener(view ->
+                Navigation.findNavController(rootView).navigateUp()
+        );
         id = String.valueOf(getArguments().getInt("ID"));
 
         deal.setOnClickListener(view -> {

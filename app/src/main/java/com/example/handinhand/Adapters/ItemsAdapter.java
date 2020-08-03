@@ -95,12 +95,12 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemsViewHol
 
     @Override
     public void onBindViewHolder(@NonNull ItemsViewHolder holder, int position) {
-        holder.itemTitle.setText(String.valueOf(itemsList.get(position).getId()));
+        holder.itemTitle.setText(itemsList.get(position).getTitle());
         holder.itemPrice.setText(itemsList.get(position).getPrice());
 
         //TODO: add complete image url
         Glide.with(rootView)
-                .load("http://86819c25b434.ngrok.io/storage/items/" + itemsList.get(position).getImage())
+                .load("http://2a25ce9546cf.ngrok.io/storage/items/" + itemsList.get(position).getImage())
                 .diskCacheStrategy(DiskCacheStrategy.DATA)
                 .placeholder(R.color.gray)
                 .into(((ItemsViewHolder)holder).itemImage);

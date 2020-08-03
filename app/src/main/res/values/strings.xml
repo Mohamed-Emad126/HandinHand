@@ -71,15 +71,15 @@ The first step is create the fragments and define the relationship between them.
     <string name="report">Report</string>
     <string name="share">Share</string>
     <!--TODO: change the url-->
-    <string name="change_password_url">http://86819c25b434.ngrok.io/password/reset/</string>
-    <string name="avatar_url">http://86819c25b434.ngrok.io/storage/avatars/</string>
-    <string name="items_url">http://86819c25b434.ngrok.io/items/</string>
-    <string name="events_url">http://86819c25b434.ngrok.io/events/</string>
-    <string name="services_url">http://86819c25b434.ngrok.io/services/</string>
-    <string name="products_url">http://86819c25b434.ngrok.io/products/</string>
-    <string name="items_image_url">http://86819c25b434.ngrok.io/storage/items/</string>
-    <string name="products_image_url">http://86819c25b434.ngrok.io/storage/products/</string>
-    <string name="events_image_url">http://86819c25b434.ngrok.io/storage/events/</string>
+    <string name="change_password_url">http://2a25ce9546cf.ngrok.io/password/reset/</string>
+    <string name="avatar_url">http://2a25ce9546cf.ngrok.io/storage/avatars/</string>
+    <string name="items_url">http://2a25ce9546cf.ngrok.io/items/</string>
+    <string name="events_url">http://2a25ce9546cf.ngrok.io/events/</string>
+    <string name="services_url">http://2a25ce9546cf.ngrok.io/services/</string>
+    <string name="products_url">http://2a25ce9546cf.ngrok.io/products/</string>
+    <string name="items_image_url">http://2a25ce9546cf.ngrok.io/storage/items/</string>
+    <string name="products_image_url">http://2a25ce9546cf.ngrok.io/storage/products/</string>
+    <string name="events_image_url">http://2a25ce9546cf.ngrok.io/storage/events/</string>
     <string name="update_successfully">Updated</string>
     <string name="edit_profile">Edit Profile</string>
     <string name="connection_error">No Network Connection</string>

@@ -18,7 +18,6 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -36,10 +35,8 @@ import com.example.handinhand.Adapters.NotificationAdapter;
 import com.example.handinhand.Helpers.SharedPreferenceHelper;
 import com.example.handinhand.R;
 import com.example.handinhand.ViewModels.DealViewModel;
-import com.example.handinhand.ViewModels.EventSharedViewModel;
 import com.example.handinhand.ViewModels.NotificationViewModel;
 import com.example.handinhand.ViewModels.ProfileViewModel;
-import com.example.handinhand.ViewModels.ServiceSharedViewModel;
 import com.example.handinhand.ViewModels.SharedDealViewModel;
 import com.example.handinhand.services.DealWorker;
 import com.google.android.material.button.MaterialButton;
@@ -48,11 +45,10 @@ public class NotificationsFragment extends Fragment {
 
 
     private Dialog dialog;
-    private EventSharedViewModel eventSharedViewModel;
-    private ServiceSharedViewModel serviceSharedViewModel;
     private LinearLayoutManager layoutManager;
 
-    public NotificationsFragment() { }
+    public NotificationsFragment() {
+    }
 
     private RecyclerView recyclerView;
     private RelativeLayout errorPage;
@@ -93,8 +89,6 @@ public class NotificationsFragment extends Fragment {
         notificationViewModel = new ViewModelProvider(activity).get(NotificationViewModel.class);
         dealViewModel = new ViewModelProvider(activity).get(DealViewModel.class);
         sharedDealViewModel = new ViewModelProvider(activity).get(SharedDealViewModel.class);
-        eventSharedViewModel = new ViewModelProvider(activity).get(EventSharedViewModel.class);
-        serviceSharedViewModel = new ViewModelProvider(activity).get(ServiceSharedViewModel.class);
 
         ProfileViewModel user = new ViewModelProvider(activity).get(ProfileViewModel.class);
         user.getProfile(SharedPreferenceHelper.getToken(requireContext())).observe(requireActivity(),
@@ -179,11 +173,12 @@ public class NotificationsFragment extends Fragment {
         });
 
         notificationViewModel.getNewNotification().observe(activity, aBoolean -> {
-            if(aBoolean &&
+            if (aBoolean &&
                     notificationViewModel.getIsLoading().getValue() != null &&
-                    notificationViewModel.getIsLoading().getValue()){
+                    notificationViewModel.getIsLoading().getValue()) {
                 RecyclerView.SmoothScroller smoothScroller = new LinearSmoothScroller(activity) {
-                    @Override protected int getVerticalSnapPreference() {
+                    @Override
+                    protected int getVerticalSnapPreference() {
                         return LinearSmoothScroller.SNAP_TO_START;
                     }
                 };
@@ -194,56 +189,58 @@ public class NotificationsFragment extends Fragment {
             }
         });
 
-        dealViewModel.getDeal().observe(activity, deal -> {
-            sharedDealViewModel.select(deal);
-            if(deal.getShow_deal().getOwner_id() == Integer.parseInt(userId)){
-                if(deal.getShow_deal().getOwner_status() == -1){
-                    Bundle bundle = new Bundle();
-                    bundle.putInt("ID", selectedItemId);
-                    Navigation.findNavController(rootView).navigate(
-                            R.id.action_notificationsFragment_to_dealFragment,
-                            bundle
-                    );
-                }
-                else{
-                    Bundle bundle = new Bundle();
-                    bundle.putInt("ID", selectedItemId);
-                    Navigation.findNavController(rootView).navigate(
-                            R.id.action_notificationsFragment_to_dealCompletedFragment,
-                            bundle
-                    );
-                }
-            }
-            else{
-                if(deal.getShow_deal().getBuyer_status() == -1){
-                    Bundle bundle = new Bundle();
-                    bundle.putInt("ID", selectedItemId);
-                    Navigation.findNavController(rootView).navigate(
-                            R.id.action_notificationsFragment_to_acceptDealFragment,
-                            bundle
-                    );
-                }
-                else{
-                    Bundle bundle = new Bundle();
-                    bundle.putInt("ID", selectedItemId);
-                    Navigation.findNavController(rootView).navigate(
-                            R.id.action_notificationsFragment_to_dealCompletedFragment,
-                            bundle
-                    );
-                }
+        dealViewModel.getIsDone().observe(activity, aBoolean -> {
+            if(!aBoolean){
+                dealViewModel.getDeal().observe(activity, deal -> {
+                    sharedDealViewModel.select(deal);
+                    if (deal.getShow_deal().getOwner_id() == Integer.parseInt(userId)) {
+                        if (deal.getShow_deal().getOwner_status() == -1) {
+                            Bundle bundle = new Bundle();
+                            bundle.putInt("ID", selectedItemId);
+                            Navigation.findNavController(activity, R.id.main_content_nav_host_fragment).navigate(
+                                    R.id.action_notificationsFragment_to_dealFragment,
+                                    bundle
+                            );
+                        } else {
+                            Bundle bundle = new Bundle();
+                            bundle.putInt("ID", selectedItemId);
+                            Navigation.findNavController(activity, R.id.main_content_nav_host_fragment).navigate(
+                                    R.id.action_notificationsFragment_to_dealCompletedFragment,
+                                    bundle
+                            );
+                        }
+                    } else {
+                        if (deal.getShow_deal().getBuyer_status() == -1) {
+                            Bundle bundle = new Bundle();
+                            bundle.putInt("ID", selectedItemId);
+                            Navigation.findNavController(rootView).navigate(
+                                    R.id.action_notificationsFragment_to_acceptDealFragment,
+                                    bundle
+                            );
+                        } else {
+                            Bundle bundle = new Bundle();
+                            bundle.putInt("ID", selectedItemId);
+                            Navigation.findNavController(rootView).navigate(
+                                    R.id.action_notificationsFragment_to_dealCompletedFragment,
+                                    bundle
+                            );
+                        }
+                    }
+                });
+                dealViewModel.setIsDone(true);
             }
         });
+
         dealViewModel.getIsLoading().observe(activity, aBoolean -> {
-            if(aBoolean){
+            if (aBoolean) {
                 dialog.show();
-            }
-            else {
+            } else {
                 dialog.dismiss();
             }
         });
 
         dealViewModel.getIsError().observe(activity, aBoolean -> {
-            if(aBoolean){
+            if (aBoolean) {
                 dialog.dismiss();
                 Toast.makeText(activity, getString(R.string.something_wrong), Toast.LENGTH_SHORT).show();
             }
@@ -263,7 +260,7 @@ public class NotificationsFragment extends Fragment {
 
     @Override
     public void onResume() {
-        if(getContext()!= null){
+        if (getContext() != null) {
             final IntentFilter filter = new IntentFilter(Intent.ACTION_TIME_TICK);
             getContext().registerReceiver(receiver, filter);
         }
@@ -272,7 +269,7 @@ public class NotificationsFragment extends Fragment {
 
     @Override
     public void onPause() {
-        if(getContext()!= null){
+        if (getContext() != null) {
             getContext().unregisterReceiver(receiver);
         }
         super.onPause();
@@ -289,33 +286,34 @@ public class NotificationsFragment extends Fragment {
         recyclerView.setSaveEnabled(true);
 
         notificationAdapter.setOnNotificationClickListener(position -> {
-            int n =notificationAdapter.getNotification(position).getUrl().length();
+            int n = notificationAdapter.getNotification(position).getUrl().length();
             StringBuilder notId = new StringBuilder();
-            for(int i =n-1; i>=0; --i){
-                if(notificationAdapter.getNotification(position).getUrl().charAt(i) == '/'){
+            for (int i = n - 1; i >= 0; --i) {
+                if (notificationAdapter.getNotification(position).getUrl().charAt(i) == '/') {
                     break;
                 }
                 notId.append(notificationAdapter.getNotification(position).getUrl().charAt(i));
             }
             notId.reverse();
             int integerId = Integer.parseInt(notId.toString());
+            /*integerId = Integer.parseInt(notificationAdapter.getNotification(position)
+                    .getUrl().replaceAll("[^0-9]", ""));*/
+
             selectedItemId = integerId;
             Bundle bundle = new Bundle();
             bundle.putInt("ID", integerId);
             readNotification(String.valueOf(notificationAdapter.getNotification(position).getId()));
-            if(notificationAdapter.getNotification(position).getUrl().contains("events")){
+            if (notificationAdapter.getNotification(position).getUrl().contains("events")) {
                 Navigation.findNavController(rootView).navigate(
                         R.id.action_notificationsFragment_to_eventInterestersFragment,
                         bundle
                 );
-            }
-            else if(notificationAdapter.getNotification(position).getUrl().contains("services")){
+            } else if (notificationAdapter.getNotification(position).getUrl().contains("services")) {
                 Navigation.findNavController(rootView).navigate(
                         R.id.action_notificationsFragment_to_serviceInterestersFragment,
                         bundle
                 );
-            }
-            else{
+            } else {
                 dealViewModel.getDeal(SharedPreferenceHelper.getToken(getActivity()), integerId);
             }
         });
@@ -357,7 +355,7 @@ public class NotificationsFragment extends Fragment {
         WorkManager.getInstance(getActivity()).enqueue(read);
     }
 
-    private void createProgressDialog(){
+    private void createProgressDialog() {
         dialog = new Dialog(getActivity());
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         dialog.setContentView(R.layout.progress_dialog);

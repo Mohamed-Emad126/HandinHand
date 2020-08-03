@@ -15,6 +15,7 @@ import retrofit2.Response;
 public class DealViewModel extends ViewModel {
     MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
     MutableLiveData<Boolean> isError = new MutableLiveData<>();
+    MutableLiveData<Boolean> isDone = new MutableLiveData<>();
     MutableLiveData<Deal> deal = new MutableLiveData<>();;
 
 
@@ -25,6 +26,14 @@ public class DealViewModel extends ViewModel {
 
     public LiveData<Boolean> getIsError() {
         return isError;
+    }
+
+    public LiveData<Boolean> getIsDone() {
+        return isDone;
+    }
+
+    public void setIsDone( boolean done) {
+        isDone.postValue(done);
     }
 
     public LiveData<Deal> getDeal() {
@@ -47,6 +56,7 @@ public class DealViewModel extends ViewModel {
                if(response.isSuccessful() && response.body() != null){
                    if(response.body().getStatus()){
                        deal.postValue(response.body());
+                       isDone.postValue(false);
                    }
                    else{
                        isError.postValue(true);

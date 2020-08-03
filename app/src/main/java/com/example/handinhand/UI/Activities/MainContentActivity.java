@@ -1,6 +1,7 @@
 package com.example.handinhand.UI.Activities;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
@@ -13,7 +14,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDestination;
@@ -34,8 +34,9 @@ import com.google.android.material.navigation.NavigationView;
 import com.pusher.client.Pusher;
 import com.pusher.client.PusherOptions;
 import com.pusher.client.channel.Channel;
-import com.pusher.client.channel.PusherEvent;
-import com.pusher.client.channel.SubscriptionEventListener;
+import com.pusher.client.connection.ConnectionEventListener;
+import com.pusher.client.connection.ConnectionState;
+import com.pusher.client.connection.ConnectionStateChange;
 
 import java.util.Arrays;
 import java.util.List;
@@ -47,6 +48,7 @@ public class MainContentActivity extends AppCompatActivity
         implements NavController.OnDestinationChangedListener {
 
 
+    private static final String TAG = "MainContent-Pusher";
     private BottomNavigationView bottomNavigation;
     private DrawerLayout drawerLayout;
     private CircleImageView userImageInToolbar;
@@ -65,6 +67,7 @@ public class MainContentActivity extends AppCompatActivity
         setContentView(R.layout.activity_main_content);
 
 
+        initPusher();
         bottomNavigation = findViewById(R.id.main_content_bottom_navigation);
         drawerLayout = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.main_Content_nav_view);
@@ -76,29 +79,27 @@ public class MainContentActivity extends AppCompatActivity
         ProfileViewModel model = new ViewModelProvider(this).get(ProfileViewModel.class);
         notificationViewModel = new ViewModelProvider(this).get(NotificationViewModel.class);
 
-        initPusher();
 
-        if(NetworkUtils.getConnectivityStatus(this) == 0){
+        if (NetworkUtils.getConnectivityStatus(this) == 0) {
             Toast.makeText(this, getString(R.string.connection_error), Toast.LENGTH_SHORT).show();
-        }
-        else{
+        } else {
             model.getProfile(SharedPreferenceHelper.getToken(this)).observe(this,
                     profile -> {
-                        if(profile != null &&
+                        if (profile != null &&
                                 profile.getStatus() &&
-                                profile.getDetails().getUser() != null){
+                                profile.getDetails().getUser() != null) {
                             startPusher(profile.getDetails().getUser().getId());
 
                             Profile.User user = profile.getDetails().getUser();
 
-                            String name = user.getInfo().getFirst_name() +" "+ user.getInfo().getLast_name();
+                            String name = user.getInfo().getFirst_name() + " " + user.getInfo().getLast_name();
                             userName.setText(name);
 
-                            if(user.getInfo()
-                                    .getAvatar().contains("default")){
+                            if (user.getInfo()
+                                    .getAvatar().contains("default")) {
 
-                                if(user.getInfo()
-                                        .getGender().contains("male")){
+                                if (user.getInfo()
+                                        .getGender().contains("male")) {
 
                                     Glide.with(this).load(R.drawable.male_avatar)
                                             .diskCacheStrategy(DiskCacheStrategy.DATA)
@@ -110,8 +111,7 @@ public class MainContentActivity extends AppCompatActivity
                                             .placeholder(R.drawable.male_avatar)
                                             .into(userImageInToolbar);
 
-                                }
-                                else{
+                                } else {
                                     Glide.with(this).load(R.drawable.female_avatar)
                                             .diskCacheStrategy(DiskCacheStrategy.DATA)
                                             .placeholder(R.drawable.female_avatar)
@@ -122,8 +122,7 @@ public class MainContentActivity extends AppCompatActivity
                                             .placeholder(R.drawable.female_avatar)
                                             .into(userImageInToolbar);
                                 }
-                            }
-                            else{
+                            } else {
 
                                 Glide.with(this).load(getString(R.string.avatar_url) +
                                         user.getInfo().getAvatar())
@@ -138,8 +137,7 @@ public class MainContentActivity extends AppCompatActivity
                                         .into(userImageInToolbar);
 
                             }
-                        }
-                        else{
+                        } else {
                             Toast toast = Toast.makeText(this, getString(R.string.something_wrong)
                                     , Toast.LENGTH_LONG);
                             toast.setGravity(Gravity.BOTTOM, 0, 0);
@@ -149,10 +147,9 @@ public class MainContentActivity extends AppCompatActivity
         }
 
         notificationViewModel.getNewNotification().observe(this, aBoolean -> {
-            if(aBoolean){
+            if (aBoolean) {
                 bottomNavigation.getOrCreateBadge(R.id.notificationsFragment);
-            }
-            else{
+            } else {
                 bottomNavigation.removeBadge(R.id.notificationsFragment);
             }
         });
@@ -182,13 +179,31 @@ public class MainContentActivity extends AppCompatActivity
         PusherOptions options = new PusherOptions();
         options.setCluster("eu");
         pusher = new Pusher("4970d5ea2182736d2d20", options);
+
+        pusher.connect(new ConnectionEventListener() {
+            @Override
+            public void onConnectionStateChange(ConnectionStateChange change) {
+                //Toast.makeText(MainContentActivity.this, "", Toast.LENGTH_SHORT).show();
+                Log.i(TAG, "onConnectionStateChange: Connected");
+            }
+
+            @Override
+            public void onError(String message, String code, Exception e) {
+                Log.e(TAG, "onError: Pusher Error", e.fillInStackTrace());
+            }
+        }, ConnectionState.ALL);
     }
 
     private void startPusher(String id) {
-        Channel channel = pusher.subscribe("user-"+id);
+        Channel channel = pusher.subscribe("user-" + id);
 
-        channel.bind("NotificationWasPushed", event ->
-                notificationViewModel.setNewNotification(true)
+        channel.bind("App\\Events\\NotificationWasPushed", event -> {
+                    runOnUiThread(() -> {
+                        Log.d(TAG, "startPusher: " + event.getEventName());
+                        Log.d(TAG, "startPusher: user-" + id);
+                        notificationViewModel.setNewNotification(true);
+                    });
+                }
         );
     }
 
@@ -210,7 +225,7 @@ public class MainContentActivity extends AppCompatActivity
     public void onDestinationChanged(@NonNull NavController controller,
                                      @NonNull NavDestination destination,
                                      @Nullable Bundle arguments) {
-        Integer []withoutToolbarAndBottomNavIds = {
+        Integer[] withoutToolbarAndBottomNavIds = {
                 R.id.itemDescriptionFragment,
                 R.id.profileFragment,
                 R.id.editProfileFragment,
@@ -232,7 +247,7 @@ public class MainContentActivity extends AppCompatActivity
         };
         List<Integer> lst = Arrays.asList(withoutToolbarAndBottomNavIds);
 
-        if(lst.contains(destination.getId())){
+        if (lst.contains(destination.getId())) {
 
             appBarLayout.animate().y(0).translationY(-100f).withStartAction(() ->
                     appBarLayout.setVisibility(View.GONE)
@@ -243,8 +258,7 @@ public class MainContentActivity extends AppCompatActivity
                     bottomNavigation.setVisibility(View.GONE)
             ).start();
             //bottomNavigation.setVisibility(View.GONE);
-        }
-        else{
+        } else {
             appBarLayout.animate().y(-100).translationY(0f).withStartAction(() ->
                     appBarLayout.setVisibility(View.VISIBLE)
             ).start();

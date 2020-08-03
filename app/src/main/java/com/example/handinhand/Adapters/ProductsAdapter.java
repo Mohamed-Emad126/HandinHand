@@ -79,12 +79,12 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.Produc
 
     @Override
     public void onBindViewHolder(@NonNull ProductsAdapter.ProductsViewHolder holder, int position) {
-        holder.productTitle.setText(String.valueOf(productsList.get(position).getId()));
+        holder.productTitle.setText(productsList.get(position).getTitle());
         holder.productPrice.setText(productsList.get(position).getPrice());
 
         //TODO: add complete image url
         Glide.with(rootView)
-                .load("http://86819c25b434.ngrok.io/storage/products/" + productsList.get(position).getImage())
+                .load("http://2a25ce9546cf.ngrok.io/storage/products/" + productsList.get(position).getImage())
                 .diskCacheStrategy(DiskCacheStrategy.DATA)
                 .placeholder(R.color.gray)
                 .into(((ProductsAdapter.ProductsViewHolder) holder).productImage);

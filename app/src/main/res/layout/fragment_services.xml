@@ -59,7 +59,6 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
         android:src="@drawable/ic_add"
-        android:visibility="gone"
         android:transitionName="FloatingActionButtonTransition"
         app:backgroundTint="@color/textColorPrimary"
         app:fabSize="auto"

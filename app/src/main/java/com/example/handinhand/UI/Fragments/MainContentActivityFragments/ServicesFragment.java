@@ -81,14 +81,6 @@ public class ServicesFragment extends Fragment {
 
         servicesViewModel = new ViewModelProvider(activity).get(ServicesViewModel.class);
         sharedServiceViewModel = new ViewModelProvider(activity).get(ServiceSharedViewModel.class);
-        ProfileViewModel user = new ViewModelProvider(activity).get(ProfileViewModel.class);
-        user.getProfile(SharedPreferenceHelper.getToken(requireContext())).observe(requireActivity(),
-                profile -> {
-                    userId = profile.getDetails().getUser().getId();
-                    if (profile.getDetails().getUser().getIs_trusted() == 1) {
-                        addFab.show();
-                    }
-                });
 
         initRecyclerView(rootView);
         servicesViewModel.getmResponse(page, token);
