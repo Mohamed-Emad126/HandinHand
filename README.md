@@ -17,7 +17,7 @@ this repository is the android part of the project. you can find the other parts
 Before i work on this project my knowledge in android is:(RecyclerView, Room, SQLite).
 
 And after we completed the project i'd love to mention my knowledge now and what i could do with it:
--Retrofit (I can Deal with requests, responses, Headers, Upload files to the server and Download files from the server).
+- Retrofit (I can Deal with requests, responses, Headers, Upload files to the server and Download files from the server).
 - ViewModel and LiveData (i can deal with MVVM very well and now i read about Repository design pattern to use it with MVVM).
 - WorkManager.
 - Ask the permissions as [best practices guidlines](https://developer.android.com/training/permissions/usage-notes)
@@ -45,6 +45,7 @@ the user of the app can:
 - Book item, interest event, interest service, book product.
 - Ask for trusted account, send verification email.
 - Report item, event, service or product.
+- Real-time notification.
 - Response to the booking requests or close the item.
 - See the response of the owner about the item or product.
 - See the interesters of an event or service.
